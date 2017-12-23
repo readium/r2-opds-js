@@ -17,14 +17,6 @@
       "../test/"
     ],
     "baseUrl": "..",
-    "paths": {
-      "@opds/*": [
-        "src/opds/*"
-      ],
-      "@r2-opds-js/*": [
-        "src/*"
-      ]
-    },
     "noImplicitAny": true,
     "noImplicitThis": true,
     "alwaysStrict": true,
