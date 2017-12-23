@@ -1,0 +1,133 @@
+{
+  "name": "r2-opds-js",
+  "version": "0.0.1-alpha34",
+  "description": "Readium 2 'opds' for NodeJS (TypeScript)",
+  "keywords": [
+    "readium",
+    "readium2",
+    "opds",
+    "EPUB",
+    "TypeScript",
+    "JavaScript",
+    "ES5",
+    "ES6",
+    "ECMAScript 2015",
+    "ECMAScript 6",
+    "ES7",
+    "ECMAScript 2016",
+    "ECMAScript 7",
+    "ES8",
+    "ECMAScript 2017",
+    "ECMAScript 8"
+  ],
+  "engines": {
+    "node": ">=6",
+    "npm": ">=3",
+    "yarn": ">=1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/edrlab/r2-opds-js.git"
+  },
+  "author": {
+    "name": "EDRLab",
+    "organization": "EDRLab",
+    "url": "http://github.com/edrlab/"
+  },
+  "license": "BSD-3-Clause",
+  "licenses": [
+    {
+      "type": "BSD-3-Clause",
+      "url": "http://opensource.org/licenses/BSD-3-Clause"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/edrlab/r2-opds-js/issues"
+  },
+  "homepage": "https://github.com/edrlab/r2-opds-js",
+  "dependencies": {
+    "debug": "^3.1.0",
+    "r2-utils-js": "github:edrlab/r2-utils-js-dist#master",
+    "ta-json": "github:danielweck/ta-json#dist",
+    "tslib": "^1.8.1"
+  },
+  "devDependencies": {
+    "@types/debug": "^0.0.30",
+    "@types/node": "^8.5.2",
+    "cpy-cli": "^1.0.1",
+    "cross-env": "^5.1.3",
+    "cson": "^4.1.0",
+    "css2json": "^0.0.4",
+    "eclint": "^2.5.0",
+    "filehound": "^1.16.2",
+    "git-rev-sync": "^1.9.1",
+    "json": "^9.0.6",
+    "mkdirp": "^0.5.1",
+    "rimraf": "^2.6.2",
+    "tslint": "^5.8.0",
+    "tslint-language-service": "^0.9.7",
+    "typescript": "^2.6.2"
+  },
+  "main": "dist/es6-es2015/src/opds/converter.js",
+  "types": "dist/es6-es2015/src/opds/converter.d.js",
+  "files": [
+    "LICENSE",
+    "README.md",
+    "docs/**/*",
+    "dist/**/*"
+  ],
+  "scripts": {
+    "cson2json": "json -I -f package.json -e \"this.scripts=$(node node_modules/cson/bin/cson2json package-scripts.cson)\"",
+    "_pregitdist": "npm run build:all",
+    "gitdist": "cd ../r2-opds-js-dist/ && git checkout -B master && git pull && (git status || echo status) && ((rimraf \"*\" && echo rimrafOK) || echo rimrafNOK) && cpy ../r2-opds-js/package.json . && cpy ../r2-opds-js/package-lock.json . && cpy ../r2-opds-js/LICENSE . && cpy ../r2-opds-js/README.md . && cpy \"docs/**/*.*\" ../r2-opds-js-dist/ --cwd=../r2-opds-js/ --parents && cpy \"dist/**/*.*\" ../r2-opds-js-dist/ --cwd=../r2-opds-js/ --parents && (git add * || echo add) && (git commit -a -m \"add new dist\" || echo commit) && (git push --set-upstream origin master || echo push) && (git status || echo status) && cd ../r2-opds-js",
+    "prepare_": "npm run build:all",
+    "prepublish_": "npm run prepare_",
+    "typescript:imports": "node tools/typescript_relativize_path_mapping_imports.js",
+    "gitrev": "node tools/gitrev.js && cat dist/gitrev.json",
+    "afterdist": "npm run typescript:imports && npm run gitrev",
+    "prebuild": "npm run lint",
+    "build": "npm run transpile:typescript",
+    "postbuild": "npm run afterdist",
+    "prebuild:all": "npm run lint",
+    "build:all": "npm run transpile:typescript:all",
+    "postbuild:all": "npm run afterdist",
+    "prebuild:es5": "npm run lint && npm run clean",
+    "build:es5": "npm run transpile:typescript:es5",
+    "postbuild:es5": "npm run afterdist",
+    "prebuild:es6-es2015": "npm run lint && npm run clean",
+    "build:es6-es2015": "npm run transpile:typescript:es6-es2015",
+    "postbuild:es6-es2015": "npm run afterdist",
+    "prebuild:es7-es2016": "npm run lint && npm run clean",
+    "build:es7-es2016": "npm run transpile:typescript:es7-es2016",
+    "postbuild:es7-es2016": "npm run afterdist",
+    "prebuild:es8-es2017": "npm run lint && npm run clean",
+    "build:es8-es2017": "npm run transpile:typescript:es8-es2017",
+    "postbuild:es8-es2017": "npm run afterdist",
+    "clean": "rimraf ./dist && rimraf ./now && mkdirp ./dist",
+    "lint": "npm run lint:all && npm run lint:typescript:full",
+    "lint:all": "eclint check \"**/*\" \"!**/*.node\" \"!.git/**/*\" \"!node_modules*/**/*\" \"!dist/**/*\" \"!misc/**/*\" \"!now/**/*\" \"!.vscode/**/*\" \"!.history/**/*\" \"!**/.DS_Store\" \"!**/*.epub\" \"!**/*.cbz\" \"!**/*.jpg\" \"!**/*.jpeg\" \"!**/*.png\" \"!**/*.log\"",
+    "lint:typescript": "tslint -c \"./tslint.json\" \"./src/**/*.ts\" \"./test/**/*.ts\"",
+    "lint:typescript:full": "tslint --project \"./tsconfig.json\" -c \"./tslint.json\" \"./src/**/*.ts\" \"./test/**/*.ts\"",
+    "lintfix": "sed -i \"\" \"s/let normalizedPath = path\\\\.normalize(documentPath);/let normalizedPath = path.normalize(documentPath).toLowerCase();/g\" ./node_modules/tslint-language-service/out/src/index.js",
+    "pretranspile:typescript": "npm run clean",
+    "transpile:typescript": "tsc -p \"./tsconfig.json\"",
+    "pretranspile:typescript:all": "npm run clean",
+    "transpile:typescript:all": "npm run transpile:typescript:es5 && npm run transpile:typescript:es6-es2015 && npm run transpile:typescript:es7-es2016 && npm run transpile:typescript:es8-es2017",
+    "transpile:typescript:es5": "tsc -p \"./tsconfigs/tsconfig-es5-all.json\"",
+    "transpile:typescript:es6-es2015": "tsc -p \"./tsconfigs/tsconfig-es6-es2015-all.json\"",
+    "transpile:typescript:es7-es2016": "tsc -p \"./tsconfigs/tsconfig-es7-es2016-all.json\"",
+    "transpile:typescript:es8-es2017": "tsc -p \"./tsconfigs/tsconfig-es8-es2017-all.json\"",
+    "transpile:typescript:es8-es2017+afterdist": "npm run transpile:typescript:es8-es2017 && npm run afterdist",
+    "transpile:typescript:single": "node tools/typescript_compile_single.js",
+    "posttranspile:typescript:single": "npm run afterdist",
+    "cli": "node \"./dist/es8-es2017/src/_utils/perf-cli.js\"",
+    "cli-debug": "cross-env DEBUG=r2:* npm run cli",
+    "cli-debug-x": "cross-env DEBUG=* npm run cli"
+  },
+  "importSort": {
+    ".ts": {
+      "parser": "typescript",
+      "style": "module"
+    }
+  }
+}

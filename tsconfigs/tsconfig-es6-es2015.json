@@ -1,0 +1,22 @@
+{
+  "extends": "./tsconfig-common",
+  "compilerOptions": {
+    "target": "es2015",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "outDir": "../dist/es6-es2015/",
+    "lib": [
+      "dom",
+      "es2015",
+      "dom.iterable"
+    ],
+    "paths": {
+      "@utils/*": [
+        "node_modules/r2-utils-js/dist/es6-es2015/src/_utils/*"
+      ],
+      "@r2-utils-js/*": [
+        "node_modules/r2-utils-js/dist/es6-es2015/src/*"
+      ]
+    }
+  }
+}
