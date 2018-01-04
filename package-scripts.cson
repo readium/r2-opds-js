@@ -125,7 +125,6 @@
 
   'clean': '
     rimraf ./dist &&
-    rimraf ./now &&
     mkdirp ./dist
   '
 
@@ -227,18 +226,4 @@
 
   'posttranspile:typescript:single': '
     npm run afterdist
-  '
-
-  'cli': '
-    node "./dist/es8-es2017/src/_utils/perf-cli.js"
-  '
-
-  'cli-debug': '
-    cross-env DEBUG=r2:*
-    npm run cli
-  '
-
-  'cli-debug-x': '
-    cross-env DEBUG=*
-    npm run cli
   '
