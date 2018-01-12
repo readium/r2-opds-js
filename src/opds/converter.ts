@@ -45,7 +45,9 @@ export function convertOpds1ToOpds2(feed: OPDS): OPDSFeed {
             if (entry.Links) {
                 entry.Links.forEach((l) => {
 
-                    if (l.HasRel("http://opds-spec.org/acquisition")) {
+                    // if (l.HasRel("http://opds-spec.org/acquisition")
+                    //     || l.HasRel("http://opds-spec.org/acquisition/buy")) {
+                    if (l.Rel && l.Rel.indexOf("http://opds-spec.org/acquisition") == 0) {
                         isAnNavigation = false;
                     }
                     if (l.HasRel("collection") || l.HasRel("http://opds-spec.org/group")) {
