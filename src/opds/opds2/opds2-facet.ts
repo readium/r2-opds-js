@@ -13,11 +13,11 @@ import { OPDSMetadata } from "./opds2-metadata";
 export class OPDSFacet {
 
     @JsonProperty("metadata")
-    public Metadata: OPDSMetadata;
+    public Metadata!: OPDSMetadata;
 
     @JsonProperty("links")
     @JsonElementType(OPDSLink)
-    public Links: OPDSLink[];
+    public Links!: OPDSLink[];
 
     @OnDeserialized()
     // tslint:disable-next-line:no-unused-variable

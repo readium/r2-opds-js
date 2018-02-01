@@ -21,11 +21,11 @@ export class Category {
     // XPATH ROOT: /atom:feed/atom:entry/atom:category
 
     @XmlXPathSelector("@term")
-    public Term: string;
+    public Term!: string;
 
     @XmlXPathSelector("@scheme")
-    public Scheme: string;
+    public Scheme!: string;
 
     @XmlXPathSelector("@label")
-    public Label: string;
+    public Label!: string;
 }

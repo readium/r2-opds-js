@@ -22,11 +22,11 @@ export class Author {
     // XPATH ROOT: /atom:feed/atom:entry/atom:author
 
     @XmlXPathSelector("atom:name/text()")
-    public Name: string;
+    public Name!: string;
 
     @XmlXPathSelector("atom:uri/text()")
-    public Uri: string;
+    public Uri!: string;
 
     @XmlXPathSelector("atom:email/text()")
-    public Email: string;
+    public Email!: string;
 }

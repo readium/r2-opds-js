@@ -16,15 +16,15 @@ import { OPDSPublicationMetadata } from "./opds2-publicationMetadata";
 export class OPDSPublication {
 
     @JsonProperty("metadata")
-    public Metadata: OPDSPublicationMetadata;
+    public Metadata!: OPDSPublicationMetadata;
 
     @JsonProperty("links")
     @JsonElementType(OPDSLink)
-    public Links: OPDSLink[];
+    public Links!: OPDSLink[];
 
     @JsonProperty("images")
     @JsonElementType(OPDSLink)
-    public Images: OPDSLink[];
+    public Images!: OPDSLink[];
 
     public findFirstLinkByRel(rel: string): OPDSLink | undefined {
 

@@ -12,12 +12,12 @@ import { OPDSPrice } from "./opds2-price";
 export class OPDSProperties {
 
     @JsonProperty("numberOfItems")
-    public NumberOfItems: number;
+    public NumberOfItems!: number;
 
     @JsonProperty("price")
-    public Price: OPDSPrice;
+    public Price!: OPDSPrice;
 
     @JsonProperty("indirectAcquisition")
     @JsonElementType(OPDSIndirectAcquisition)
-    public IndirectAcquisitions: OPDSIndirectAcquisition[];
+    public IndirectAcquisitions!: OPDSIndirectAcquisition[];
 }

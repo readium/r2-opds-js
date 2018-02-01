@@ -9,10 +9,10 @@ import {
 export class OPDSPrice {
 
     @JsonProperty("currency")
-    public Currency: string;
+    public Currency!: string;
 
     @JsonProperty("value")
-    public Value: number;
+    public Value!: number;
 
     @OnDeserialized()
     // tslint:disable-next-line:no-unused-variable

@@ -10,11 +10,11 @@ import {
 export class OPDSIndirectAcquisition {
 
     @JsonProperty("type")
-    public TypeAcquisition: string;
+    public TypeAcquisition!: string;
 
     @JsonProperty("child")
     @JsonElementType(OPDSIndirectAcquisition)
-    public Children: OPDSIndirectAcquisition[];
+    public Children!: OPDSIndirectAcquisition[];
 
     @OnDeserialized()
     // tslint:disable-next-line:no-unused-variable

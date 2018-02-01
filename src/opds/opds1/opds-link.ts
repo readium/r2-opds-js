@@ -25,34 +25,34 @@ export class Link {
     // XPATH ROOT: /atom:feed/atom:entry/atom:link
 
     @XmlXPathSelector("opds:price/text()")
-    public OpdsPrice: number;
+    public OpdsPrice!: number;
 
     @XmlXPathSelector("opds:price/@currencycode")
-    public OpdsPriceCurrencyCode: string;
+    public OpdsPriceCurrencyCode!: string;
 
     @XmlXPathSelector("opds:indirectAcquisition")
     @XmlItemType(IndirectAcquisition)
-    public OpdsIndirectAcquisitions: IndirectAcquisition[];
+    public OpdsIndirectAcquisitions!: IndirectAcquisition[];
 
     @XmlXPathSelector("@type")
-    public Type: string;
+    public Type!: string;
 
     // and .='hqdefault'
     // @XmlXPathSelector("@*[local-name()='count' and namespace-uri()='http://purl.org/syndication/thread/1.0']")
     @XmlXPathSelector("@thr:count")
-    public ThrCount: number;
+    public ThrCount!: number;
 
     @XmlXPathSelector("@opds:facetGroup")
-    public FacetGroup: string;
+    public FacetGroup!: string;
 
     @XmlXPathSelector("@href")
-    public Href: string;
+    public Href!: string;
 
     @XmlXPathSelector("@title")
-    public Title: string;
+    public Title!: string;
 
     @XmlXPathSelector("@rel")
-    public Rel: string;
+    public Rel!: string;
 
     public HasRel(rel: string): boolean {
         return this.Rel === rel;

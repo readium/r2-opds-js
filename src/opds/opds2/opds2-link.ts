@@ -14,40 +14,40 @@ import { OPDSProperties } from "./opds2-properties";
 export class OPDSLink {
 
     @JsonProperty("href")
-    public Href: string;
+    public Href!: string;
 
     @JsonProperty("type")
-    public TypeLink: string;
+    public TypeLink!: string;
 
     @JsonProperty("height")
-    public Height: number;
+    public Height!: number;
 
     @JsonProperty("width")
-    public Width: number;
+    public Width!: number;
 
     @JsonProperty("title")
-    public Title: string;
+    public Title!: string;
 
     @JsonProperty("properties")
-    public Properties: OPDSProperties;
+    public Properties!: OPDSProperties;
 
     @JsonProperty("duration")
-    public Duration: number;
+    public Duration!: number;
 
     @JsonProperty("templated")
-    public Templated: boolean;
+    public Templated!: boolean;
 
     @JsonProperty("children")
     @JsonElementType(OPDSLink)
-    public Children: OPDSLink[];
+    public Children!: OPDSLink[];
 
     @JsonProperty("bitrate")
-    public Bitrate: number;
+    public Bitrate!: number;
 
     @JsonProperty("rel")
     @JsonConverter(JsonStringConverter)
     @JsonElementType(String)
-    public Rel: string[];
+    public Rel!: string[];
 
     public AddRels(rels: string[]) {
         rels.forEach((rel) => {

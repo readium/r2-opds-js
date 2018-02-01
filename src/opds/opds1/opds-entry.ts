@@ -27,71 +27,71 @@ export class Entry {
     // XPATH ROOT: /atom:feed/atom:entry
 
     @XmlXPathSelector("schema:Rating/@schema:ratingValue")
-    public SchemaRatingValue: string;
+    public SchemaRatingValue!: string;
     @XmlXPathSelector("schema:Rating/@schema:additionalType")
-    public SchemaRatingAdditionalType: string;
+    public SchemaRatingAdditionalType!: string;
 
     @XmlXPathSelector("@schema:additionalType")
-    public SchemaAdditionalType: string;
+    public SchemaAdditionalType!: string;
 
     @XmlXPathSelector("atom:title/text()")
-    public Title: string;
+    public Title!: string;
 
     @XmlXPathSelector("atom:author")
     @XmlItemType(Author)
-    public Authors: Author[];
+    public Authors!: Author[];
 
     @XmlXPathSelector("atom:id/text()")
-    public Id: string;
+    public Id!: string;
 
     @XmlXPathSelector("atom:summary/text()")
-    public Summary: string;
+    public Summary!: string;
     @XmlXPathSelector("atom:summary/@type")
-    public SummaryType: string;
+    public SummaryType!: string;
 
     @XmlXPathSelector("dcterms:language/text()")
-    public DcLanguage: string;
+    public DcLanguage!: string;
 
     @XmlXPathSelector("dcterms:extent/text()")
-    public DcExtent: string;
+    public DcExtent!: string;
 
     @XmlXPathSelector("dcterms:publisher/text()")
-    public DcPublisher: string;
+    public DcPublisher!: string;
 
     @XmlXPathSelector("dcterms:rights/text()")
-    public DcRights: string;
+    public DcRights!: string;
 
     @XmlXPathSelector("dcterms:issued/text()")
-    public DcIssued: string;
+    public DcIssued!: string;
 
     @XmlXPathSelector("dcterms:identifier/text()")
-    public DcIdentifier: string;
+    public DcIdentifier!: string;
     @XmlXPathSelector("dcterms:identifier/@xsi:type")
-    public DcIdentifierType: string;
+    public DcIdentifierType!: string;
 
     @XmlXPathSelector("bibframe:distribution/@bibframe:ProviderName")
-    public BibFrameDistributionProviderName: string;
+    public BibFrameDistributionProviderName!: string;
 
     @XmlXPathSelector("atom:category")
     @XmlItemType(Category)
-    public Categories: Category[];
+    public Categories!: Category[];
 
     @XmlXPathSelector("atom:content/text()")
-    public Content: string;
+    public Content!: string;
     @XmlXPathSelector("atom:content/@type")
-    public ContentType: string;
+    public ContentType!: string;
 
     @XmlXPathSelector("atom:updated/text()")
-    public Updated: Date;
+    public Updated!: Date;
 
     @XmlXPathSelector("atom:published/text()")
-    public Published: Date;
+    public Published!: Date;
 
     @XmlXPathSelector("atom:link")
     @XmlItemType(Link)
-    public Links: Link[];
+    public Links!: Link[];
 
     @XmlXPathSelector("schema:Series")
     @XmlItemType(Serie)
-    public Series: Serie[];
+    public Series!: Serie[];
 }

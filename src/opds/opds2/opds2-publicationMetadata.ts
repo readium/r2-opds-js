@@ -14,97 +14,97 @@ import { OPDSSubject } from "./opds2-subject";
 @JsonObject()
 export class OPDSPublicationMetadata {
     @JsonProperty("@type")
-    public RDFType: string;
+    public RDFType!: string;
 
     @JsonProperty("title")
     // @JsonType(String)
     // not needed because primitive string union with
     // simple object type (string keys, string values)
-    public Title: string | IStringMap; // | string[] | IStringMap[]
+    public Title!: string | IStringMap; // | string[] | IStringMap[]
 
     @JsonProperty("identifier")
-    public Identifier: string;
+    public Identifier!: string;
 
     @JsonProperty("author")
     @JsonElementType(OPDSContributor)
-    public Author: OPDSContributor[];
+    public Author!: OPDSContributor[];
 
     @JsonProperty("translator")
     @JsonElementType(OPDSContributor)
-    public Translator: OPDSContributor[];
+    public Translator!: OPDSContributor[];
 
     @JsonProperty("editor")
     @JsonElementType(OPDSContributor)
-    public Editor: OPDSContributor[];
+    public Editor!: OPDSContributor[];
 
     @JsonProperty("artist")
     @JsonElementType(OPDSContributor)
-    public Artist: OPDSContributor[];
+    public Artist!: OPDSContributor[];
 
     @JsonProperty("illustrator")
     @JsonElementType(OPDSContributor)
-    public Illustrator: OPDSContributor[];
+    public Illustrator!: OPDSContributor[];
 
     @JsonProperty("letterer")
     @JsonElementType(OPDSContributor)
-    public Letterer: OPDSContributor[];
+    public Letterer!: OPDSContributor[];
 
     @JsonProperty("penciler")
     @JsonElementType(OPDSContributor)
-    public Penciler: OPDSContributor[];
+    public Penciler!: OPDSContributor[];
 
     @JsonProperty("colorist")
     @JsonElementType(OPDSContributor)
-    public Colorist: OPDSContributor[];
+    public Colorist!: OPDSContributor[];
 
     @JsonProperty("inker")
     @JsonElementType(OPDSContributor)
-    public Inker: OPDSContributor[];
+    public Inker!: OPDSContributor[];
 
     @JsonProperty("narrator")
     @JsonElementType(OPDSContributor)
-    public Narrator: OPDSContributor[];
+    public Narrator!: OPDSContributor[];
 
     @JsonProperty("contributor")
     @JsonElementType(OPDSContributor)
-    public OPDSContributor: OPDSContributor[];
+    public OPDSContributor!: OPDSContributor[];
 
     @JsonProperty("publisher")
     @JsonElementType(OPDSContributor)
-    public Publisher: OPDSContributor[];
+    public Publisher!: OPDSContributor[];
 
     @JsonProperty("imprint")
     @JsonElementType(OPDSContributor)
-    public Imprint: OPDSContributor[];
+    public Imprint!: OPDSContributor[];
 
     @JsonProperty("language")
     @JsonElementType(String)
-    public Language: string[];
+    public Language!: string[];
 
     @JsonProperty("modified")
-    public Modified: Date;
+    public Modified!: Date;
 
     @JsonProperty("published")
-    public PublicationDate: Date;
+    public PublicationDate!: Date;
 
     @JsonProperty("description")
-    public Description: string;
+    public Description!: string;
 
     @JsonProperty("source")
-    public Source: string;
+    public Source!: string;
 
     @JsonProperty("rights")
-    public Rights: string;
+    public Rights!: string;
 
     @JsonProperty("subject")
     @JsonElementType(OPDSSubject)
-    public Subject: OPDSSubject[];
+    public Subject!: OPDSSubject[];
 
     @JsonProperty("belongs_to")
-    public BelongsTo: OPDSBelongsTo;
+    public BelongsTo!: OPDSBelongsTo;
 
     @JsonProperty("duration")
-    public Duration: number;
+    public Duration!: number;
 
     @OnDeserialized()
     // tslint:disable-next-line:no-unused-variable

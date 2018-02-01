@@ -12,20 +12,20 @@ import { OPDSLink } from "./opds2-link";
 export class OPDSCollection {
 
     @JsonProperty("name")
-    public Name: string;
+    public Name!: string;
 
     @JsonProperty("sort_as")
-    public SortAs: string;
+    public SortAs!: string;
 
     @JsonProperty("identifier")
-    public Identifier: string;
+    public Identifier!: string;
 
     @JsonProperty("position")
-    public Position: number;
+    public Position!: number;
 
     @JsonProperty("links")
     @JsonElementType(OPDSLink)
-    public Links: OPDSLink[];
+    public Links!: OPDSLink[];
 
     @OnDeserialized()
     // tslint:disable-next-line:no-unused-variable

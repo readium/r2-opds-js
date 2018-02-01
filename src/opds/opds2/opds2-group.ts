@@ -14,19 +14,19 @@ import { OPDSPublication } from "./opds2-publication";
 export class OPDSGroup {
 
     @JsonProperty("metadata")
-    public Metadata: OPDSMetadata;
+    public Metadata!: OPDSMetadata;
 
     @JsonProperty("publications")
     @JsonElementType(OPDSPublication)
-    public Publications: OPDSPublication[];
+    public Publications!: OPDSPublication[];
 
     @JsonProperty("links")
     @JsonElementType(OPDSLink)
-    public Links: OPDSLink[];
+    public Links!: OPDSLink[];
 
     @JsonProperty("navigation")
     @JsonElementType(OPDSLink)
-    public Navigation: OPDSLink[];
+    public Navigation!: OPDSLink[];
 
     @OnDeserialized()
     // tslint:disable-next-line:no-unused-variable

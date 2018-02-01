@@ -21,11 +21,11 @@ export class Serie {
     // XPATH ROOT: /atom:feed/atom:entry/schema:Series
 
     @XmlXPathSelector("@schema:name")
-    public Name: string;
+    public Name!: string;
 
     @XmlXPathSelector("@schema:url")
-    public Url: string;
+    public Url!: string;
 
     @XmlXPathSelector("@schema:position")
-    public Position: number;
+    public Position!: number;
 }

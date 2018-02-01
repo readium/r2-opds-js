@@ -12,18 +12,18 @@ import { IStringMap } from "./opds2-multilang";
 export class OPDSContributor {
 
     @JsonProperty("name")
-    public Name: string | IStringMap;
+    public Name!: string | IStringMap;
 
     @JsonProperty("sort_as")
-    public SortAs: string;
+    public SortAs!: string;
 
     @JsonProperty("identifier")
-    public Identifier: string;
+    public Identifier!: string;
 
     @JsonProperty("role")
-    public Role: string;
+    public Role!: string;
 
     @JsonProperty("links")
     @JsonElementType(OPDSLink)
-    public Links: OPDSLink[];
+    public Links!: OPDSLink[];
 }

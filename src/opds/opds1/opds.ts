@@ -26,38 +26,38 @@ export class OPDS {
     // XPATH ROOT: /atom:feed
 
     @XmlXPathSelector("opensearch:totalResults/text()")
-    public OpensearchTotalResults: number;
+    public OpensearchTotalResults!: number;
 
     @XmlXPathSelector("opensearch:itemsPerPage/text()")
-    public OpensearchItemsPerPage: number;
+    public OpensearchItemsPerPage!: number;
 
     @XmlXPathSelector("atom:id/text()")
-    public Id: string;
+    public Id!: string;
 
     @XmlXPathSelector("atom:title/text()")
-    public Title: string;
+    public Title!: string;
 
     @XmlXPathSelector("atom:subtitle/text()")
-    public SubTitle: string;
+    public SubTitle!: string;
 
     @XmlXPathSelector("atom:updated/text()")
-    public Updated: Date;
+    public Updated!: Date;
 
     @XmlXPathSelector("atom:icon/text()")
-    public Icon: string;
+    public Icon!: string;
 
     @XmlXPathSelector("atom:author")
     @XmlItemType(Author)
-    public Authors: Author[];
+    public Authors!: Author[];
 
     @XmlXPathSelector("@lang | @xml:lang")
-    public Lang: string;
+    public Lang!: string;
 
     @XmlXPathSelector("atom:link")
     @XmlItemType(Link)
-    public Links: Link[];
+    public Links!: Link[];
 
     @XmlXPathSelector("atom:entry")
     @XmlItemType(Entry)
-    public Entries: Entry[];
+    public Entries!: Entry[];
 }

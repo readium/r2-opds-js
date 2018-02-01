@@ -20,30 +20,30 @@ export class OPDSFeed {
     @JsonProperty("@context")
     @JsonConverter(JsonStringConverter)
     @JsonElementType(String)
-    public Context: string[];
+    public Context!: string[];
 
     @JsonProperty("metadata")
-    public Metadata: OPDSMetadata;
+    public Metadata!: OPDSMetadata;
 
     @JsonProperty("links")
     @JsonElementType(OPDSLink)
-    public Links: OPDSLink[];
+    public Links!: OPDSLink[];
 
     @JsonProperty("publications")
     @JsonElementType(OPDSPublication)
-    public Publications: OPDSPublication[];
+    public Publications!: OPDSPublication[];
 
     @JsonProperty("navigation")
     @JsonElementType(OPDSLink)
-    public Navigation: OPDSLink[];
+    public Navigation!: OPDSLink[];
 
     @JsonProperty("facets")
     @JsonElementType(OPDSFacet)
-    public Facets: OPDSFacet[];
+    public Facets!: OPDSFacet[];
 
     @JsonProperty("groups")
     @JsonElementType(OPDSGroup)
-    public Groups: OPDSGroup[];
+    public Groups!: OPDSGroup[];
 
     public findFirstLinkByRel(rel: string): OPDSLink | undefined {
 

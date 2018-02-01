@@ -25,9 +25,9 @@ export class IndirectAcquisition {
     // XPATH ROOT: /atom:feed/atom:entry/atom:link/opds:indirectAcquisition/opds:indirectAcquisition (recursive)
 
     @XmlXPathSelector("@type")
-    public OpdsIndirectAcquisitionType: string;
+    public OpdsIndirectAcquisitionType!: string;
 
     @XmlXPathSelector("opds:indirectAcquisition")
     @XmlItemType(IndirectAcquisition)
-    public OpdsIndirectAcquisitions: IndirectAcquisition[];
+    public OpdsIndirectAcquisitions!: IndirectAcquisition[];
 }

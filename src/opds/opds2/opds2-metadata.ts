@@ -13,25 +13,25 @@ export class OPDSMetadata {
 
     @JsonProperty("author")
     @JsonElementType(OPDSContributor)
-    public Author: OPDSContributor[];
+    public Author!: OPDSContributor[];
 
     @JsonProperty("@type")
-    public RDFType: string;
+    public RDFType!: string;
 
     @JsonProperty("title")
-    public Title: string;
+    public Title!: string;
 
     @JsonProperty("numberOfItems")
-    public NumberOfItems: number;
+    public NumberOfItems!: number;
 
     @JsonProperty("itemsPerPage")
-    public ItemsPerPage: number;
+    public ItemsPerPage!: number;
 
     @JsonProperty("currentPage")
-    public CurrentPage: number;
+    public CurrentPage!: number;
 
     @JsonProperty("modified")
-    public Modified: Date;
+    public Modified!: Date;
 
     @OnDeserialized()
     // tslint:disable-next-line:no-unused-variable

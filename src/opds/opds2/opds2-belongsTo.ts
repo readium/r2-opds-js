@@ -12,9 +12,9 @@ export class OPDSBelongsTo {
 
     @JsonProperty("series")
     @JsonElementType(OPDSCollection)
-    public Series: OPDSCollection[];
+    public Series!: OPDSCollection[];
 
     @JsonProperty("collection")
     @JsonElementType(OPDSCollection)
-    public Collection: OPDSCollection[];
+    public Collection!: OPDSCollection[];
 }
