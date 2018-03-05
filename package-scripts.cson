@@ -8,10 +8,10 @@
   '
 
   'copydist': '
-    cpy "dist/**/*.*" ../r2-shared-js/node_modules/r2-opds-js/ --cwd=./ --parents &&
-    cpy "dist/**/*.*" ../r2-streamer-js/node_modules/r2-opds-js/ --cwd=./ --parents &&
-    cpy "dist/**/*.*" ../r2-navigator-js/node_modules/r2-opds-js/ --cwd=./ --parents &&
-    cpy "dist/**/*.*" ../r2-testapp-js/node_modules/r2-opds-js/ --cwd=./ --parents
+    cpy "dist/**/*" ../r2-shared-js/node_modules/r2-opds-js/ --cwd=./ --parents &&
+    cpy "dist/**/*" ../r2-streamer-js/node_modules/r2-opds-js/ --cwd=./ --parents &&
+    cpy "dist/**/*" ../r2-navigator-js/node_modules/r2-opds-js/ --cwd=./ --parents &&
+    cpy "dist/**/*" ../r2-testapp-js/node_modules/r2-opds-js/ --cwd=./ --parents
   '
 
   'quick-build-dist': '
@@ -33,8 +33,8 @@
     cpy ../r2-opds-js/package-lock.json . &&
     cpy ../r2-opds-js/LICENSE . &&
     cpy ../r2-opds-js/README.md . &&
-    cpy "docs/**/*.*" ../r2-opds-js-dist/ --cwd=../r2-opds-js/ --parents &&
-    cpy "dist/**/*.*" ../r2-opds-js-dist/ --cwd=../r2-opds-js/ --parents &&
+    cpy "docs/**/*" ../r2-opds-js-dist/ --cwd=../r2-opds-js/ --parents &&
+    cpy "dist/**/*" ../r2-opds-js-dist/ --cwd=../r2-opds-js/ --parents &&
     (git add * || echo add) &&
     (git commit -a -m "add new dist" || echo commit) &&
     (git push --set-upstream origin develop || echo push) &&
