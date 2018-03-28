@@ -27,7 +27,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/edrlab/r2-opds-js.git"
+    "url": "git+https://github.com/readium/r2-opds-js.git"
   },
   "author": {
     "name": "EDRLab",
@@ -42,11 +42,11 @@
     }
   ],
   "bugs": {
-    "url": "https://github.com/edrlab/r2-opds-js/issues"
+    "url": "https://github.com/readium/r2-opds-js/issues"
   },
-  "homepage": "https://github.com/edrlab/r2-opds-js",
+  "homepage": "https://github.com/readium/r2-opds-js",
   "dependencies": {
-    "r2-utils-js": "github:edrlab/r2-utils-js-dist#develop",
+    "r2-utils-js": "github:readium/r2-utils-js-dist#develop",
     "ta-json": "github:danielweck/ta-json#dist",
     "tslib": "^1.9.0"
   },
