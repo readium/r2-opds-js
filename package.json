@@ -51,7 +51,7 @@
     "tslib": "^1.9.0"
   },
   "devDependencies": {
-    "@types/node": "^9.4.7",
+    "@types/node": "^9.6.0",
     "cpy-cli": "github:sindresorhus/cpy-cli#nodir",
     "cross-env": "^5.1.4",
     "cson": "^5.1.0",
@@ -62,8 +62,8 @@
     "mkdirp": "^0.5.1",
     "rimraf": "^2.6.2",
     "tslint": "^5.9.1",
-    "tslint-language-service": "^0.9.8",
-    "typescript": "^2.7.2"
+    "tslint-language-service": "^0.9.9",
+    "typescript": "^2.8.1"
   },
   "main": "dist/es6-es2015/src/opds/converter.js",
   "types": "dist/es6-es2015/src/opds/converter.d.js",
