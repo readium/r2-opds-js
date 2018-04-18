@@ -51,13 +51,13 @@
     "tslib": "^1.9.0"
   },
   "devDependencies": {
-    "@types/node": "^9.6.0",
+    "@types/node": "^9.6.5",
     "cpy-cli": "github:sindresorhus/cpy-cli#nodir",
     "cross-env": "^5.1.4",
     "cson": "^5.1.0",
-    "eclint": "^2.6.0",
+    "eclint": "^2.7.0",
     "filehound": "^1.16.2",
-    "git-rev-sync": "^1.10.0",
+    "git-rev-sync": "^1.11.1",
     "json": "^9.0.6",
     "mkdirp": "^0.5.1",
     "rimraf": "^2.6.2",
