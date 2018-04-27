@@ -51,7 +51,7 @@
     "tslib": "^1.9.0"
   },
   "devDependencies": {
-    "@types/node": "8.x.x",
+    "@types/node": "8.*.*",
     "cpy-cli": "github:sindresorhus/cpy-cli#nodir",
     "cross-env": "^5.1.4",
     "cson": "^5.1.0",
