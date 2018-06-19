@@ -48,22 +48,22 @@
   "dependencies": {
     "r2-utils-js": "github:edrlab/r2-utils-js-dist#develop",
     "ta-json": "github:danielweck/ta-json#dist",
-    "tslib": "^1.9.0"
+    "tslib": "^1.9.2"
   },
   "devDependencies": {
     "@types/node": "8.*.*",
     "cpy-cli": "github:sindresorhus/cpy-cli#nodir",
-    "cross-env": "^5.1.4",
+    "cross-env": "^5.2.0",
     "cson": "^5.1.0",
     "eclint": "^2.7.0",
-    "filehound": "^1.16.2",
+    "filehound": "^1.16.4",
     "git-rev-sync": "^1.12.0",
     "json": "^9.0.6",
     "mkdirp": "^0.5.1",
     "rimraf": "^2.6.2",
-    "tslint": "^5.9.1",
+    "tslint": "^5.10.0",
     "tslint-language-service": "^0.9.9",
-    "typescript": "^2.8.3"
+    "typescript": "^2.9.2"
   },
   "main": "dist/es6-es2015/src/opds/converter.js",
   "types": "dist/es6-es2015/src/opds/converter.d.js",
