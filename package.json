@@ -48,7 +48,7 @@
   "dependencies": {
     "r2-utils-js": "github:edrlab/r2-utils-js-dist#develop",
     "ta-json": "github:danielweck/ta-json#dist",
-    "tslib": "^1.9.2"
+    "tslib": "^1.9.3"
   },
   "devDependencies": {
     "@types/node": "8.*.*",
