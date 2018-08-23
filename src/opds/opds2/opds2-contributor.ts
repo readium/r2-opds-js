@@ -5,6 +5,7 @@
 // that can be found in the LICENSE file exposed on Github (readium) in the project repository.
 // ==LICENSE-END==
 
+import { Contributor } from "@r2-shared-js/models/metadata-contributor";
 // https://github.com/edcarroll/ta-json
 import {
     JsonElementType,
@@ -13,22 +14,9 @@ import {
 } from "ta-json";
 
 import { OPDSLink } from "./opds2-link";
-import { IStringMap } from "./opds2-multilang";
 
 @JsonObject()
-export class OPDSContributor {
-
-    @JsonProperty("name")
-    public Name!: string | IStringMap;
-
-    @JsonProperty("sort_as")
-    public SortAs!: string;
-
-    @JsonProperty("identifier")
-    public Identifier!: string;
-
-    @JsonProperty("role")
-    public Role!: string;
+export class OPDSContributor extends Contributor {
 
     @JsonProperty("links")
     @JsonElementType(OPDSLink)

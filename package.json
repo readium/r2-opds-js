@@ -47,6 +47,7 @@
   "homepage": "https://github.com/edrlab/r2-opds-js",
   "dependencies": {
     "debug": "^3.1.0",
+    "r2-shared-js": "github:edrlab/r2-shared-js-dist#develop",
     "r2-utils-js": "github:edrlab/r2-utils-js-dist#develop",
     "ta-json": "github:danielweck/ta-json#dist",
     "tslib": "^1.9.3",

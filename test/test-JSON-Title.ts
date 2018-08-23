@@ -1,3 +1,4 @@
+import { IStringMap } from "@r2-shared-js/models/metadata-multilang";
 import { test } from "ava";
 import { JSON as TAJSON } from "ta-json";
 
@@ -5,7 +6,6 @@ import {
     initGlobalConverters_GENERIC,
     initGlobalConverters_OPDS,
 } from "../src/opds/init-globals";
-import { IStringMap } from "../src/opds/opds2/opds2-multilang";
 import { OPDSPublicationMetadata } from "../src/opds/opds2/opds2-publicationMetadata";
 import {
     checkType_Object,
@@ -14,8 +14,8 @@ import {
     logJSON,
 } from "./helpers";
 
-initGlobalConverters_GENERIC();
 initGlobalConverters_OPDS();
+initGlobalConverters_GENERIC();
 
 // ==========================
 

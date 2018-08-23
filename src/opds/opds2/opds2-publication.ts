@@ -5,22 +5,22 @@
 // that can be found in the LICENSE file exposed on Github (readium) in the project repository.
 // ==LICENSE-END==
 
+import { BelongsTo } from "@r2-shared-js/models/metadata-belongsto";
+import { Publication } from "@r2-shared-js/models/publication";
 // https://github.com/edcarroll/ta-json
 import {
     JsonElementType,
     JsonObject,
     JsonProperty,
-    OnDeserialized,
 } from "ta-json";
 
-import { OPDSBelongsTo } from "./opds2-belongsTo";
 import { OPDSCollection } from "./opds2-collection";
 import { OPDSContributor } from "./opds2-contributor";
 import { OPDSLink } from "./opds2-link";
 import { OPDSPublicationMetadata } from "./opds2-publicationMetadata";
 
 @JsonObject()
-export class OPDSPublication {
+export class OPDSPublication extends Publication {
 
     @JsonProperty("metadata")
     public Metadata!: OPDSPublicationMetadata;
@@ -58,7 +58,7 @@ export class OPDSPublication {
         this.Images.push(i);
     }
 
-    public AddLink(href: string, typeLink: string, rel: string, title: string) {
+    public AddLink_(href: string, typeLink: string, rel: string, title: string) {
         const l = new OPDSLink();
         l.Href = href;
         l.TypeLink = typeLink;
@@ -130,7 +130,7 @@ export class OPDSPublication {
             this.Metadata = new OPDSPublicationMetadata();
         }
         if (!this.Metadata.BelongsTo) {
-            this.Metadata.BelongsTo = new OPDSBelongsTo();
+            this.Metadata.BelongsTo = new BelongsTo();
         }
         if (!this.Metadata.BelongsTo.Series) {
             this.Metadata.BelongsTo.Series = [];
@@ -165,18 +165,18 @@ export class OPDSPublication {
         this.Metadata.Publisher.push(c);
     }
 
-    @OnDeserialized()
-    // tslint:disable-next-line:no-unused-variable
-    // @ts-ignore: TS6133 (is declared but its value is never read.)
-    private _OnDeserialized() {
-        if (!this.Metadata) {
-            console.log("OPDSPublication.Metadata is not set!");
-        }
-        if (!this.Links) {
-            console.log("OPDSPublication.Links is not set!");
-        }
-        if (!this.Images) {
-            console.log("OPDSPublication.Images is not set!");
-        }
-    }
+    // @OnDeserialized()
+    // // tslint:disable-next-line:no-unused-variable
+    // // @ts-ignore: TS6133 (is declared but its value is never read.)
+    // private _OnDeserialized() {
+    //     if (!this.Metadata) {
+    //         console.log("OPDSPublication.Metadata is not set!");
+    //     }
+    //     if (!this.Links) {
+    //         console.log("OPDSPublication.Links is not set!");
+    //     }
+    //     if (!this.Images) {
+    //         console.log("OPDSPublication.Images is not set!");
+    //     }
+    // }
 }

@@ -5,28 +5,22 @@
 // that can be found in the LICENSE file exposed on Github (readium) in the project repository.
 // ==LICENSE-END==
 
+import { Metadata } from "@r2-shared-js/models/metadata";
 // https://github.com/edcarroll/ta-json
 import {
     JsonElementType,
     JsonObject,
     JsonProperty,
-    OnDeserialized,
 } from "ta-json";
 
 import { OPDSContributor } from "./opds2-contributor";
 
 @JsonObject()
-export class OPDSMetadata {
+export class OPDSMetadata extends Metadata {
 
     @JsonProperty("author")
     @JsonElementType(OPDSContributor)
     public Author!: OPDSContributor[];
-
-    @JsonProperty("@type")
-    public RDFType!: string;
-
-    @JsonProperty("title")
-    public Title!: string;
 
     @JsonProperty("numberOfItems")
     public NumberOfItems!: number;
@@ -36,16 +30,4 @@ export class OPDSMetadata {
 
     @JsonProperty("currentPage")
     public CurrentPage!: number;
-
-    @JsonProperty("modified")
-    public Modified!: Date;
-
-    @OnDeserialized()
-    // tslint:disable-next-line:no-unused-variable
-    // @ts-ignore: TS6133 (is declared but its value is never read.)
-    private _OnDeserialized() {
-        if (!this.Title) {
-            console.log("OPDSMetadata.Title is not set!");
-        }
-    }
 }

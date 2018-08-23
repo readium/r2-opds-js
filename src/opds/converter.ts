@@ -5,9 +5,11 @@
 // that can be found in the LICENSE file exposed on Github (readium) in the project repository.
 // ==LICENSE-END==
 
+import { BelongsTo } from "@r2-shared-js/models/metadata-belongsto";
+import { Subject } from "@r2-shared-js/models/metadata-subject";
+
 import { OPDS } from "./opds1/opds";
 import { OPDSFeed } from "./opds2/opds2";
-import { OPDSBelongsTo } from "./opds2/opds2-belongsTo";
 import { OPDSCollection } from "./opds2/opds2-collection";
 import { OPDSContributor } from "./opds2/opds2-contributor";
 import { OPDSIndirectAcquisition } from "./opds2/opds2-indirectAcquisition";
@@ -17,7 +19,6 @@ import { OPDSPrice } from "./opds2/opds2-price";
 import { OPDSProperties } from "./opds2/opds2-properties";
 import { OPDSPublication } from "./opds2/opds2-publication";
 import { OPDSPublicationMetadata } from "./opds2/opds2-publicationMetadata";
-import { OPDSSubject } from "./opds2/opds2-subject";
 
 // https://github.com/opds-community/opds-revision
 export function convertOpds1ToOpds2(feed: OPDS): OPDSFeed {
@@ -89,7 +90,7 @@ export function convertOpds1ToOpds2(feed: OPDS): OPDSFeed {
                         coll.Links.push(link);
 
                         if (!p.Metadata.BelongsTo) {
-                            p.Metadata.BelongsTo = new OPDSBelongsTo();
+                            p.Metadata.BelongsTo = new BelongsTo();
                         }
                         if (!p.Metadata.BelongsTo.Series) {
                             p.Metadata.BelongsTo.Series = [];
@@ -108,7 +109,7 @@ export function convertOpds1ToOpds2(feed: OPDS): OPDSFeed {
 
                 if (entry.Categories) {
                     entry.Categories.forEach((cat) => {
-                        const subj = new OPDSSubject();
+                        const subj = new Subject();
                         subj.Code = cat.Term;
                         subj.Name = cat.Label;
                         subj.Scheme = cat.Scheme;

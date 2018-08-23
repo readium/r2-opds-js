@@ -17,8 +17,8 @@ import {
     logJSON,
 } from "./helpers";
 
-initGlobalConverters_GENERIC();
 initGlobalConverters_OPDS();
+initGlobalConverters_GENERIC();
 
 // ==========================
 
