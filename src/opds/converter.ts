@@ -132,10 +132,23 @@ export function convertOpds1ToOpds2(feed: OPDS): OPDSFeed {
                     });
                 }
 
+                if (entry.Summary) {
+                    p.Metadata.Description = ((entry.SummaryType === "text/html" || entry.SummaryType === "html") ?
+                        entry.Summary.replace(/ xmlns="[^"]+"/g, "") : // xmlns="http://www.w3.org/2005/Atom"
+                        entry.Summary);
+                }
+
                 if (entry.Content) {
-                    p.Metadata.Description = entry.Content;
-                } else if (entry.Summary) {
-                    p.Metadata.Description = entry.Summary;
+                    const txt = ((entry.ContentType === "text/html" || entry.ContentType === "html") ?
+                        entry.Content.replace(/ xmlns="[^"]+"/g, "") : // xmlns="http://www.w3.org/2005/Atom"
+                        entry.Content);
+
+                    if (p.Metadata.Description) {
+                        p.Metadata.Description += "\n\n";
+                        p.Metadata.Description += txt;
+                    } else {
+                        p.Metadata.Description = txt;
+                    }
                 }
 
                 if (entry.Links) {
@@ -209,6 +222,33 @@ export function convertOpds1ToOpds2(feed: OPDS): OPDSFeed {
             } else {
                 const linkNav = new OPDSLink();
                 linkNav.Title = entry.Title;
+
+                if (entry.Summary) {
+                    const txt = ((entry.SummaryType === "text/html" || entry.SummaryType === "html") ?
+                        entry.Summary.replace(/ xmlns="[^"]+"/g, "") : // xmlns="http://www.w3.org/2005/Atom"
+                        entry.Summary);
+
+                    if (linkNav.Title) {
+                        linkNav.Title += "\n\n";
+                        linkNav.Title += txt;
+                    } else {
+                        linkNav.Title = txt;
+                    }
+                }
+
+                if (entry.Content) {
+                    const txt = ((entry.ContentType === "text/html" || entry.ContentType === "html") ?
+                        entry.Content.replace(/ xmlns="[^"]+"/g, "") : // xmlns="http://www.w3.org/2005/Atom"
+                        entry.Content);
+
+                    if (linkNav.Title) {
+                        linkNav.Title += "\n\n";
+                        linkNav.Title += txt;
+                    } else {
+                        linkNav.Title = txt;
+                    }
+                }
+
                 if (entry.Links && entry.Links[0]) {
                     linkNav.AddRel(entry.Links[0].Rel);
                     linkNav.TypeLink = entry.Links[0].Type;
