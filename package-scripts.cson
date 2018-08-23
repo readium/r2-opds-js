@@ -8,7 +8,6 @@
   '
 
   'copydist': '
-    cpy "./dist/**/*" ../r2-shared-js/node_modules/r2-opds-js/ --cwd=./ --parents --no-dir &&
     cpy "./dist/**/*" ../r2-streamer-js/node_modules/r2-opds-js/ --cwd=./ --parents --no-dir &&
     cpy "./dist/**/*" ../r2-navigator-js/node_modules/r2-opds-js/ --cwd=./ --parents --no-dir &&
     cpy "./dist/**/*" ../r2-testapp-js/node_modules/r2-opds-js/ --cwd=./ --parents --no-dir
@@ -175,4 +174,14 @@
 
   'posttranspile:typescript:single': '
     npm run afterdist
+  '
+
+  'test': '
+    cross-env DEBUG=r2:*
+    ava
+      --verbose
+      --fail-fast
+      --serial
+      --color
+      "./dist/es8-es2017/test/**/test*.js"
   '
