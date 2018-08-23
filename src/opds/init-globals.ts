@@ -16,13 +16,16 @@ import {
     propertyConverters as jsonConverters,
 } from "ta-json";
 
-import { OPDSCollection } from "./opds/opds2/opds2-collection";
-import { JsonOPDSCollectionConverter } from "./opds/opds2/opds2-collection-json-converter";
+import { OPDSCollection } from "./opds2/opds2-collection";
+import { JsonOPDSCollectionConverter } from "./opds2/opds2-collection-json-converter";
 
-export function initGlobals() {
+export function initGlobalConverters_OPDS() {
+    jsonConverters.set(OPDSCollection, new JsonOPDSCollectionConverter());
+}
+
+export function initGlobalConverters_GENERIC() {
     jsonConverters.set(Buffer, new JsonBufferConverter());
     jsonConverters.set(Date, new JsonDateConverter());
-    jsonConverters.set(OPDSCollection, new JsonOPDSCollectionConverter());
 
     xmlConverters.set(Buffer, new XmlBufferConverter());
     xmlConverters.set(Date, new XmlDateConverter());
