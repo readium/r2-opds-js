@@ -6,6 +6,7 @@
 // ==LICENSE-END==
 
 import { JsonDateConverter } from "@utils/ta-json-date-converter";
+import { JsonNumberConverter } from "@utils/ta-json-number-converter";
 import {
     BufferConverter as XmlBufferConverter,
     DateConverter as XmlDateConverter,
@@ -26,6 +27,7 @@ export function initGlobalConverters_OPDS() {
 export function initGlobalConverters_GENERIC() {
     jsonConverters.set(Buffer, new JsonBufferConverter());
     jsonConverters.set(Date, new JsonDateConverter());
+    jsonConverters.set(Number, new JsonNumberConverter());
 
     xmlConverters.set(Buffer, new XmlBufferConverter());
     xmlConverters.set(Date, new XmlDateConverter());
