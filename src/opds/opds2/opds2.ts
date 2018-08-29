@@ -5,10 +5,9 @@
 // that can be found in the LICENSE file exposed on Github (readium) in the project repository.
 // ==LICENSE-END==
 
-import { JsonStringConverter } from "@utils/ta-json-string-converter";
 // https://github.com/edcarroll/ta-json
 import {
-    JsonConverter,
+    // JsonConverter,
     JsonElementType,
     JsonObject,
     JsonProperty,
@@ -21,11 +20,13 @@ import { OPDSLink } from "./opds2-link";
 import { OPDSMetadata } from "./opds2-metadata";
 import { OPDSPublication } from "./opds2-publication";
 
+// import { JsonStringConverter } from "@utils/ta-json-string-converter";
+
 @JsonObject()
 export class OPDSFeed {
 
     @JsonProperty("@context")
-    @JsonConverter(JsonStringConverter)
+    // @JsonConverter(JsonStringConverter)
     @JsonElementType(String)
     public Context!: string[];
 
