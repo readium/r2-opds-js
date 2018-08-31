@@ -1,5 +1,8 @@
 # Next
 
+Changes:
+* OPDS converter XML to JSON: empty language ignored.
+
 Git diff:
 * https://github.com/readium/r2-opds-js/compare/v1.0.0-alpha.3...develop
 
