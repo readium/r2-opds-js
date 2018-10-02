@@ -11,7 +11,7 @@ import {
     JsonElementType,
     JsonObject,
     JsonProperty,
-} from "ta-json";
+} from "ta-json-x";
 
 import { OPDSLink } from "./opds2-link";
 

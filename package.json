@@ -1,6 +1,6 @@
 {
   "name": "r2-opds-js",
-  "version": "1.0.0-alpha.4",
+  "version": "1.0.0-alpha.5",
   "description": "Readium 2 'opds' for NodeJS (TypeScript)",
   "keywords": [
     "readium",
@@ -47,15 +47,15 @@
   "homepage": "https://github.com/readium/r2-opds-js",
   "dependencies": {
     "debug": "^4.0.1",
-    "r2-shared-js": "^1.0.0-alpha.4",
-    "r2-utils-js": "^1.0.0-alpha.4",
-    "ta-json": "github:danielweck/ta-json#dist",
+    "r2-shared-js": "^1.0.0-alpha.5",
+    "r2-utils-js": "^1.0.0-alpha.5",
+    "ta-json-x": "^2.5.0",
     "tslib": "^1.9.3",
     "xmldom": "^0.1.27"
   },
   "devDependencies": {
     "@types/debug": "0.0.30",
-    "@types/node": "8.*.*",
+    "@types/node": "^8.10.32",
     "@types/xmldom": "^0.1.29",
     "ava": "^0.25.0",
     "cpy-cli": "^2.0.0",

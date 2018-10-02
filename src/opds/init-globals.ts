@@ -15,7 +15,7 @@ import {
 import {
     BufferConverter as JsonBufferConverter,
     propertyConverters as jsonConverters,
-} from "ta-json";
+} from "ta-json-x";
 
 import { OPDSCollection } from "./opds2/opds2-collection";
 import { JsonOPDSCollectionConverter } from "./opds2/opds2-collection-json-converter";

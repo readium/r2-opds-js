@@ -1,6 +1,6 @@
 import { IStringMap } from "@r2-shared-js/models/metadata-multilang";
 import { test } from "ava";
-import { JSON as TAJSON } from "ta-json";
+import { JSON as TAJSON } from "ta-json-x";
 
 import {
     initGlobalConverters_GENERIC,

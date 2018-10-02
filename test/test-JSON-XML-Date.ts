@@ -1,6 +1,6 @@
 import { XML } from "@utils/xml-js-mapper";
 import { test } from "ava";
-import { JSON as TAJSON } from "ta-json";
+import { JSON as TAJSON } from "ta-json-x";
 import * as xmldom from "xmldom";
 
 import {

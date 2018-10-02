@@ -11,7 +11,7 @@ import {
     JsonObject,
     JsonProperty,
     OnDeserialized,
-} from "ta-json";
+} from "ta-json-x";
 
 @JsonObject()
 export class OPDSIndirectAcquisition {

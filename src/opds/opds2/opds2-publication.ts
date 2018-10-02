@@ -12,7 +12,7 @@ import {
     JsonElementType,
     JsonObject,
     JsonProperty,
-} from "ta-json";
+} from "ta-json-x";
 
 import { OPDSCollection } from "./opds2-collection";
 import { OPDSContributor } from "./opds2-contributor";

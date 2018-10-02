@@ -10,7 +10,7 @@ import { Link } from "@r2-shared-js/models/publication-link";
 import {
     JsonObject,
     JsonProperty,
-} from "ta-json";
+} from "ta-json-x";
 
 import { OPDSProperties } from "./opds2-properties";
 

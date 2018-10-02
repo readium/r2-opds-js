@@ -12,7 +12,7 @@ import {
     JsonObject,
     JsonProperty,
     OnDeserialized,
-} from "ta-json";
+} from "ta-json-x";
 
 import { OPDSFacet } from "./opds2-facet";
 import { OPDSGroup } from "./opds2-group";

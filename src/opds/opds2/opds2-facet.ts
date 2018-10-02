@@ -11,7 +11,7 @@ import {
     JsonObject,
     JsonProperty,
     OnDeserialized,
-} from "ta-json";
+} from "ta-json-x";
 
 import { OPDSLink } from "./opds2-link";
 import { OPDSMetadata } from "./opds2-metadata";
