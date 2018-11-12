@@ -46,7 +46,7 @@
   },
   "homepage": "https://github.com/readium/r2-opds-js",
   "dependencies": {
-    "debug": "^4.0.1",
+    "debug": "^4.1.0",
     "r2-shared-js": "^1.0.0-alpha.5",
     "r2-utils-js": "^1.0.0-alpha.5",
     "ta-json-x": "^2.5.0",
@@ -54,14 +54,14 @@
     "xmldom": "^0.1.27"
   },
   "devDependencies": {
-    "@types/debug": "0.0.30",
-    "@types/node": "^8.10.32",
+    "@types/debug": "0.0.31",
+    "@types/node": "^8.10.37",
     "@types/xmldom": "^0.1.29",
     "ava": "^0.25.0",
     "cpy-cli": "^2.0.0",
     "cross-env": "^5.2.0",
     "cson": "^5.1.0",
-    "eclint": "^2.8.0",
+    "eclint": "^2.8.1",
     "filehound": "^1.16.4",
     "git-rev-sync": "^1.12.0",
     "json": "^9.0.6",
@@ -69,7 +69,7 @@
     "rimraf": "^2.6.2",
     "tslint": "^5.11.0",
     "tslint-language-service": "^0.9.9",
-    "typescript": "^3.1.1"
+    "typescript": "^3.1.6"
   },
   "main": "dist/es6-es2015/src/opds/converter.js",
   "types": "dist/es6-es2015/src/opds/converter.d.js",
