@@ -10,6 +10,7 @@ Git diff:
 Changes:
 * NPM updates (minor)
 * Git revision JSON info now includes NodeJS and NPM version (build environment)
+* OPDS v1 to v2 converter now exposes Entry-compatible function
 
 Git revision info:
 * https://unpkg.com/r2-opds-js@1.0.0-alpha.6/dist/gitrev.json
