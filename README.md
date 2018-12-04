@@ -68,7 +68,7 @@ A [yarn.lock](https://github.com/readium/r2-opds-js/blob/develop/yarn.lock) file
 
 ## Continuous Integration
 
-TODO (unit tests?)  
+TODO (unit tests?)
 https://travis-ci.org/readium/r2-opds-js
 
 Badge: `[![Travis](https://travis-ci.org/readium/r2-opds-js.svg?branch=develop)](https://travis-ci.org/readium/r2-opds-js)`
