@@ -4,7 +4,8 @@
 
 For example, EcmaScript6 / ES2015 dist:
 
-https://unpkg.com/r2-opds-js/dist/es6-es2015/src/opds/  
+`node_modules/r2-opds-js/dist/es6-es2015/src/opds/`  
+(see: https://unpkg.com/r2-opds-js/dist/es6-es2015/src/opds/ )  
 (alternatively: https://github.com/edrlab/r2-opds-js-dist/tree/develop/dist/es6-es2015/src/opds )
 
 ...mirrors the original TypeScript codebase:  
