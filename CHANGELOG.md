@@ -1,10 +1,30 @@
 # Next
 
 Git diff:
-* https://github.com/readium/r2-opds-js/compare/v1.0.0-alpha.7...develop
+* https://github.com/readium/r2-opds-js/compare/v1.0.0...develop
 
 Changes:
 * TODO
+
+# 1.0.0
+
+> Build environment: NodeJS `8.14.0`, NPM `6.5.0`
+
+Changes:
+* NPM updates (minor)
+* README info
+* VisualStudio code tweaks (developer workflow)
+* Semantic versioning bump 1.*.* (3-digit style now, "-alphaX" suffix caused issues with NPM tooling: updates, lockfile, etc.)
+
+Git revision info:
+* https://unpkg.com/r2-opds-js@1.0.0/dist/gitrev.json
+* https://github.com/edrlab/r2-opds-js-dist/blob/v1.0.0/dist/gitrev.json
+
+Git commit history:
+* https://github.com/readium/r2-opds-js/commits/v1.0.0
+
+Git diff:
+* https://github.com/readium/r2-opds-js/compare/v1.0.0-alpha.7...v1.0.0
 
 # 1.0.0-alpha.7
 
