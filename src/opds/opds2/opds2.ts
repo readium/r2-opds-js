@@ -20,7 +20,7 @@ import { OPDSLink } from "./opds2-link";
 import { OPDSMetadata } from "./opds2-metadata";
 import { OPDSPublication } from "./opds2-publication";
 
-// import { JsonStringConverter } from "@utils/ta-json-string-converter";
+// import { JsonStringConverter } from "@r2-utils-js/_utils/ta-json-string-converter";
 
 @JsonObject()
 export class OPDSFeed {

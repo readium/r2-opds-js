@@ -1,4 +1,4 @@
-import { XML } from "@utils/xml-js-mapper";
+import { XML } from "@r2-utils-js/_utils/xml-js-mapper";
 import { test } from "ava";
 import { JSON as TAJSON } from "ta-json-x";
 import * as xmldom from "xmldom";

@@ -5,13 +5,13 @@
 // that can be found in the LICENSE file exposed on Github (readium) in the project repository.
 // ==LICENSE-END==
 
-import { JsonDateConverter } from "@utils/ta-json-date-converter";
-import { JsonNumberConverter } from "@utils/ta-json-number-converter";
+import { JsonDateConverter } from "@r2-utils-js/_utils/ta-json-date-converter";
+import { JsonNumberConverter } from "@r2-utils-js/_utils/ta-json-number-converter";
 import {
     BufferConverter as XmlBufferConverter,
     DateConverter as XmlDateConverter,
     propertyConverters as xmlConverters,
-} from "@utils/xml-js-mapper";
+} from "@r2-utils-js/_utils/xml-js-mapper";
 import {
     BufferConverter as JsonBufferConverter,
     propertyConverters as jsonConverters,
