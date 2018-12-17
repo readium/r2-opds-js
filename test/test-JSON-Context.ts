@@ -1,4 +1,4 @@
-import { test } from "ava";
+import test from "ava";
 import { JSON as TAJSON } from "ta-json-x";
 
 import {
@@ -44,7 +44,7 @@ test("JSON SERIALIZE: OPDSFeed.Context => string[]", (t) => {
     t.is(json["@context"][1], contextStr2);
 });
 
-test("JSON SERIALIZE: OPDSFeed.Context => string[1] collapse-array", (t) => {
+test("JSON SERIALIZE: OPDSFeed.Context => string[1] NO collapse-array", (t) => {
 
     const pub = new OPDSFeed();
     pub.Context = [contextStr1];
@@ -60,8 +60,8 @@ test("JSON SERIALIZE: OPDSFeed.Context => string[1] collapse-array", (t) => {
     //     });
     logJSON(json);
 
-    checkType_String(t, json["@context"]);
-    t.is(json["@context"], contextStr1);
+    checkType_Array(t, json["@context"]);
+    t.is(json["@context"][0], contextStr1);
 });
 
 // implemented, see IPropertyConverter.collapseArrayWithSingleItem()
@@ -116,18 +116,18 @@ test("JSON DESERIALIZE: OPDSFeed.Context => string[1]", (t) => {
     t.is(pub.Context[0], contextStr1);
 });
 
-test("JSON DESERIALIZE: OPDSFeed.Context => string", (t) => {
+// test("JSON DESERIALIZE: OPDSFeed.Context => string", (t) => {
 
-    const json: any = {};
-    json["@context"] = contextStr1;
-    logJSON(json);
+//     const json: any = {};
+//     json["@context"] = contextStr1;
+//     logJSON(json);
 
-    const pub: OPDSFeed = TAJSON.deserialize<OPDSFeed>(json, OPDSFeed);
-    inspect(pub);
+//     const pub: OPDSFeed = TAJSON.deserialize<OPDSFeed>(json, OPDSFeed);
+//     inspect(pub);
 
-    checkType_Array(t, pub.Context);
-    t.is(pub.Context.length, 1);
+//     checkType_Array(t, pub.Context);
+//     t.is(pub.Context.length, 1);
 
-    checkType_String(t, pub.Context[0]);
-    t.is(pub.Context[0], contextStr1);
-});
+//     checkType_String(t, pub.Context[0]);
+//     t.is(pub.Context[0], contextStr1);
+// });

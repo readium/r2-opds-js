@@ -1,4 +1,4 @@
-import { test } from "ava";
+import test from "ava";
 import * as debug_ from "debug";
 
 const debug = debug_("r2:opds#test");

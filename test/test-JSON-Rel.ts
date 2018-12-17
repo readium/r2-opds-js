@@ -1,4 +1,4 @@
-import { test } from "ava";
+import test from "ava";
 import { JSON as TAJSON } from "ta-json-x";
 
 import {
