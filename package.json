@@ -67,6 +67,8 @@
     "json": "^9.0.6",
     "mkdirp": "^0.5.1",
     "rimraf": "^2.6.2",
+    "ts-node": "^7.0.1",
+    "tsconfig-paths": "^3.7.0",
     "tslint": "^5.11.0",
     "tslint-language-service": "^0.9.9",
     "typescript": "^3.2.2"
@@ -99,7 +101,7 @@
     "postbuild:all": "npm run afterdist",
     "clean": "rimraf ./dist && mkdirp ./dist",
     "lint": "npm run lint:all && npm run lint:typescript:full",
-    "lint:all": "eclint check \"**/*\" \"!**/*.node\" \"!.git/**/*\" \"!node_modules*/**/*\" \"!dist/**/*\" \"!misc/**/*\" \"!now/**/*\" \"!.vscode/**/*\" \"!.history/**/*\" \"!**/.DS_Store\" \"!**/*.epub\" \"!**/*.cbz\" \"!**/*.jpg\" \"!**/*.jpeg\" \"!**/*.png\" \"!**/*.log\"",
+    "lint:all": "eclint check \"**/*\" \"!**/*.node\" \"!.git/**/*\" \"!node_modules*/**/*\" \"!dist/**/*\" \"!ava-ts/**/*\" \"!misc/**/*\" \"!now/**/*\" \"!.vscode/**/*\" \"!.history/**/*\" \"!**/.DS_Store\" \"!**/*.epub\" \"!**/*.cbz\" \"!**/*.jpg\" \"!**/*.jpeg\" \"!**/*.png\" \"!**/*.log\"",
     "lint:typescript": "tslint -c \"./tslint.json\" \"./src/**/*.ts\" \"./test/**/*.ts\"",
     "lint:typescript:full": "tslint --project \"./tsconfig.json\" -c \"./tslint.json\" \"./src/**/*.ts\" \"./test/**/*.ts\"",
     "lintfix": "sed -i \"\" \"s/let normalizedPath = path\\\\.normalize(documentPath);/let normalizedPath = path.normalize(documentPath).toLowerCase();/g\" ./node_modules/tslint-language-service/out/src/index.js",
@@ -110,7 +112,8 @@
     "transpile:typescript:es8-es2017+afterdist": "npm run transpile:typescript:es8-es2017 && npm run afterdist",
     "transpile:typescript:single": "node tools/typescript_compile_single.js",
     "posttranspile:typescript:single": "npm run afterdist",
-    "test": "cross-env DEBUG=r2:* ava --verbose --fail-fast --serial --color \"./dist/es8-es2017/test/**/test*.js\"",
+    "test": "cross-env DEBUG=r2:* ava \"./dist/es8-es2017/test/**/test*.js\"",
+    "testTS": "cross-env DEBUG=r2:* TS_NODE_CACHE=true TS_NODE_CACHE_DIRECTORY=\"./ava-ts/\" TS_NODE_PRETTY=true ava \"./test/**/test*.ts\" --require \"ts-node/register\" --require \"tsconfig-paths/register\"",
     "prebuild:es5": "npm run lint && npm run clean",
     "build:es5": "npm run transpile:typescript:es5",
     "postbuild:es5": "npm run afterdist",
@@ -133,5 +136,18 @@
       "parser": "typescript",
       "style": "module"
     }
+  },
+  "ava": {
+    "babel": false,
+    "compileEnhancements": false,
+    "verbose": true,
+    "fail-fast": true,
+    "color": true,
+    "serial": true,
+    "no-cache": true,
+    "extensions": [
+      "js",
+      "ts"
+    ]
   }
 }
