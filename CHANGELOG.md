@@ -1,10 +1,27 @@
 # Next
 
 Git diff:
-* https://github.com/readium/r2-opds-js/compare/v1.0.2...develop
+* https://github.com/readium/r2-opds-js/compare/v1.0.3...develop
 
 Changes:
 * TODO
+
+# 1.0.3
+
+> Build environment: NodeJS `8.14.0`, NPM `6.5.0`
+
+Changes:
+* NPM updates
+
+Git revision info:
+* https://unpkg.com/r2-opds-js@1.0.3/dist/gitrev.json
+* https://github.com/edrlab/r2-opds-js-dist/blob/v1.0.3/dist/gitrev.json
+
+Git commit history:
+* https://github.com/readium/r2-opds-js/commits/v1.0.3
+
+Git diff:
+* https://github.com/readium/r2-opds-js/compare/v1.0.2...v1.0.3
 
 # 1.0.2
 
