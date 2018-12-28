@@ -17,11 +17,11 @@ import {
     propertyConverters as jsonConverters,
 } from "ta-json-x";
 
-import { OPDSCollection } from "./opds2/opds2-collection";
-import { JsonOPDSCollectionConverter } from "./opds2/opds2-collection-json-converter";
+// import { OPDSCollection } from "./opds2/opds2-collection";
+// import { JsonOPDSCollectionConverter } from "./opds2/opds2-collection-json-converter";
 
 export function initGlobalConverters_OPDS() {
-    jsonConverters.set(OPDSCollection, new JsonOPDSCollectionConverter());
+    // jsonConverters.set(OPDSCollection, new JsonOPDSCollectionConverter());
 }
 
 export function initGlobalConverters_GENERIC() {

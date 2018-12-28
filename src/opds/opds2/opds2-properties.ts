@@ -13,19 +13,45 @@ import {
     JsonProperty,
 } from "ta-json-x";
 
+import { OPDSAvailability } from "./opds2-availability";
+import { OPDSCopy } from "./opds2-copy";
+import { OPDSHold } from "./opds2-hold";
 import { OPDSIndirectAcquisition } from "./opds2-indirectAcquisition";
 import { OPDSPrice } from "./opds2-price";
 
+// tslint:disable-next-line:max-line-length
+// https://github.com/opds-community/drafts/blob/2d027051a725ae62defdc7829b597564e5b8e9e5/schema/properties.schema.json
 @JsonObject()
 export class OPDSProperties extends Properties {
 
+    // tslint:disable-next-line:max-line-length
+    // https://github.com/opds-community/drafts/blob/2d027051a725ae62defdc7829b597564e5b8e9e5/schema/properties.schema.json#L7
     @JsonProperty("numberOfItems")
     public NumberOfItems!: number;
 
+    // tslint:disable-next-line:max-line-length
+    // https://github.com/opds-community/drafts/blob/2d027051a725ae62defdc7829b597564e5b8e9e5/schema/properties.schema.json#L12
     @JsonProperty("price")
     public Price!: OPDSPrice;
 
+    // tslint:disable-next-line:max-line-length
+    // https://github.com/opds-community/drafts/blob/2d027051a725ae62defdc7829b597564e5b8e9e5/schema/properties.schema.json#L45
     @JsonProperty("indirectAcquisition")
     @JsonElementType(OPDSIndirectAcquisition)
     public IndirectAcquisitions!: OPDSIndirectAcquisition[];
+
+    // tslint:disable-next-line:max-line-length
+    // https://github.com/opds-community/drafts/blob/2d027051a725ae62defdc7829b597564e5b8e9e5/schema/properties.schema.json#L52
+    @JsonProperty("holds")
+    public Holds!: OPDSHold;
+
+    // tslint:disable-next-line:max-line-length
+    // https://github.com/opds-community/drafts/blob/2d027051a725ae62defdc7829b597564e5b8e9e5/schema/properties.schema.json#L66
+    @JsonProperty("copies")
+    public Copies!: OPDSCopy;
+
+    // tslint:disable-next-line:max-line-length
+    // https://github.com/opds-community/drafts/blob/2d027051a725ae62defdc7829b597564e5b8e9e5/schema/properties.schema.json#L80
+    @JsonProperty("availability")
+    public Availability!: OPDSAvailability;
 }

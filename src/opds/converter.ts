@@ -5,25 +5,30 @@
 // that can be found in the LICENSE file exposed on Github (readium) in the project repository.
 // ==LICENSE-END==
 
+import { Metadata } from "@r2-shared-js/models/metadata";
 import { BelongsTo } from "@r2-shared-js/models/metadata-belongsto";
+import { Contributor } from "@r2-shared-js/models/metadata-contributor";
 import { Subject } from "@r2-shared-js/models/metadata-subject";
+import { Link } from "@r2-shared-js/models/publication-link";
+
 import { OPDS } from "./opds1/opds";
 import { Entry } from "./opds1/opds-entry";
 import { OPDSFeed } from "./opds2/opds2";
-import { OPDSCollection } from "./opds2/opds2-collection";
-import { OPDSContributor } from "./opds2/opds2-contributor";
 import { OPDSIndirectAcquisition } from "./opds2/opds2-indirectAcquisition";
 import { OPDSLink } from "./opds2/opds2-link";
 import { OPDSMetadata } from "./opds2/opds2-metadata";
 import { OPDSPrice } from "./opds2/opds2-price";
 import { OPDSProperties } from "./opds2/opds2-properties";
 import { OPDSPublication } from "./opds2/opds2-publication";
-import { OPDSPublicationMetadata } from "./opds2/opds2-publicationMetadata";
+
+// import { OPDSCollection } from "./opds2/opds2-collection";
+// import { OPDSContributor } from "./opds2/opds2-contributor";
+// import { OPDSPublicationMetadata } from "./opds2/opds2-publicationMetadata";
 
 export function convertOpds1ToOpds2_EntryToPublication(entry: Entry): OPDSPublication {
 
     const p = new OPDSPublication();
-    p.Metadata = new OPDSPublicationMetadata();
+    p.Metadata = new Metadata();
     p.Metadata.Title = entry.Title;
     if (entry.DcIdentifier) {
         p.Metadata.Identifier = entry.DcIdentifier;
@@ -38,10 +43,10 @@ export function convertOpds1ToOpds2_EntryToPublication(entry: Entry): OPDSPublic
     p.Metadata.Rights = entry.DcRights;
     if (entry.Series) {
         entry.Series.forEach((s) => {
-            const coll = new OPDSCollection();
+            const coll = new Contributor();
             coll.Name = s.Name;
             coll.Position = s.Position;
-            const link = new OPDSLink();
+            const link = new Link();
             link.Href = s.Url;
             coll.Links = [];
             coll.Links.push(link);
@@ -56,7 +61,7 @@ export function convertOpds1ToOpds2_EntryToPublication(entry: Entry): OPDSPublic
         });
     }
     if (entry.DcPublisher) {
-        const c = new OPDSContributor();
+        const c = new Contributor();
         c.Name = entry.DcPublisher;
         if (!p.Metadata.Publisher) {
             p.Metadata.Publisher = [];
@@ -79,7 +84,7 @@ export function convertOpds1ToOpds2_EntryToPublication(entry: Entry): OPDSPublic
     if (entry.Authors) {
         entry.Authors.forEach((aut) => {
 
-            const cont = new OPDSContributor();
+            const cont = new Contributor();
             cont.Name = aut.Name;
             cont.Identifier = aut.Uri;
             if (!p.Metadata.Author) {
@@ -226,7 +231,7 @@ export function convertOpds1ToOpds2(feed: OPDS): OPDSFeed {
     if (feed.Authors) {
         feed.Authors.forEach((aut) => {
 
-            const cont = new OPDSContributor();
+            const cont = new Contributor();
             cont.Name = aut.Name;
             cont.Identifier = aut.Uri;
             if (!opds2feed.Metadata.Author) {

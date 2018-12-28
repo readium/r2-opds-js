@@ -5,9 +5,10 @@
 // that can be found in the LICENSE file exposed on Github (readium) in the project repository.
 // ==LICENSE-END==
 
+import { JsonStringConverter } from "@r2-utils-js/_utils/ta-json-string-converter";
 // https://github.com/edcarroll/ta-json
 import {
-    // JsonConverter,
+    JsonConverter,
     JsonElementType,
     JsonObject,
     JsonProperty,
@@ -20,35 +21,48 @@ import { OPDSLink } from "./opds2-link";
 import { OPDSMetadata } from "./opds2-metadata";
 import { OPDSPublication } from "./opds2-publication";
 
-// import { JsonStringConverter } from "@r2-utils-js/_utils/ta-json-string-converter";
-
 @JsonObject()
 export class OPDSFeed {
 
+    // TODO: not in JSON Schema?? https://github.com/opds-community/drafts/issues/23
+    // tslint:disable-next-line:max-line-length
+    // https://github.com/opds-community/drafts/blob/2d027051a725ae62defdc7829b597564e5b8e9e5/schema/feed.schema.json
     @JsonProperty("@context")
-    // @JsonConverter(JsonStringConverter)
     @JsonElementType(String)
+    @JsonConverter(JsonStringConverter)
     public Context!: string[];
 
+    // tslint:disable-next-line:max-line-length
+    // https://github.com/opds-community/drafts/blob/2d027051a725ae62defdc7829b597564e5b8e9e5/schema/feed.schema.json#L7
     @JsonProperty("metadata")
     public Metadata!: OPDSMetadata;
 
+    // tslint:disable-next-line:max-line-length
+    // https://github.com/opds-community/drafts/blob/2d027051a725ae62defdc7829b597564e5b8e9e5/schema/feed.schema.json#L11
     @JsonProperty("links")
     @JsonElementType(OPDSLink)
     public Links!: OPDSLink[];
 
+    // tslint:disable-next-line:max-line-length
+    // https://github.com/opds-community/drafts/blob/2d027051a725ae62defdc7829b597564e5b8e9e5/schema/feed.schema.json#L40
     @JsonProperty("publications")
     @JsonElementType(OPDSPublication)
     public Publications!: OPDSPublication[];
 
+    // tslint:disable-next-line:max-line-length
+    // https://github.com/opds-community/drafts/blob/2d027051a725ae62defdc7829b597564e5b8e9e5/schema/feed.schema.json#L48
     @JsonProperty("navigation")
     @JsonElementType(OPDSLink)
     public Navigation!: OPDSLink[];
 
+    // tslint:disable-next-line:max-line-length
+    // https://github.com/opds-community/drafts/blob/2d027051a725ae62defdc7829b597564e5b8e9e5/schema/feed.schema.json#L66
     @JsonProperty("facets")
     @JsonElementType(OPDSFacet)
     public Facets!: OPDSFacet[];
 
+    // tslint:disable-next-line:max-line-length
+    // https://github.com/opds-community/drafts/blob/2d027051a725ae62defdc7829b597564e5b8e9e5/schema/feed.schema.json#L86
     @JsonProperty("groups")
     @JsonElementType(OPDSGroup)
     public Groups!: OPDSGroup[];
@@ -247,12 +261,21 @@ export class OPDSFeed {
     @OnDeserialized()
     // tslint:disable-next-line:no-unused-variable
     // @ts-ignore: TS6133 (is declared but its value is never read.)
-    private _OnDeserialized() {
+    protected _OnDeserialized() {
+        // tslint:disable-next-line:max-line-length
+        // https://github.com/opds-community/drafts/blob/2d027051a725ae62defdc7829b597564e5b8e9e5/schema/feed.schema.json#L121
         if (!this.Metadata) {
             console.log("OPDS2Feed.Metadata is not set!");
         }
+        // tslint:disable-next-line:max-line-length
+        // https://github.com/opds-community/drafts/blob/2d027051a725ae62defdc7829b597564e5b8e9e5/schema/feed.schema.json#L122
         if (!this.Links) {
             console.log("OPDS2Feed.Links is not set!");
+        }
+        // tslint:disable-next-line:max-line-length
+        // https://github.com/opds-community/drafts/blob/2d027051a725ae62defdc7829b597564e5b8e9e5/schema/feed.schema.json#L127
+        if (!this.Publications && !this.Navigation && !this.Groups) {
+            console.log("One of OPDS2Feed.Publications|Navigation|Groups must be set!");
         }
     }
 }

@@ -1,3 +1,4 @@
+import { Metadata } from "@r2-shared-js/models/metadata";
 import { IStringMap } from "@r2-shared-js/models/metadata-multilang";
 import test from "ava";
 import { JSON as TAJSON } from "ta-json-x";
@@ -6,7 +7,6 @@ import {
     initGlobalConverters_GENERIC,
     initGlobalConverters_OPDS,
 } from "../src/opds/init-globals";
-import { OPDSPublicationMetadata } from "../src/opds/opds2/opds2-publicationMetadata";
 import {
     checkType_Object,
     checkType_String,
@@ -32,9 +32,9 @@ titleLangStr2[titleLang2] = titleStr1;
 
 // ==========================
 
-test("JSON SERIALIZE: OPDSPublicationMetadata.Title => string", (t) => {
+test("JSON SERIALIZE: Metadata.Title => string", (t) => {
 
-    const md = new OPDSPublicationMetadata();
+    const md = new Metadata();
     md.Title = titleStr1;
     inspect(md);
 
@@ -45,9 +45,9 @@ test("JSON SERIALIZE: OPDSPublicationMetadata.Title => string", (t) => {
     t.is(json.title, titleStr1);
 });
 
-test("JSON SERIALIZE: OPDSPublicationMetadata.Title => string-lang", (t) => {
+test("JSON SERIALIZE: Metadata.Title => string-lang", (t) => {
 
-    const md = new OPDSPublicationMetadata();
+    const md = new Metadata();
     md.Title = titleLangStr1;
     inspect(md);
 
@@ -63,26 +63,26 @@ test("JSON SERIALIZE: OPDSPublicationMetadata.Title => string-lang", (t) => {
     t.is(json.title[titleLang2], titleStr2);
 });
 
-test("JSON DESERIALIZE: OPDSPublicationMetadata.Title => string", (t) => {
+test("JSON DESERIALIZE: Metadata.Title => string", (t) => {
 
     const json: any = {};
     json.title = titleStr1;
     logJSON(json);
 
-    const md: OPDSPublicationMetadata = TAJSON.deserialize<OPDSPublicationMetadata>(json, OPDSPublicationMetadata);
+    const md: Metadata = TAJSON.deserialize<Metadata>(json, Metadata);
     inspect(md);
 
     checkType_String(t, md.Title);
     t.is(md.Title, titleStr1);
 });
 
-test("JSON DESERIALIZE: OPDSPublicationMetadata.Title => string-lang", (t) => {
+test("JSON DESERIALIZE: Metadata.Title => string-lang", (t) => {
 
     const json: any = {};
     json.title = titleLangStr1;
     logJSON(json);
 
-    const md: OPDSPublicationMetadata = TAJSON.deserialize<OPDSPublicationMetadata>(json, OPDSPublicationMetadata);
+    const md: Metadata = TAJSON.deserialize<Metadata>(json, Metadata);
     inspect(md);
 
     checkType_Object(t, md.Title);

@@ -13,12 +13,18 @@ import {
     OnDeserialized,
 } from "ta-json-x";
 
+// tslint:disable-next-line:max-line-length
+// https://github.com/opds-community/drafts/blob/4d82fb9a64f35a174a5f205c23ba623ec010d5ec/schema/acquisition-object.schema.json
 @JsonObject()
 export class OPDSIndirectAcquisition {
 
+    // tslint:disable-next-line:max-line-length
+    // https://github.com/opds-community/drafts/blob/4d82fb9a64f35a174a5f205c23ba623ec010d5ec/schema/acquisition-object.schema.json#L7
     @JsonProperty("type")
     public TypeAcquisition!: string;
 
+    // tslint:disable-next-line:max-line-length
+    // https://github.com/opds-community/drafts/blob/4d82fb9a64f35a174a5f205c23ba623ec010d5ec/schema/acquisition-object.schema.json#L10
     @JsonProperty("child")
     @JsonElementType(OPDSIndirectAcquisition)
     public Children!: OPDSIndirectAcquisition[];
@@ -26,7 +32,9 @@ export class OPDSIndirectAcquisition {
     @OnDeserialized()
     // tslint:disable-next-line:no-unused-variable
     // @ts-ignore: TS6133 (is declared but its value is never read.)
-    private _OnDeserialized() {
+    protected _OnDeserialized() {
+        // tslint:disable-next-line:max-line-length
+        // https://github.com/opds-community/drafts/blob/4d82fb9a64f35a174a5f205c23ba623ec010d5ec/schema/acquisition-object.schema.json#L18
         if (!this.TypeAcquisition) {
             console.log("OPDSIndirectAcquisition.TypeAcquisition is not set!");
         }

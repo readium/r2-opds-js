@@ -5,33 +5,45 @@
 // that can be found in the LICENSE file exposed on Github (readium) in the project repository.
 // ==LICENSE-END==
 
+import { Metadata } from "@r2-shared-js/models/metadata";
 import { BelongsTo } from "@r2-shared-js/models/metadata-belongsto";
-import { Publication } from "@r2-shared-js/models/publication";
+import { Contributor } from "@r2-shared-js/models/metadata-contributor";
+import { Link } from "@r2-shared-js/models/publication-link";
 // https://github.com/edcarroll/ta-json
 import {
     JsonElementType,
     JsonObject,
     JsonProperty,
+    OnDeserialized,
 } from "ta-json-x";
 
-import { OPDSCollection } from "./opds2-collection";
-import { OPDSContributor } from "./opds2-contributor";
 import { OPDSLink } from "./opds2-link";
-import { OPDSPublicationMetadata } from "./opds2-publicationMetadata";
 
+// import { Publication } from "@r2-shared-js/models/publication";
+
+// tslint:disable-next-line:max-line-length
+// https://github.com/opds-community/drafts/blob/4d82fb9a64f35a174a5f205c23ba623ec010d5ec/schema/publication.schema.json
 @JsonObject()
-export class OPDSPublication extends Publication {
+export class OPDSPublication { // extends Publication
 
+    // tslint:disable-next-line:max-line-length
+    // https://github.com/opds-community/drafts/blob/4d82fb9a64f35a174a5f205c23ba623ec010d5ec/schema/publication.schema.json#L7
+    // tslint:disable-next-line:max-line-length
+    // https://github.com/readium/webpub-manifest/blob/0ac78ab5c270a608c39b4b04fc90bd9b1d281896/schema/publication.schema.json#L13
     @JsonProperty("metadata")
-    public Metadata!: OPDSPublicationMetadata;
+    public Metadata!: Metadata;
 
+    // tslint:disable-next-line:max-line-length
+    // https://github.com/opds-community/drafts/blob/4d82fb9a64f35a174a5f205c23ba623ec010d5ec/schema/publication.schema.json#L10
     @JsonProperty("links")
     @JsonElementType(OPDSLink)
     public Links!: OPDSLink[];
 
+    // tslint:disable-next-line:max-line-length
+    // https://github.com/opds-community/drafts/blob/4d82fb9a64f35a174a5f205c23ba623ec010d5ec/schema/publication.schema.json#L52
     @JsonProperty("images")
-    @JsonElementType(OPDSLink)
-    public Images!: OPDSLink[];
+    @JsonElementType(Link)
+    public Images!: Link[];
 
     public findFirstLinkByRel(rel: string): OPDSLink | undefined {
 
@@ -41,7 +53,7 @@ export class OPDSPublication extends Publication {
     }
 
     public AddImage(href: string, typeImage: string, height: number, width: number) {
-        const i = new OPDSLink();
+        const i = new Link();
 
         i.Href = href;
         i.TypeLink = typeImage;
@@ -76,7 +88,7 @@ export class OPDSPublication extends Publication {
     }
 
     public AddAuthor(name: string, identifier: string, sortAs: string, href: string, typeLink: string) {
-        const c = new OPDSContributor();
+        const c = new Contributor();
         c.Name = name;
         if (identifier) {
             c.Identifier = identifier;
@@ -85,7 +97,7 @@ export class OPDSPublication extends Publication {
             c.SortAs = sortAs;
         }
 
-        const l = new OPDSLink();
+        const l = new Link();
         if (href) {
             l.Href = href;
         }
@@ -99,7 +111,7 @@ export class OPDSPublication extends Publication {
         }
 
         if (!this.Metadata) {
-            this.Metadata = new OPDSPublicationMetadata();
+            this.Metadata = new Metadata();
         }
         if (!this.Metadata.Author) {
             this.Metadata.Author = [];
@@ -109,11 +121,11 @@ export class OPDSPublication extends Publication {
 
     public AddSerie(name: string, position: number, href: string, typeLink: string) {
 
-        const c = new OPDSCollection();
+        const c = new Contributor();
         c.Name = name;
         c.Position = position;
 
-        const l = new OPDSLink();
+        const l = new Link();
         if (href) {
             l.Href = href;
         }
@@ -127,7 +139,7 @@ export class OPDSPublication extends Publication {
         }
 
         if (!this.Metadata) {
-            this.Metadata = new OPDSPublicationMetadata();
+            this.Metadata = new Metadata();
         }
         if (!this.Metadata.BelongsTo) {
             this.Metadata.BelongsTo = new BelongsTo();
@@ -140,10 +152,10 @@ export class OPDSPublication extends Publication {
     }
 
     public AddPublisher(name: string, href: string, typeLink: string) {
-        const c = new OPDSContributor();
+        const c = new Contributor();
         c.Name = name;
 
-        const l = new OPDSLink();
+        const l = new Link();
         if (href) {
             l.Href = href;
         }
@@ -157,7 +169,7 @@ export class OPDSPublication extends Publication {
         }
 
         if (!this.Metadata) {
-            this.Metadata = new OPDSPublicationMetadata();
+            this.Metadata = new Metadata();
         }
         if (!this.Metadata.Publisher) {
             this.Metadata.Publisher = [];
@@ -165,18 +177,24 @@ export class OPDSPublication extends Publication {
         this.Metadata.Publisher.push(c);
     }
 
-    // @OnDeserialized()
-    // // tslint:disable-next-line:no-unused-variable
-    // // @ts-ignore: TS6133 (is declared but its value is never read.)
-    // private _OnDeserialized() {
-    //     if (!this.Metadata) {
-    //         console.log("OPDSPublication.Metadata is not set!");
-    //     }
-    //     if (!this.Links) {
-    //         console.log("OPDSPublication.Links is not set!");
-    //     }
-    //     if (!this.Images) {
-    //         console.log("OPDSPublication.Images is not set!");
-    //     }
-    // }
+    @OnDeserialized()
+    // tslint:disable-next-line:no-unused-variable
+    // @ts-ignore: TS6133 (is declared but its value is never read.)
+    protected _OnDeserialized() {
+        // tslint:disable-next-line:max-line-length
+        // https://github.com/opds-community/drafts/blob/4d82fb9a64f35a174a5f205c23ba623ec010d5ec/schema/publication.schema.json#L78
+        if (!this.Metadata) {
+            console.log("OPDSPublication.Metadata is not set!");
+        }
+        // tslint:disable-next-line:max-line-length
+        // https://github.com/opds-community/drafts/blob/4d82fb9a64f35a174a5f205c23ba623ec010d5ec/schema/publication.schema.json#L79
+        if (!this.Links) {
+            console.log("OPDSPublication.Links is not set!");
+        }
+        // tslint:disable-next-line:max-line-length
+        // https://github.com/opds-community/drafts/blob/4d82fb9a64f35a174a5f205c23ba623ec010d5ec/schema/publication.schema.json#L80
+        if (!this.Images) {
+            console.log("OPDSPublication.Images is not set!");
+        }
+    }
 }

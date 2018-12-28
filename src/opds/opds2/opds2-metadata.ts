@@ -8,26 +8,28 @@
 import { Metadata } from "@r2-shared-js/models/metadata";
 // https://github.com/edcarroll/ta-json
 import {
-    JsonElementType,
+    // JsonElementType,
     JsonObject,
     JsonProperty,
 } from "ta-json-x";
 
-import { OPDSContributor } from "./opds2-contributor";
-
+// tslint:disable-next-line:max-line-length
+// https://github.com/opds-community/drafts/blob/4d82fb9a64f35a174a5f205c23ba623ec010d5ec/schema/feed-metadata.schema.json
 @JsonObject()
 export class OPDSMetadata extends Metadata {
 
-    @JsonProperty("author")
-    @JsonElementType(OPDSContributor)
-    public Author!: OPDSContributor[];
-
+    // tslint:disable-next-line:max-line-length
+    // https://github.com/opds-community/drafts/blob/4d82fb9a64f35a174a5f205c23ba623ec010d5ec/schema/feed-metadata.schema.json#L44
     @JsonProperty("numberOfItems")
     public NumberOfItems!: number;
 
+    // tslint:disable-next-line:max-line-length
+    // https://github.com/opds-community/drafts/blob/4d82fb9a64f35a174a5f205c23ba623ec010d5ec/schema/feed-metadata.schema.json#L36
     @JsonProperty("itemsPerPage")
     public ItemsPerPage!: number;
 
+    // tslint:disable-next-line:max-line-length
+    // https://github.com/opds-community/drafts/blob/4d82fb9a64f35a174a5f205c23ba623ec010d5ec/schema/feed-metadata.schema.json#L40
     @JsonProperty("currentPage")
     public CurrentPage!: number;
 }

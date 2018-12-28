@@ -1,3 +1,4 @@
+import { Metadata } from "@r2-shared-js/models/metadata";
 import { XML } from "@r2-utils-js/_utils/xml-js-mapper";
 import test from "ava";
 import { JSON as TAJSON } from "ta-json-x";
@@ -8,7 +9,6 @@ import {
     initGlobalConverters_OPDS,
 } from "../src/opds/init-globals";
 import { Entry } from "../src/opds/opds1/opds-entry";
-import { OPDSPublicationMetadata } from "../src/opds/opds2/opds2-publicationMetadata";
 import {
     checkDate,
     checkType,
@@ -32,9 +32,9 @@ const dateSTR = "2000-12-31T23:59:59.999Z";
 
 // ==========================
 
-test("JSON SERIALIZE: OPDSPublicationMetadata.Modified => Date", (t) => {
+test("JSON SERIALIZE: Metadata.Modified => Date", (t) => {
 
-    const md = new OPDSPublicationMetadata();
+    const md = new Metadata();
     md.Modified = date;
     inspect(md);
 
@@ -47,13 +47,13 @@ test("JSON SERIALIZE: OPDSPublicationMetadata.Modified => Date", (t) => {
 
 // ==========================
 
-test("JSON DESERIALIZE: OPDSPublicationMetadata.Modified => Date", (t) => {
+test("JSON DESERIALIZE: Metadata.Modified => Date", (t) => {
 
     const json: any = {};
     json.modified = dateSTR;
     logJSON(json);
 
-    const md: OPDSPublicationMetadata = TAJSON.deserialize<OPDSPublicationMetadata>(json, OPDSPublicationMetadata);
+    const md: Metadata = TAJSON.deserialize<Metadata>(json, Metadata);
     inspect(md);
 
     checkType(t, md.Modified, Date);

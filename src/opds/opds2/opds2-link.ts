@@ -14,9 +14,17 @@ import {
 
 import { OPDSProperties } from "./opds2-properties";
 
+// TODO: extend/inheritance
+// https://github.com/opds-community/drafts/issues/20
+// tslint:disable-next-line:max-line-length
+// https://github.com/opds-community/drafts/blob/4d82fb9a64f35a174a5f205c23ba623ec010d5ec/schema/link.schema.json
 @JsonObject()
 export class OPDSLink extends Link {
 
+    // tslint:disable-next-line:max-line-length
+    // https://github.com/opds-community/drafts/blob/4d82fb9a64f35a174a5f205c23ba623ec010d5ec/schema/link.schema.json#L29
+    // tslint:disable-next-line:max-line-length
+    // https://github.com/opds-community/drafts/blob/2d027051a725ae62defdc7829b597564e5b8e9e5/schema/properties.schema.json
     @JsonProperty("properties")
     public Properties!: OPDSProperties;
 }
