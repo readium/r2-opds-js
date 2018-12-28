@@ -6,3 +6,5 @@
 // ==LICENSE-END==
 
 // declare module "*";
+
+declare module "json-diff";
