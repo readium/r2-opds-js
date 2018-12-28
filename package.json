@@ -46,7 +46,7 @@
   },
   "homepage": "https://github.com/readium/r2-opds-js",
   "dependencies": {
-    "debug": "^4.1.0",
+    "debug": "^4.1.1",
     "r2-shared-js": "^1.0.5",
     "r2-utils-js": "^1.0.4",
     "ta-json-x": "^2.5.0",
