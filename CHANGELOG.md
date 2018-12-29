@@ -1,10 +1,28 @@
 # Next
 
 Git diff:
-* https://github.com/readium/r2-opds-js/compare/v1.0.4...develop
+* https://github.com/readium/r2-opds-js/compare/v1.0.5...develop
 
 Changes:
 * TODO
+
+# 1.0.5
+
+> Build environment: NodeJS `8.14.1`, NPM `6.4.1`
+
+Changes:
+* Reviewed and annotated the data models based on the most current JSON Schema (significant unit test updates to match)
+* Minor NPM updates
+
+Git revision info:
+* https://unpkg.com/r2-opds-js@1.0.5/dist/gitrev.json
+* https://github.com/edrlab/r2-opds-js-dist/blob/v1.0.5/dist/gitrev.json
+
+Git commit history:
+* https://github.com/readium/r2-opds-js/commits/v1.0.5
+
+Git diff:
+* https://github.com/readium/r2-opds-js/compare/v1.0.4...v1.0.5
 
 # 1.0.4
 
