@@ -96,13 +96,13 @@ export function convertOpds1ToOpds2_EntryToPublication(entry: Entry): OPDSPublic
 
     if (entry.Summary) {
         p.Metadata.Description = ((entry.SummaryType === "text/html" || entry.SummaryType === "html") ?
-            entry.Summary.replace(/ xmlns="[^"]+"/g, "") : // xmlns="http://www.w3.org/2005/Atom"
+            entry.Summary.replace(/ xmlns=["'][^"']+["']/g, "") : // xmlns="http://www.w3.org/2005/Atom"
             entry.Summary);
     }
 
     if (entry.Content) {
         const txt = ((entry.ContentType === "text/html" || entry.ContentType === "html") ?
-            entry.Content.replace(/ xmlns="[^"]+"/g, "") : // xmlns="http://www.w3.org/2005/Atom"
+            entry.Content.replace(/ xmlns=["'][^"']+["']/g, "") : // xmlns="http://www.w3.org/2005/Atom"
             entry.Content);
 
         if (p.Metadata.Description) {
@@ -182,7 +182,7 @@ export function convertOpds1ToOpds2_EntryToLink(entry: Entry): OPDSLink {
 
     if (entry.Summary) {
         const txt = ((entry.SummaryType === "text/html" || entry.SummaryType === "html") ?
-            entry.Summary.replace(/ xmlns="[^"]+"/g, "") : // xmlns="http://www.w3.org/2005/Atom"
+            entry.Summary.replace(/ xmlns=["'][^"']+["']/g, "") : // xmlns="http://www.w3.org/2005/Atom"
             entry.Summary);
 
         if (linkNav.Title) {
@@ -195,7 +195,7 @@ export function convertOpds1ToOpds2_EntryToLink(entry: Entry): OPDSLink {
 
     if (entry.Content) {
         const txt = ((entry.ContentType === "text/html" || entry.ContentType === "html") ?
-            entry.Content.replace(/ xmlns="[^"]+"/g, "") : // xmlns="http://www.w3.org/2005/Atom"
+            entry.Content.replace(/ xmlns=["'][^"']+["']/g, "") : // xmlns="http://www.w3.org/2005/Atom"
             entry.Content);
 
         if (linkNav.Title) {
