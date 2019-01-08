@@ -162,7 +162,7 @@ import { OPDSPublication } from "@opds/opds2/opds2-publication";
 var opds2Feed: OPDSFeed;
 const opds2Feed_JSON = TAJSON.serialize(opds2Feed);
 // ...and the reverse:
-opds2Feed = TAJSON.deserialize<OOPDSFeedPDS>(opds2Feed_JSON, OPDSFeed);
+opds2Feed = TAJSON.deserialize<OPDSFeed>(opds2Feed_JSON, OPDSFeed);
 
 
 // publication
