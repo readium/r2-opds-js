@@ -48,7 +48,7 @@
   "dependencies": {
     "debug": "^4.1.1",
     "r2-shared-js": "^1.0.7",
-    "r2-utils-js": "^1.0.5",
+    "r2-utils-js": "^1.0.6",
     "ta-json-x": "^2.5.0",
     "tslib": "^1.9.3",
     "xmldom": "^0.1.27"
