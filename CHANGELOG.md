@@ -1,7 +1,7 @@
 # Next
 
 Git diff:
-* https://github.com/readium/r2-opds-js/compare/v1.0.8...develop
+* https://github.com/readium/r2-opds-js/compare/v1.0.7...develop
 
 Changes:
 * TODO
