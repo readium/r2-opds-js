@@ -55,7 +55,7 @@
   },
   "devDependencies": {
     "@types/debug": "^4.1.4",
-    "@types/node": "^8.10.46",
+    "@types/node": "^10.14.6",
     "@types/xmldom": "^0.1.29",
     "ava": "^1.4.1",
     "cpy-cli": "^2.0.0",
