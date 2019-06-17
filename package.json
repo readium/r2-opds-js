@@ -50,7 +50,7 @@
     "r2-shared-js": "^1.0.11",
     "r2-utils-js": "^1.0.9",
     "ta-json-x": "^2.5.0",
-    "tslib": "^1.9.3",
+    "tslib": "^1.10.0",
     "xmldom": "^0.1.27"
   },
   "devDependencies": {
@@ -70,9 +70,9 @@
     "rimraf": "^2.6.3",
     "ts-node": "^8.1.0",
     "tsconfig-paths": "^3.8.0",
-    "tslint": "^5.16.0",
+    "tslint": "^5.17.0",
     "tslint-language-service": "^0.9.9",
-    "typescript": "^3.4.5"
+    "typescript": "^3.5.2"
   },
   "main": "dist/es6-es2015/src/opds/converter.js",
   "types": "dist/es6-es2015/src/opds/converter.d.js",
