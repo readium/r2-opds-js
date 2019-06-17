@@ -138,18 +138,5 @@
       "parser": "typescript",
       "style": "module"
     }
-  },
-  "ava": {
-    "babel": false,
-    "compileEnhancements": false,
-    "verbose": true,
-    "fail-fast": true,
-    "color": true,
-    "serial": true,
-    "no-cache": true,
-    "extensions": [
-      "js",
-      "ts"
-    ]
   }
 }
