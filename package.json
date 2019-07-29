@@ -1,6 +1,6 @@
 {
   "name": "r2-opds-js",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "Readium 2 'opds' for NodeJS (TypeScript)",
   "keywords": [
     "readium",
@@ -47,8 +47,8 @@
   "homepage": "https://github.com/readium/r2-opds-js",
   "dependencies": {
     "debug": "^4.1.1",
-    "r2-shared-js": "^1.0.13",
-    "r2-utils-js": "^1.0.10",
+    "r2-shared-js": "^1.0.14",
+    "r2-utils-js": "^1.0.11",
     "ta-json-x": "^2.5.0",
     "tslib": "^1.10.0",
     "xmldom": "^0.1.27"
@@ -57,12 +57,12 @@
     "@types/debug": "^4.1.4",
     "@types/node": "^10.14.6",
     "@types/xmldom": "^0.1.29",
-    "ava": "^2.1.0",
+    "ava": "^2.2.0",
     "cpy-cli": "^2.0.0",
     "cross-env": "^5.2.0",
     "cson": "^5.1.0",
     "eclint": "^2.8.1",
-    "filehound": "^1.17.0",
+    "filehound": "^1.17.3",
     "git-rev-sync": "^1.12.0",
     "json": "^9.0.6",
     "json-diff": "^0.5.4",
@@ -70,9 +70,9 @@
     "rimraf": "^2.6.3",
     "ts-node": "^8.3.0",
     "tsconfig-paths": "^3.8.0",
-    "tslint": "^5.17.0",
+    "tslint": "^5.18.0",
     "tslint-language-service": "^0.9.9",
-    "typescript": "^3.5.2"
+    "typescript": "^3.5.3"
   },
   "main": "dist/es6-es2015/src/opds/converter.js",
   "types": "dist/es6-es2015/src/opds/converter.d.js",
