@@ -1,21 +1,13 @@
-import { Metadata } from "@r2-shared-js/models/metadata";
-import { XML } from "@r2-utils-js/_utils/xml-js-mapper";
 import test from "ava";
 import { JSON as TAJSON } from "ta-json-x";
 import * as xmldom from "xmldom";
 
-import {
-    initGlobalConverters_GENERIC,
-    initGlobalConverters_OPDS,
-} from "../src/opds/init-globals";
+import { Metadata } from "@r2-shared-js/models/metadata";
+import { XML } from "@r2-utils-js/_utils/xml-js-mapper";
+
+import { initGlobalConverters_GENERIC, initGlobalConverters_OPDS } from "../src/opds/init-globals";
 import { Entry } from "../src/opds/opds1/opds-entry";
-import {
-    checkDate,
-    checkType,
-    checkType_String,
-    inspect,
-    logJSON,
-} from "./helpers";
+import { checkDate, checkType, checkType_String, inspect, logJSON } from "./helpers";
 
 initGlobalConverters_OPDS();
 initGlobalConverters_GENERIC();

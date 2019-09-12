@@ -5,17 +5,13 @@
 // that can be found in the LICENSE file exposed on Github (readium) in the project repository.
 // ==LICENSE-END==
 
+// https://github.com/edcarroll/ta-json
+import { JsonElementType, JsonObject, JsonProperty, OnDeserialized } from "ta-json-x";
+
 import { Metadata } from "@r2-shared-js/models/metadata";
 import { BelongsTo } from "@r2-shared-js/models/metadata-belongsto";
 import { Contributor } from "@r2-shared-js/models/metadata-contributor";
 import { Link } from "@r2-shared-js/models/publication-link";
-// https://github.com/edcarroll/ta-json
-import {
-    JsonElementType,
-    JsonObject,
-    JsonProperty,
-    OnDeserialized,
-} from "ta-json-x";
 
 import { OPDSLink } from "./opds2-link";
 

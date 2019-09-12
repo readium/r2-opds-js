@@ -6,12 +6,7 @@
 // ==LICENSE-END==
 
 // https://github.com/edcarroll/ta-json
-import {
-    JsonElementType,
-    JsonObject,
-    JsonProperty,
-    OnDeserialized,
-} from "ta-json-x";
+import { JsonElementType, JsonObject, JsonProperty, OnDeserialized } from "ta-json-x";
 
 // tslint:disable-next-line:max-line-length
 // https://github.com/opds-community/drafts/blob/4d82fb9a64f35a174a5f205c23ba623ec010d5ec/schema/acquisition-object.schema.json

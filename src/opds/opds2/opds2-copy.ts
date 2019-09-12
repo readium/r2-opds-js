@@ -6,9 +6,7 @@
 // ==LICENSE-END==
 
 // https://github.com/edcarroll/ta-json
-import {
-    JsonProperty,
-} from "ta-json-x";
+import { JsonProperty } from "ta-json-x";
 
 // tslint:disable-next-line:max-line-length
 // https://github.com/opds-community/drafts/blob/2d027051a725ae62defdc7829b597564e5b8e9e5/schema/properties.schema.json#L66

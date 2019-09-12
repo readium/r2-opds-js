@@ -1,21 +1,17 @@
+import test, { ExecutionContext } from "ava";
+import * as debug_ from "debug";
 import * as https from "https";
+import * as jsonDiff from "json-diff";
+import { JSON as TAJSON } from "ta-json-x";
 import { URL } from "url";
+import * as xmldom from "xmldom";
 
 import { Publication } from "@r2-shared-js/models/publication";
 import { sortObject, traverseJsonObjects } from "@r2-utils-js/_utils/JsonUtils";
 import { XML } from "@r2-utils-js/_utils/xml-js-mapper";
-import { ExecutionContext } from "ava";
-import test from "ava";
-import * as debug_ from "debug";
-import * as jsonDiff from "json-diff";
-import { JSON as TAJSON } from "ta-json-x";
-import * as xmldom from "xmldom";
 
 import { convertOpds1ToOpds2 } from "../src/opds/converter";
-import {
-    initGlobalConverters_GENERIC,
-    initGlobalConverters_OPDS,
-} from "../src/opds/init-globals";
+import { initGlobalConverters_GENERIC, initGlobalConverters_OPDS } from "../src/opds/init-globals";
 import { OPDS } from "../src/opds/opds1/opds";
 import { OPDSFeed } from "../src/opds/opds2/opds2";
 import { OPDSPublication } from "../src/opds/opds2/opds2-publication";

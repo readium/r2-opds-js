@@ -5,13 +5,10 @@
 // that can be found in the LICENSE file exposed on Github (readium) in the project repository.
 // ==LICENSE-END==
 
-import { Metadata } from "@r2-shared-js/models/metadata";
 // https://github.com/edcarroll/ta-json
-import {
-    // JsonElementType,
-    JsonObject,
-    JsonProperty,
-} from "ta-json-x";
+import { JsonObject, JsonProperty } from "ta-json-x";
+
+import { Metadata } from "@r2-shared-js/models/metadata";
 
 // tslint:disable-next-line:max-line-length
 // https://github.com/opds-community/drafts/blob/4d82fb9a64f35a174a5f205c23ba623ec010d5ec/schema/feed-metadata.schema.json

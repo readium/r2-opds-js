@@ -6,12 +6,7 @@
 // ==LICENSE-END==
 
 // https://github.com/edcarroll/ta-json
-import {
-    JsonElementType,
-    JsonObject,
-    JsonProperty,
-    // OnDeserialized,
-} from "ta-json-x";
+import { JsonElementType, JsonObject, JsonProperty } from "ta-json-x";
 
 import { OPDSLink } from "./opds2-link";
 import { OPDSMetadata } from "./opds2-metadata";

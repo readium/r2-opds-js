@@ -1,18 +1,11 @@
-import { Metadata } from "@r2-shared-js/models/metadata";
-import { IStringMap } from "@r2-shared-js/models/metadata-multilang";
 import test from "ava";
 import { JSON as TAJSON } from "ta-json-x";
 
-import {
-    initGlobalConverters_GENERIC,
-    initGlobalConverters_OPDS,
-} from "../src/opds/init-globals";
-import {
-    checkType_Object,
-    checkType_String,
-    inspect,
-    logJSON,
-} from "./helpers";
+import { Metadata } from "@r2-shared-js/models/metadata";
+import { IStringMap } from "@r2-shared-js/models/metadata-multilang";
+
+import { initGlobalConverters_GENERIC, initGlobalConverters_OPDS } from "../src/opds/init-globals";
+import { checkType_Object, checkType_String, inspect, logJSON } from "./helpers";
 
 initGlobalConverters_OPDS();
 initGlobalConverters_GENERIC();

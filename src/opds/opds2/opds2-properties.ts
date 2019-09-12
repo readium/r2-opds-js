@@ -5,13 +5,10 @@
 // that can be found in the LICENSE file exposed on Github (readium) in the project repository.
 // ==LICENSE-END==
 
-import { Properties } from "@r2-shared-js/models/metadata-properties";
 // https://github.com/edcarroll/ta-json
-import {
-    JsonElementType,
-    JsonObject,
-    JsonProperty,
-} from "ta-json-x";
+import { JsonElementType, JsonObject, JsonProperty } from "ta-json-x";
+
+import { Properties } from "@r2-shared-js/models/metadata-properties";
 
 import { OPDSAvailability } from "./opds2-availability";
 import { OPDSCopy } from "./opds2-copy";

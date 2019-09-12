@@ -1,17 +1,9 @@
 import test from "ava";
 import { JSON as TAJSON } from "ta-json-x";
 
-import {
-    initGlobalConverters_GENERIC,
-    initGlobalConverters_OPDS,
-} from "../src/opds/init-globals";
+import { initGlobalConverters_GENERIC, initGlobalConverters_OPDS } from "../src/opds/init-globals";
 import { OPDSLink } from "../src/opds/opds2/opds2-link";
-import {
-    checkType_Array,
-    checkType_String,
-    inspect,
-    logJSON,
-} from "./helpers";
+import { checkType_Array, checkType_String, inspect, logJSON } from "./helpers";
 
 initGlobalConverters_OPDS();
 initGlobalConverters_GENERIC();
