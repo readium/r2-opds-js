@@ -250,6 +250,11 @@ export function convertOpds1ToOpds2(feed: OPDS): OPDSFeed {
             if (entry.Links) {
                 entry.Links.forEach((l) => {
 
+                    // fix incorrect JPEG content type
+                    if (l.Type === "image/jpg") {
+                        l.Type = "image/jpeg";
+                    }
+
                     // if (l.HasRel("http://opds-spec.org/acquisition")
                     //     || l.HasRel("http://opds-spec.org/acquisition/buy")) {
                     if ((l.Rel && l.Rel.indexOf("http://opds-spec.org/acquisition") === 0) ||
