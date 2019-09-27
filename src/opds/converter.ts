@@ -159,7 +159,9 @@ export function convertOpds1ToOpds2_EntryToPublication(entry: Entry): OPDSPublic
             if (link.HasRel("collection") || link.HasRel("http://opds-spec.org/group")) {
                 // NOOP
             } else if (link.HasRel("http://opds-spec.org/image") ||
-                link.HasRel("http://opds-spec.org/image/thumbnail")) {
+                link.HasRel("http://opds-spec.org/image/thumbnail") ||
+                link.HasRel("x-stanza-cover-image") ||
+                link.HasRel("x-stanza-cover-image-thumbnail")) {
                 if (!p.Images) {
                     p.Images = [];
                 }
