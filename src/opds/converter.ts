@@ -250,7 +250,8 @@ export function convertOpds1ToOpds2(feed: OPDS): OPDSFeed {
 
                     // if (l.HasRel("http://opds-spec.org/acquisition")
                     //     || l.HasRel("http://opds-spec.org/acquisition/buy")) {
-                    if (l.Rel && l.Rel.indexOf("http://opds-spec.org/acquisition") === 0) {
+                    if (l.Rel && l.Rel.indexOf("http://opds-spec.org/acquisition") === 0 ||
+                        l.Type === "application/epub+zip") { // workaround for feed links with missing rel
                         isAnNavigation = false;
                     }
                     if (l.HasRel("collection") || l.HasRel("http://opds-spec.org/group")) {
