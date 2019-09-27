@@ -1,10 +1,31 @@
 # Next
 
 Git diff:
-* https://github.com/readium/r2-opds-js/compare/v1.0.13...develop
+* https://github.com/readium/r2-opds-js/compare/v1.0.14...develop
 
 Changes:
 * TODO
+
+# 1.0.14
+
+> Build environment: NodeJS `10.16.3`, NPM `6.11.3`
+
+Changes:
+* NPM updates
+* OPDS JSON Schema uri-reference validator was failing on space characters (but not unicode chars)
+* OPDS v1-v2 converter auto-fixes incorrect JPEG content type
+* OPDS support for x-stanza image mime type
+* OPDS parser adds link rel acquisition when missing, inferred from EPUB link type
+
+Git revision info:
+* https://unpkg.com/r2-opds-js@1.0.14/dist/gitrev.json
+* https://github.com/edrlab/r2-opds-js-dist/blob/v1.0.14/dist/gitrev.json
+
+Git commit history:
+* https://github.com/readium/r2-opds-js/commits/v1.0.14
+
+Git diff:
+* https://github.com/readium/r2-opds-js/compare/v1.0.13...v1.0.14
 
 # 1.0.13
 
