@@ -250,6 +250,11 @@ export function convertOpds1ToOpds2(feed: OPDS): OPDSFeed {
             if (entry.Links) {
                 entry.Links.forEach((l) => {
 
+                    // the JSON Schema uri-reference validator trips on space characters, but not unicode chars
+                    if (l.Href) {
+                        l.Href = l.Href.replace(/ /g, "%20");
+                    }
+
                     // fix incorrect JPEG content type
                     if (l.Type === "image/jpg") {
                         l.Type = "image/jpeg";
@@ -298,6 +303,11 @@ export function convertOpds1ToOpds2(feed: OPDS): OPDSFeed {
 
     if (feed.Links) {
         feed.Links.forEach((l) => {
+
+            // the JSON Schema uri-reference validator trips on space characters, but not unicode chars
+            if (l.Href) {
+                l.Href = l.Href.replace(/ /g, "%20");
+            }
 
             const linkFeed = new OPDSLink();
             linkFeed.Href = l.Href;
