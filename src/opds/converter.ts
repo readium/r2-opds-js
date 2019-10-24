@@ -121,6 +121,13 @@ export function convertOpds1ToOpds2_EntryToPublication(entry: Entry): OPDSPublic
             l.AddRel(link.Rel);
             l.Title = link.Title;
 
+            if (link.ThrCount) {
+                if (!l.Properties) {
+                    l.Properties = new OPDSProperties();
+                }
+                l.Properties.NumberOfItems = link.ThrCount;
+            }
+
             if (link.OpdsIndirectAcquisitions && link.OpdsIndirectAcquisitions.length) {
                 if (!l.Properties) {
                     l.Properties = new OPDSProperties();
@@ -214,6 +221,14 @@ export function convertOpds1ToOpds2_EntryToLink(entry: Entry): OPDSLink {
         });
         const link = atomLink ? atomLink : (entry.Links[0] ? entry.Links[0] : undefined);
         if (link) {
+
+            if (link.ThrCount) {
+                if (!linkNav.Properties) {
+                    linkNav.Properties = new OPDSProperties();
+                }
+                linkNav.Properties.NumberOfItems = link.ThrCount;
+            }
+
             linkNav.AddRel(link.Rel);
             linkNav.TypeLink = link.Type;
             linkNav.Href = link.Href;
@@ -257,6 +272,13 @@ export function convertOpds1ToOpds2(feed: OPDS): OPDSFeed {
 
             if (entry.Links) {
                 entry.Links.forEach((l) => {
+
+                    if (l.ThrCount) {
+                        if (!collLink.Properties) {
+                            collLink.Properties = new OPDSProperties();
+                        }
+                        collLink.Properties.NumberOfItems = l.ThrCount;
+                    }
 
                     // the JSON Schema uri-reference validator trips on space characters, but not unicode chars
                     if (l.Href) {
@@ -331,9 +353,14 @@ export function convertOpds1ToOpds2(feed: OPDS): OPDSFeed {
             linkFeed.TypeLink = l.Type;
             linkFeed.Title = l.Title;
 
-            if (l.HasRel("http://opds-spec.org/facet")) {
-                linkFeed.Properties = new OPDSProperties();
+            if (l.ThrCount) {
+                if (!linkFeed.Properties) {
+                    linkFeed.Properties = new OPDSProperties();
+                }
                 linkFeed.Properties.NumberOfItems = l.ThrCount;
+            }
+
+            if (l.HasRel("http://opds-spec.org/facet")) {
                 opds2feed.AddFacet(linkFeed, l.FacetGroup);
             } else {
                 if (!opds2feed.Links) {
