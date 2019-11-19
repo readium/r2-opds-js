@@ -29,7 +29,23 @@ export function convertOpds1ToOpds2_EntryToPublication(entry: Entry): OPDSPublic
 
     const p = new OPDSPublication();
     p.Metadata = new Metadata();
-    p.Metadata.Title = entry.Title;
+
+    if (entry.Title) {
+        // tslint:disable-next-line: max-line-length
+        p.Metadata.Title = ((entry.TitleType === "text/html" || entry.TitleType === "html" || entry.TitleType === "xhtml") ?
+            // entry.Title.replace(/xmlns=["'][^"']+["']/g, " ") :
+            entry.Title.replace(/xmlns=["']http:\/\/www\.w3\.org\/2005\/Atom["']/g, " ") :
+            entry.Title);
+    }
+
+    if (entry.SubTitle) {
+        // tslint:disable-next-line: max-line-length
+        p.Metadata.SubTitle = ((entry.SubTitleType === "text/html" || entry.SubTitleType === "html" || entry.SubTitleType === "xhtml") ?
+            // entry.SubTitle.replace(/xmlns=["'][^"']+["']/g, " ") :
+            entry.SubTitle.replace(/xmlns=["']http:\/\/www\.w3\.org\/2005\/Atom["']/g, " ") :
+            entry.SubTitle);
+    }
+
     if (entry.DcIdentifier) {
         p.Metadata.Identifier = entry.DcIdentifier;
     } else {
@@ -95,14 +111,18 @@ export function convertOpds1ToOpds2_EntryToPublication(entry: Entry): OPDSPublic
     }
 
     if (entry.Summary) {
-        p.Metadata.Description = ((entry.SummaryType === "text/html" || entry.SummaryType === "html") ?
-            entry.Summary.replace(/ xmlns=["'][^"']+["']/g, "") : // xmlns="http://www.w3.org/2005/Atom"
+        // tslint:disable-next-line: max-line-length
+        p.Metadata.Description = ((entry.SummaryType === "text/html" || entry.SummaryType === "html" || entry.SummaryType === "xhtml") ?
+            // entry.Summary.replace(/xmlns=["'][^"']+["']/g, " ") :
+            entry.Summary.replace(/xmlns=["']http:\/\/www\.w3\.org\/2005\/Atom["']/g, " ") :
             entry.Summary);
     }
 
     if (entry.Content) {
-        const txt = ((entry.ContentType === "text/html" || entry.ContentType === "html") ?
-            entry.Content.replace(/ xmlns=["'][^"']+["']/g, "") : // xmlns="http://www.w3.org/2005/Atom"
+        // tslint:disable-next-line: max-line-length
+        const txt = ((entry.ContentType === "text/html" || entry.ContentType === "html" || entry.ContentType === "xhtml") ?
+            // entry.Content.replace(/xmlns=["'][^"']+["']/g, " ") :
+            entry.Content.replace(/xmlns=["']http:\/\/www\.w3\.org\/2005\/Atom["']/g, " ") :
             entry.Content);
 
         if (p.Metadata.Description) {
@@ -202,11 +222,20 @@ export function convertOpds1ToOpds2_EntryToPublication(entry: Entry): OPDSPublic
 export function convertOpds1ToOpds2_EntryToLink(entry: Entry): OPDSLink {
 
     const linkNav = new OPDSLink();
-    linkNav.Title = entry.Title;
+
+    if (entry.Title) {
+        // tslint:disable-next-line: max-line-length
+        linkNav.Title = ((entry.TitleType === "text/html" || entry.TitleType === "html" || entry.TitleType === "xhtml") ?
+            // entry.Title.replace(/xmlns=["'][^"']+["']/g, " ") :
+            entry.Title.replace(/xmlns=["']http:\/\/www\.w3\.org\/2005\/Atom["']/g, " ") :
+            entry.Title);
+    }
 
     if (entry.Summary) {
-        const txt = ((entry.SummaryType === "text/html" || entry.SummaryType === "html") ?
-            entry.Summary.replace(/ xmlns=["'][^"']+["']/g, "") : // xmlns="http://www.w3.org/2005/Atom"
+        // tslint:disable-next-line: max-line-length
+        const txt = ((entry.SummaryType === "text/html" || entry.SummaryType === "html" || entry.SummaryType === "xhtml") ?
+            // entry.Summary.replace(/xmlns=["'][^"']+["']/g, " ") :
+            entry.Summary.replace(/xmlns=["']http:\/\/www\.w3\.org\/2005\/Atom["']/g, " ") :
             entry.Summary);
 
         if (linkNav.Title) {
@@ -218,8 +247,10 @@ export function convertOpds1ToOpds2_EntryToLink(entry: Entry): OPDSLink {
     }
 
     if (entry.Content) {
-        const txt = ((entry.ContentType === "text/html" || entry.ContentType === "html") ?
-            entry.Content.replace(/ xmlns=["'][^"']+["']/g, "") : // xmlns="http://www.w3.org/2005/Atom"
+        // tslint:disable-next-line: max-line-length
+        const txt = ((entry.ContentType === "text/html" || entry.ContentType === "html" || entry.ContentType === "xhtml") ?
+            // entry.Content.replace(/xmlns=["'][^"']+["']/g, " ") :
+            entry.Content.replace(/xmlns=["']http:\/\/www\.w3\.org\/2005\/Atom["']/g, " ") :
             entry.Content);
 
         if (linkNav.Title) {

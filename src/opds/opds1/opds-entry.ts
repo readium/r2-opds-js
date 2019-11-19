@@ -39,6 +39,13 @@ export class Entry {
 
     @XmlXPathSelector("atom:title/text()")
     public Title!: string;
+    @XmlXPathSelector("atom:title/@type")
+    public TitleType!: string;
+
+    @XmlXPathSelector("atom:subtitle/text()")
+    public SubTitle!: string;
+    @XmlXPathSelector("atom:subtitle/@type")
+    public SubTitleType!: string;
 
     @XmlXPathSelector("atom:author")
     @XmlItemType(Author)
