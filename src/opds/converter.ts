@@ -167,8 +167,23 @@ export function convertOpds1ToOpds2_EntryToPublication(entry: Entry): OPDSPublic
                 // NOOP
             } else if (link.HasRel("http://opds-spec.org/image") ||
                 link.HasRel("http://opds-spec.org/image/thumbnail") ||
-                link.HasRel("x-stanza-cover-image") ||
+
+                link.HasRel("http://opds-spec.org/cover") || // incorrect OPDS1, but exists in the wild :(
+                link.HasRel("http://opds-spec.org/thumbnail") || // incorrect OPDS1, but exists in the wild :(
+
+                link.HasRel("x-stanza-cover-image") || // legacy Stanza
                 link.HasRel("x-stanza-cover-image-thumbnail")) {
+
+                const iCoverRel = l.Rel.indexOf("http://opds-spec.org/cover");
+                if (iCoverRel >= 0) {
+                    l.Rel[iCoverRel] = "http://opds-spec.org/image"; // fix the erroneous OPDS1 rel
+                }
+
+                const iThumbnailRel = l.Rel.indexOf("http://opds-spec.org/thumbnail");
+                if (iThumbnailRel >= 0) {
+                    l.Rel[iThumbnailRel] = "http://opds-spec.org/image/thumbnail"; // fix the erroneous OPDS1 rel
+                }
+
                 if (!p.Images) {
                     p.Images = [];
                 }
