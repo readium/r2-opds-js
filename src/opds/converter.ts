@@ -267,6 +267,7 @@ export function convertOpds1ToOpds2(feed: OPDS): OPDSFeed {
         feed.Entries.forEach((entry) => {
             let isAnNavigation = true;
             let thereIsAtomLink = false;
+            let thereIsImageLink = false;
 
             const collLink = new OPDSLink();
 
@@ -308,11 +309,21 @@ export function convertOpds1ToOpds2(feed: OPDS): OPDSFeed {
                     if (l.Type && l.Type.indexOf("application/atom+xml") >= 0) {
                         thereIsAtomLink = true;
                     }
-                });
 
-                if (isAnNavigation && !thereIsAtomLink) {
-                    isAnNavigation = false;
-                }
+                    if (l.Type && l.Type.indexOf("image/") >= 0) {
+                        thereIsImageLink = true;
+                    }
+                });
+            }
+
+            const thereIsAuthor = entry.Authors && entry.Authors.length;
+
+            // no acquisition link ... let's duck-type further to infer the "publications" nature:
+            if (isAnNavigation && (thereIsImageLink || thereIsAuthor)) {
+                isAnNavigation = false;
+            }
+            if (isAnNavigation && !thereIsAtomLink) {
+                isAnNavigation = false;
             }
 
             if (!isAnNavigation) {
