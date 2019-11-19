@@ -6,6 +6,26 @@ Git diff:
 Changes:
 * TODO
 
+# 1.0.19
+
+> Build environment: NodeJS `12.13.0`, NPM `6.13.0`
+
+Changes:
+* NPM package updates
+* fix: duck-type navigation vs. publications OPDS feed
+* workaround: monkey-patch erroneous OPDS 1 rel URI (cover image thumbnail)
+*  fix: OPDS entry type (x)html for Title, SubTitle, Summary, Content with correct XML namespace normalization (Atom removal)
+
+Git revision info:
+* https://unpkg.com/r2-opds-js@1.0.19/dist/gitrev.json
+* https://github.com/edrlab/r2-opds-js-dist/blob/v1.0.19/dist/gitrev.json
+
+Git commit history:
+* https://github.com/readium/r2-opds-js/commits/v1.0.19
+
+Git diff:
+* https://github.com/readium/r2-opds-js/compare/v1.0.18...v1.0.19
+
 # 1.0.18
 
 > Build environment: NodeJS `12.13.0`, NPM `6.12.0`
