@@ -8,7 +8,14 @@
 // https://github.com/edcarroll/ta-json
 import { JsonObject, JsonProperty } from "ta-json-x";
 
-import { Metadata } from "@r2-shared-js/models/metadata";
+import { Metadata, MetadataSupportedKeys } from "@r2-shared-js/models/metadata";
+
+// BEGIN IWithAdditionalJSON
+// [\n\s\S]+?^[ ]+@JsonProperty\(("[a-zA-Z]+")\)$
+// regexp replace all:
+// $1,
+// tslint:disable-next-line:max-line-length
+export const OPDS2MetadataSupportedKeys = MetadataSupportedKeys.concat(["numberOfItems", "itemsPerPage", "currentPage"]);
 
 // tslint:disable-next-line:max-line-length
 // https://github.com/opds-community/drafts/blob/4d82fb9a64f35a174a5f205c23ba623ec010d5ec/schema/feed-metadata.schema.json
@@ -29,4 +36,10 @@ export class OPDSMetadata extends Metadata {
     // https://github.com/opds-community/drafts/blob/4d82fb9a64f35a174a5f205c23ba623ec010d5ec/schema/feed-metadata.schema.json#L40
     @JsonProperty("currentPage")
     public CurrentPage!: number;
+
+    public get SupportedKeys() {
+        return OPDS2MetadataSupportedKeys;
+    }
+    // END IWithAdditionalJSON
+
 }

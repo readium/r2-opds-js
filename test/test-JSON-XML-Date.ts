@@ -1,8 +1,8 @@
 import test from "ava";
-import { JSON as TAJSON } from "ta-json-x";
 import * as xmldom from "xmldom";
 
 import { Metadata } from "@r2-shared-js/models/metadata";
+import { TaJsonDeserialize, TaJsonSerialize } from "@r2-shared-js/models/serializable";
 import { XML } from "@r2-utils-js/_utils/xml-js-mapper";
 
 import { initGlobalConverters_GENERIC, initGlobalConverters_OPDS } from "../src/opds/init-globals";
@@ -30,7 +30,7 @@ test("JSON SERIALIZE: Metadata.Modified => Date", (t) => {
     md.Modified = date;
     inspect(md);
 
-    const json = TAJSON.serialize(md);
+    const json = TaJsonSerialize(md);
     logJSON(json);
 
     checkType_String(t, json.modified);
@@ -45,7 +45,7 @@ test("JSON DESERIALIZE: Metadata.Modified => Date", (t) => {
     json.modified = dateSTR;
     logJSON(json);
 
-    const md: Metadata = TAJSON.deserialize<Metadata>(json, Metadata);
+    const md: Metadata = TaJsonDeserialize<Metadata>(json, Metadata);
     inspect(md);
 
     checkType(t, md.Modified, Date);

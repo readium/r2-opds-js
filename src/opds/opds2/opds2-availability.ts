@@ -9,12 +9,21 @@
 import { JsonProperty, OnDeserialized } from "ta-json-x";
 
 // tslint:disable-next-line:max-line-length
+// https://github.com/opds-community/drafts/blob/abc6cd444e5e727b127317ecf1f0b9071ecd4272/schema/properties.schema.json#L86
+export enum OPDSAvailabilityEnum {
+    Available = "available",
+    Unavailable = "unavailable",
+    Reserved = "reserved",
+    Ready = "ready",
+}
+
+// tslint:disable-next-line:max-line-length
 // https://github.com/opds-community/drafts/blob/2d027051a725ae62defdc7829b597564e5b8e9e5/schema/properties.schema.json#L80
 export class OPDSAvailability {
     // tslint:disable-next-line:max-line-length
     // https://github.com/opds-community/drafts/blob/2d027051a725ae62defdc7829b597564e5b8e9e5/schema/properties.schema.json#L84
     @JsonProperty("state")
-    public State!: string; // TODO enum "available", "unavailable", "reserved", "ready"
+    public State!: string; // see AvailabilityEnum
 
     // tslint:disable-next-line:max-line-length
     // https://github.com/opds-community/drafts/blob/2d027051a725ae62defdc7829b597564e5b8e9e5/schema/properties.schema.json#L93

@@ -1,12 +1,13 @@
 import test, { ExecutionContext } from "ava";
 import * as debug_ from "debug";
+import * as http from "http";
 import * as https from "https";
 import * as jsonDiff from "json-diff";
-import { JSON as TAJSON } from "ta-json-x";
 import { URL } from "url";
 import * as xmldom from "xmldom";
 
 import { Publication } from "@r2-shared-js/models/publication";
+import { TaJsonDeserialize, TaJsonSerialize } from "@r2-shared-js/models/serializable";
 import { sortObject, traverseJsonObjects } from "@r2-utils-js/_utils/JsonUtils";
 import { XML } from "@r2-utils-js/_utils/xml-js-mapper";
 
@@ -14,6 +15,7 @@ import { convertOpds1ToOpds2 } from "../src/opds/converter";
 import { initGlobalConverters_GENERIC, initGlobalConverters_OPDS } from "../src/opds/init-globals";
 import { OPDS } from "../src/opds/opds1/opds";
 import { OPDSFeed } from "../src/opds/opds2/opds2";
+import { OPDSAuthenticationDoc } from "../src/opds/opds2/opds2-authentication-doc";
 import { OPDSPublication } from "../src/opds/opds2/opds2-publication";
 
 initGlobalConverters_OPDS();
@@ -40,6 +42,7 @@ interface OPDSFeedAndPubUrls {
     pubs: Set<string>;
     audiowebpubs: Set<string>;
     webpubs: Set<string>;
+    authentications: Set<string>;
 }
 
 async function delay(okay: boolean): Promise<boolean> {
@@ -255,6 +258,8 @@ async function parseCompareJSONs(url: string, json1: any, json2: any): Promise<O
         const pubUrls = new Set<string>();
         const webpubUrls = new Set<string>();
         const audiowebpubUrls = new Set<string>();
+        const authenticationUrls = new Set<string>();
+
         traverseJsonObjects(json1,
             (obj) => {
                 if (obj === null) {
@@ -263,12 +268,13 @@ async function parseCompareJSONs(url: string, json1: any, json2: any): Promise<O
                 const isFeed = obj.type === "application/opds+json";
                 const isPub = obj.type === "application/opds-publication+json";
                 const isWebPubManifestAudio = obj.type === "application/audiobook+json";
+                const isAuth = obj.type === "application/vnd.opds.authentication.v1.0+json";
 
                 // to skip erroneous feed (dirty detection, but will do for these tests)
                 const isWebPubManifest = obj.type === "application/webpub+json" &&
                     obj.href && obj.href.indexOf(".epub") < 0;
 
-                if (obj.href && (isFeed || isPub || isWebPubManifest || isWebPubManifestAudio)) {
+                if (obj.href && (isFeed || isPub || isWebPubManifest || isWebPubManifestAudio || isAuth)) {
 
                     const u = new URL(obj.href, thisUrl);
                     const uStr = u.toString();
@@ -281,6 +287,8 @@ async function parseCompareJSONs(url: string, json1: any, json2: any): Promise<O
                             webpubUrls.add(uStr);
                         } else if (isWebPubManifestAudio) {
                             audiowebpubUrls.add(uStr);
+                        } else if (isAuth) {
+                            authenticationUrls.add(uStr);
                         }
 
                         // console.log("URL: " + obj.href + " => " + uStr);
@@ -292,6 +300,7 @@ async function parseCompareJSONs(url: string, json1: any, json2: any): Promise<O
 
         const set: OPDSFeedAndPubUrls = {
             audiowebpubs: audiowebpubUrls,
+            authentications: authenticationUrls,
             feeds: feedUrls,
             pubs:  pubUrls,
             webpubs: webpubUrls,
@@ -308,7 +317,8 @@ async function opds2Test(url: string): Promise<OPDSFeedAndPubUrls> {
         debug(url);
         // debug("------------------------");
 
-        https.get(url, (response) => {
+        const proto = /^https:\/\//.test(url) ? https : http;
+        proto.get(url, (response) => {
             let str: string | undefined;
             let buffs: Buffer[] | undefined;
 
@@ -316,6 +326,7 @@ async function opds2Test(url: string): Promise<OPDSFeedAndPubUrls> {
                 debug(`${url} ==> ${response.statusCode} (skipped)`);
                 const empty: OPDSFeedAndPubUrls = {
                     audiowebpubs: new Set<string>([]),
+                    authentications: new Set<string>([]),
                     feeds: new Set<string>([]),
                     pubs: new Set<string>([]),
                     webpubs: new Set<string>([]),
@@ -358,15 +369,42 @@ async function opds2Test(url: string): Promise<OPDSFeedAndPubUrls> {
                 // debug(json1);
                 // debug("------------------------");
                 // debug("------------------------");
-                const isPublication = !json1.publications && !json1.navigation && !json1.groups && json1.metadata;
-                const opds2Feed: OPDSPublication | OPDSFeed = isPublication ?
-                    TAJSON.deserialize<OPDSPublication>(json1, OPDSPublication) : // "application/opds-publication+json"
-                    TAJSON.deserialize<OPDSFeed>(json1, OPDSFeed); // "application/opds+json"
+                const isPublication = !json1.publications &&
+                    !json1.navigation &&
+                    !json1.groups &&
+                    !json1.catalogs &&
+                    json1.metadata;
+                const isAuth = !isPublication && json1.authentication;
+
+                const opds2Feed: OPDSPublication | OPDSFeed | OPDSAuthenticationDoc =
+                    // tslint:disable-next-line: max-line-length
+                    isPublication ? TaJsonDeserialize<OPDSPublication>(json1, OPDSPublication) : // "application/opds-publication+json"
+                    // tslint:disable-next-line: max-line-length
+                    (isAuth ? TaJsonDeserialize<OPDSAuthenticationDoc>(json1, OPDSAuthenticationDoc) : // "application/vnd.opds.authentication.v1.0+json"
+                    TaJsonDeserialize<OPDSFeed>(json1, OPDSFeed)); // "application/opds+json"
                 // debug(opds2Feed);
                 // debug("------------------------");
                 // debug("------------------------");
 
-                const json2 = TAJSON.serialize(opds2Feed);
+                // if (isPublication) { // OPDSPublication is not IWithAdditionalJSON
+                //     const pub = opds2Feed as OPDSPublication;
+                // } else if (isAuth) { // OPDSAuthenticationDoc
+                //     const authDoc = opds2Feed as IWithAdditionalJSON;
+                //     if (authDoc.AdditionalJSON) {
+                //         Object.keys(authDoc.AdditionalJSON).forEach((key) => {
+                //             if (authDoc.AdditionalJSON.hasOwnProperty(key)) {
+                //                 (authDoc as any)[key] = authDoc.AdditionalJSON[key];
+                //                 delete authDoc.AdditionalJSON[key];
+                //             }
+                //         });
+                //         debug(authDoc);
+                //         debug(authDoc.AdditionalJSON);
+                //     }
+                // } else { // OPDSFeed is not IWithAdditionalJSON
+                //     const feed = opds2Feed as OPDSFeed;
+                // }
+
+                const json2 = TaJsonSerialize(opds2Feed);
 
                 let res: OPDSFeedAndPubUrls | undefined;
                 try {
@@ -394,7 +432,8 @@ async function webpubTest(url: string, alreadyDone: Set<string>): Promise<boolea
         debug(url);
         // debug("------------------------");
 
-        https.get(url, (response) => {
+        const proto = /^https:\/\//.test(url) ? https : http;
+        proto.get(url, (response) => {
             let str: string | undefined;
             let buffs: Buffer[] | undefined;
 
@@ -436,7 +475,7 @@ async function webpubTest(url: string, alreadyDone: Set<string>): Promise<boolea
 
                 let pub: Publication | undefined;
                 try {
-                    pub = TAJSON.deserialize<Publication>(json1, Publication);
+                    pub = TaJsonDeserialize<Publication>(json1, Publication);
                 } catch (err) {
                     debug(err);
                     reject(err);
@@ -444,7 +483,7 @@ async function webpubTest(url: string, alreadyDone: Set<string>): Promise<boolea
                 }
 
                 // debug(pub);
-                const json2 = TAJSON.serialize(pub);
+                const json2 = TaJsonSerialize(pub);
 
                 // let res: OPDSFeedAndPubUrls | undefined;
                 try {
@@ -515,6 +554,20 @@ async function recursePubs(t: ExecutionContext, urls: OPDSFeedAndPubUrls, alread
     });
 
     for (const href of urlsTodoPubs) {
+        const okay = await testUrl(t, href, alreadyDone);
+        if (!okay) {
+            return false;
+        }
+    }
+
+    const urlsAuths: string[] = [];
+    urls.authentications.forEach((u) => {
+        if (!alreadyDone.has(u)) {
+            urlsAuths.push(u);
+        }
+    });
+
+    for (const href of urlsAuths) {
         const okay = await testUrl(t, href, alreadyDone);
         if (!okay) {
             return false;
@@ -594,7 +647,8 @@ async function testUrlAlt(t: ExecutionContext, url: string, alreadyDone: Set<str
     alreadyDone.add(url);
 
     const promise = new Promise<boolean>((resolve, reject) => {
-        https.get(url, async (response) => {
+        const proto = /^https:\/\//.test(url) ? https : http;
+        proto.get(url, async (response) => {
             let str: string | undefined;
             let buffs: Buffer[] | undefined;
 
@@ -646,7 +700,7 @@ async function testUrlAlt(t: ExecutionContext, url: string, alreadyDone: Set<str
 
                 const opds1Feed = XML.deserialize<OPDS>(xmlDom, OPDS);
                 const opds2Feed: OPDSFeed = convertOpds1ToOpds2(opds1Feed);
-                const opds2FeedJson = TAJSON.serialize(opds2Feed);
+                const opds2FeedJson = TaJsonSerialize(opds2Feed);
                 // debug(opds2FeedJson);
 
                 let urls: OPDSFeedAndPubUrls | undefined;
@@ -716,6 +770,16 @@ test("OPDS2 HTTP (de)serialize roundtrip (recursive) 2", async (t) => {
     const url = "https://catalog.feedbooks.com/catalog/public_domain.json";
     // https://catalog.feedbooks.com/catalog/index.json
     // https://catalog.feedbooks.com/book/1421.json
+    await runUrlTest(t, url);
+});
+
+test("OPDS2 HTTP (de)serialize roundtrip (recursive) CATALOGS", async (t) => {
+    const url = "https://libraryregistry.librarysimplified.org/libraries";
+    await runUrlTest(t, url);
+});
+
+test("OPDS2 HTTP (de)serialize roundtrip (recursive) AUTHENTICATION", async (t) => {
+    const url = "http://acl.simplye-ca.org/CALMDA/authentication_document";
     await runUrlTest(t, url);
 });
 

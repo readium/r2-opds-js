@@ -10,6 +10,8 @@ import {
     JsonConverter, JsonElementType, JsonObject, JsonProperty, OnDeserialized,
 } from "ta-json-x";
 
+import { JsonArray, JsonMap } from "@r2-shared-js/json";
+import { IWithAdditionalJSON } from "@r2-shared-js/models/serializable";
 import { JsonStringConverter } from "@r2-utils-js/_utils/ta-json-string-converter";
 
 import { OPDSFacet } from "./opds2-facet";
@@ -18,8 +20,14 @@ import { OPDSLink } from "./opds2-link";
 import { OPDSMetadata } from "./opds2-metadata";
 import { OPDSPublication } from "./opds2-publication";
 
+// application/opds+json
+
+const METADATA_JSON_PROP = "metadata";
+const FACETS_JSON_PROP = "facets";
+const GROUPS_JSON_PROP = "groups";
+
 @JsonObject()
-export class OPDSFeed {
+export class OPDSFeed implements IWithAdditionalJSON {
 
     // TODO: not in JSON Schema?? https://github.com/opds-community/drafts/issues/23
     // tslint:disable-next-line:max-line-length
@@ -31,7 +39,7 @@ export class OPDSFeed {
 
     // tslint:disable-next-line:max-line-length
     // https://github.com/opds-community/drafts/blob/2d027051a725ae62defdc7829b597564e5b8e9e5/schema/feed.schema.json#L7
-    @JsonProperty("metadata")
+    @JsonProperty(METADATA_JSON_PROP)
     public Metadata!: OPDSMetadata;
 
     // tslint:disable-next-line:max-line-length
@@ -54,15 +62,56 @@ export class OPDSFeed {
 
     // tslint:disable-next-line:max-line-length
     // https://github.com/opds-community/drafts/blob/2d027051a725ae62defdc7829b597564e5b8e9e5/schema/feed.schema.json#L66
-    @JsonProperty("facets")
+    @JsonProperty(FACETS_JSON_PROP)
     @JsonElementType(OPDSFacet)
     public Facets!: OPDSFacet[];
 
     // tslint:disable-next-line:max-line-length
     // https://github.com/opds-community/drafts/blob/2d027051a725ae62defdc7829b597564e5b8e9e5/schema/feed.schema.json#L86
-    @JsonProperty("groups")
+    @JsonProperty(GROUPS_JSON_PROP)
     @JsonElementType(OPDSGroup)
     public Groups!: OPDSGroup[];
+
+    // https://libraryregistry.librarysimplified.org/libraries
+    @JsonProperty("catalogs")
+    @JsonElementType(OPDSPublication)
+    public Catalogs!: OPDSPublication[];
+
+    // BEGIN IWithAdditionalJSON
+    public AdditionalJSON!: JsonMap; // unused
+    public SupportedKeys!: string[]; // unused
+
+    public parseAdditionalJSON(json: JsonMap) {
+        if (this.Metadata) {
+            this.Metadata.parseAdditionalJSON(json[METADATA_JSON_PROP] as JsonMap);
+        }
+        if (this.Facets) {
+            this.Facets.forEach((facet, i) => {
+                facet.parseAdditionalJSON((json[FACETS_JSON_PROP] as JsonArray)[i] as JsonMap);
+            });
+        }
+        if (this.Groups) {
+            this.Groups.forEach((group, i) => {
+                group.parseAdditionalJSON((json[GROUPS_JSON_PROP] as JsonArray)[i] as JsonMap);
+            });
+        }
+    }
+    public generateAdditionalJSON(json: JsonMap) {
+        if (this.Metadata) {
+            this.Metadata.generateAdditionalJSON(json[METADATA_JSON_PROP] as JsonMap);
+        }
+        if (this.Facets) {
+            this.Facets.forEach((facet, i) => {
+                facet.generateAdditionalJSON((json[FACETS_JSON_PROP] as JsonArray)[i] as JsonMap);
+            });
+        }
+        if (this.Groups) {
+            this.Groups.forEach((group, i) => {
+                group.generateAdditionalJSON((json[GROUPS_JSON_PROP] as JsonArray)[i] as JsonMap);
+            });
+        }
+    }
+    // END IWithAdditionalJSON
 
     public findFirstLinkByRel(rel: string): OPDSLink | undefined {
 
@@ -271,8 +320,8 @@ export class OPDSFeed {
         }
         // tslint:disable-next-line:max-line-length
         // https://github.com/opds-community/drafts/blob/2d027051a725ae62defdc7829b597564e5b8e9e5/schema/feed.schema.json#L127
-        if (!this.Publications && !this.Navigation && !this.Groups) {
-            console.log("One of OPDS2Feed.Publications|Navigation|Groups must be set!");
+        if (!this.Publications && !this.Navigation && !this.Groups && !this.Catalogs) {
+            console.log("One of OPDS2Feed.Publications|Navigation|Groups|Catalogs must be set!");
         }
     }
 }

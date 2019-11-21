@@ -1,5 +1,7 @@
 import test from "ava";
-import { JSON as TAJSON } from "ta-json-x";
+
+import { JsonArray } from "@r2-shared-js/json";
+import { TaJsonDeserialize, TaJsonSerialize } from "@r2-shared-js/models/serializable";
 
 import { initGlobalConverters_GENERIC, initGlobalConverters_OPDS } from "../src/opds/init-globals";
 import { OPDSFeed } from "../src/opds/opds2/opds2";
@@ -23,17 +25,18 @@ test("JSON SERIALIZE: OPDSFeed.Context => string[]", (t) => {
     feed.Context.push(contextStr2);
     inspect(feed);
 
-    const json = TAJSON.serialize(feed);
+    const json = TaJsonSerialize(feed);
     logJSON(json);
 
     checkType_Array(t, json["@context"]);
-    t.is(json["@context"].length, 2);
+    const ctx = json["@context"] as JsonArray;
+    t.is(ctx.length, 2);
 
-    checkType_String(t, json["@context"][0]);
-    t.is(json["@context"][0], contextStr1);
+    checkType_String(t, ctx[0]);
+    t.is(ctx[0], contextStr1);
 
-    checkType_String(t, json["@context"][1]);
-    t.is(json["@context"][1], contextStr2);
+    checkType_String(t, ctx[1]);
+    t.is(ctx[1], contextStr2);
 });
 
 // see IPropertyConverter.collapseArrayWithSingleItem()
@@ -44,7 +47,7 @@ test("JSON SERIALIZE: OPDSFeed.Context => string[]", (t) => {
 //     feed.Context = [contextStr1];
 //     inspect(feed);
 
-//     const json = TAJSON.serialize(feed);
+//     const json = TaJsonSerialize(feed);
 //     // // (normalizes single-item array to the item value itself)
 //     // traverseJsonObjects(json,
 //     //     (obj, parent, keyInParent) => {
@@ -66,7 +69,7 @@ test("JSON SERIALIZE: OPDSFeed.Context => string[1] collapse-array", (t) => {
     feed.Context = [contextStr1];
     inspect(feed);
 
-    const json = TAJSON.serialize(feed);
+    const json = TaJsonSerialize(feed);
     // // (normalizes single-item array to the item value itself)
     // traverseJsonObjects(json,
     //     (obj, parent, keyInParent) => {
@@ -86,7 +89,7 @@ test("JSON DESERIALIZE: OPDSFeed.Context => string[]", (t) => {
     json["@context"] = [contextStr1, contextStr2];
     logJSON(json);
 
-    const feed: OPDSFeed = TAJSON.deserialize<OPDSFeed>(json, OPDSFeed);
+    const feed: OPDSFeed = TaJsonDeserialize<OPDSFeed>(json, OPDSFeed);
     inspect(feed);
 
     checkType_Array(t, feed.Context);
@@ -105,7 +108,7 @@ test("JSON DESERIALIZE: OPDSFeed.Context => string[1]", (t) => {
     json["@context"] = [contextStr1];
     logJSON(json);
 
-    const feed: OPDSFeed = TAJSON.deserialize<OPDSFeed>(json, OPDSFeed);
+    const feed: OPDSFeed = TaJsonDeserialize<OPDSFeed>(json, OPDSFeed);
     inspect(feed);
 
     checkType_Array(t, feed.Context);
@@ -121,7 +124,7 @@ test("JSON DESERIALIZE: OPDSFeed.Context => string", (t) => {
     json["@context"] = contextStr1;
     logJSON(json);
 
-    const feed: OPDSFeed = TAJSON.deserialize<OPDSFeed>(json, OPDSFeed);
+    const feed: OPDSFeed = TaJsonDeserialize<OPDSFeed>(json, OPDSFeed);
     inspect(feed);
 
     checkType_Array(t, feed.Context);

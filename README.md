@@ -151,7 +151,9 @@ https://github.com/readium/r2-opds-js/tree/develop/src/opds/opds2
 
 ```typescript
 // npm install ta-json-x
-import { JSON as TAJSON } from "ta-json-x";
+// import { JSON as TAJSON } from "ta-json-x";
+// ... for serializable types that implement IWithAdditionalJSON, this is recommended:
+import { TaJsonDeserialize, TaJsonSerialize } from "@r2-shared-js/models/serializable";
 
 // npm install r2-opds-js
 // "@opds" is a dist path alias, for example EcmaScript6/ES2015 'node_modules/r2-opds-js/dist/es6-es2015/src/opds/'
@@ -160,16 +162,15 @@ import { OPDSPublication } from "@opds/opds2/opds2-publication";
 
 // feed
 var opds2Feed: OPDSFeed;
-const opds2Feed_JSON = TAJSON.serialize(opds2Feed);
+const opds2Feed_JSON = TaJsonSerialize(opds2Feed);
 // ...and the reverse:
-opds2Feed = TAJSON.deserialize<OPDSFeed>(opds2Feed_JSON, OPDSFeed);
-
+opds2Feed = TaJsonDeserialize<OPDSFeed>(opds2Feed_JSON, OPDSFeed);
 
 // publication
 var opds2Publication: OPDSPublication;
-const opds2Publication_JSON = TAJSON.serialize(opds2Publication);
+const opds2Publication_JSON = TaJsonSerialize(opds2Publication);
 // ...and the reverse:
-opds2Publication = TAJSON.deserialize<OPDSPublication>(opds2Publication_JSON, OPDSPublication);
+opds2Publication = TaJsonDeserialize<OPDSPublication>(opds2Publication_JSON, OPDSPublication);
 ```
 
 ### OPDS 1 - OPDS 2 Converter

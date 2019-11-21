@@ -8,25 +8,29 @@
 // https://github.com/edcarroll/ta-json
 import { JsonElementType, JsonObject, JsonProperty, OnDeserialized } from "ta-json-x";
 
+import { JsonMap } from "@r2-shared-js/json";
 import { Metadata } from "@r2-shared-js/models/metadata";
 import { BelongsTo } from "@r2-shared-js/models/metadata-belongsto";
 import { Contributor } from "@r2-shared-js/models/metadata-contributor";
 import { Link } from "@r2-shared-js/models/publication-link";
+import { IWithAdditionalJSON } from "@r2-shared-js/models/serializable";
 
 import { OPDSLink } from "./opds2-link";
 
 // import { Publication } from "@r2-shared-js/models/publication";
 
+const METADATA_JSON_PROP = "metadata";
+
 // tslint:disable-next-line:max-line-length
 // https://github.com/opds-community/drafts/blob/4d82fb9a64f35a174a5f205c23ba623ec010d5ec/schema/publication.schema.json
 @JsonObject()
-export class OPDSPublication { // extends Publication
+export class OPDSPublication implements IWithAdditionalJSON { // extends Publication
 
     // tslint:disable-next-line:max-line-length
     // https://github.com/opds-community/drafts/blob/4d82fb9a64f35a174a5f205c23ba623ec010d5ec/schema/publication.schema.json#L7
     // tslint:disable-next-line:max-line-length
     // https://github.com/readium/webpub-manifest/blob/0ac78ab5c270a608c39b4b04fc90bd9b1d281896/schema/publication.schema.json#L13
-    @JsonProperty("metadata")
+    @JsonProperty(METADATA_JSON_PROP)
     public Metadata!: Metadata;
 
     // tslint:disable-next-line:max-line-length
@@ -40,6 +44,22 @@ export class OPDSPublication { // extends Publication
     @JsonProperty("images")
     @JsonElementType(Link)
     public Images!: Link[];
+
+    // BEGIN IWithAdditionalJSON
+    public AdditionalJSON!: JsonMap; // unused
+    public SupportedKeys!: string[]; // unused
+
+    public parseAdditionalJSON(json: JsonMap) {
+        if (this.Metadata) {
+            this.Metadata.parseAdditionalJSON(json[METADATA_JSON_PROP] as JsonMap);
+        }
+    }
+    public generateAdditionalJSON(json: JsonMap) {
+        if (this.Metadata) {
+            this.Metadata.generateAdditionalJSON(json[METADATA_JSON_PROP] as JsonMap);
+        }
+    }
+    // END IWithAdditionalJSON
 
     public findFirstLinkByRel(rel: string): OPDSLink | undefined {
 
