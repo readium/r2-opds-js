@@ -8,13 +8,24 @@
 // https://github.com/edcarroll/ta-json
 import { JsonElementType, JsonObject, JsonProperty, OnDeserialized } from "ta-json-x";
 
+import { JsonArray, JsonMap } from "@r2-shared-js/json";
+import { IWithAdditionalJSON, generateAdditionalJSON, parseAdditionalJSON } from "@r2-shared-js/models/serializable";
+
 import { OPDSAuthenticationLabels } from "./opds2-authentication-labels";
 import { OPDSLink } from "./opds2-link";
+
+// [\n\s\S]+?^[ ]+@JsonProperty\(("[a-zA-Z]+")\)$
+// regexp replace all:
+// $1,
+// tslint:disable-next-line:max-line-length
+export const OPDSAuthenticationSupportedKeys = ["type", "links", "labels"];
+
+const LINKS_JSON_PROP = "links";
 
 // tslint:disable-next-line:max-line-length
 // https://github.com/opds-community/drafts/blob/abc6cd444e5e727b127317ecf1f0b9071ecd4272/schema/authentication.schema.json#L27
 @JsonObject()
-export class OPDSAuthentication {
+export class OPDSAuthentication implements IWithAdditionalJSON {
 
     // tslint:disable-next-line:max-line-length
     // https://github.com/opds-community/drafts/blob/abc6cd444e5e727b127317ecf1f0b9071ecd4272/schema/authentication.schema.json#L32
@@ -23,7 +34,7 @@ export class OPDSAuthentication {
 
     // tslint:disable-next-line:max-line-length
     // https://github.com/opds-community/drafts/blob/abc6cd444e5e727b127317ecf1f0b9071ecd4272/schema/authentication.schema.json#L36
-    @JsonProperty("links")
+    @JsonProperty(LINKS_JSON_PROP)
     @JsonElementType(OPDSLink)
     public Links!: OPDSLink[];
 
@@ -31,6 +42,32 @@ export class OPDSAuthentication {
     // https://github.com/opds-community/drafts/blob/abc6cd444e5e727b127317ecf1f0b9071ecd4272/schema/authentication.schema.json#L43
     @JsonProperty("labels")
     public Labels!: OPDSAuthenticationLabels;
+
+    // BEGIN IWithAdditionalJSON
+    public AdditionalJSON!: JsonMap;
+    public get SupportedKeys() {
+        return OPDSAuthenticationSupportedKeys;
+    }
+
+    public parseAdditionalJSON(json: JsonMap) {
+        parseAdditionalJSON(this, json);
+
+        if (this.Links) {
+            this.Links.forEach((link, i) => {
+                link.parseAdditionalJSON((json[LINKS_JSON_PROP] as JsonArray)[i] as JsonMap);
+            });
+        }
+    }
+    public generateAdditionalJSON(json: JsonMap) {
+        generateAdditionalJSON(this, json);
+
+        if (this.Links) {
+            this.Links.forEach((link, i) => {
+                link.generateAdditionalJSON((json[LINKS_JSON_PROP] as JsonArray)[i] as JsonMap);
+            });
+        }
+    }
+    // END IWithAdditionalJSON
 
     @OnDeserialized()
     // tslint:disable-next-line:no-unused-variable

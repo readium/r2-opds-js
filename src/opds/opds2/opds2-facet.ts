@@ -8,13 +8,14 @@
 // https://github.com/edcarroll/ta-json
 import { JsonElementType, JsonObject, JsonProperty } from "ta-json-x";
 
-import { JsonMap } from "@r2-shared-js/json";
+import { JsonArray, JsonMap } from "@r2-shared-js/json";
 import { IWithAdditionalJSON } from "@r2-shared-js/models/serializable";
 
 import { OPDSLink } from "./opds2-link";
 import { OPDSMetadata } from "./opds2-metadata";
 
 const METADATA_JSON_PROP = "metadata";
+const LINKS_JSON_PROP = "links";
 
 // tslint:disable-next-line:max-line-length
 // https://github.com/opds-community/drafts/blob/2d027051a725ae62defdc7829b597564e5b8e9e5/schema/feed.schema.json#L70
@@ -28,7 +29,7 @@ export class OPDSFacet implements IWithAdditionalJSON {
 
     // tslint:disable-next-line:max-line-length
     // https://github.com/opds-community/drafts/blob/2d027051a725ae62defdc7829b597564e5b8e9e5/schema/feed.schema.json#L75
-    @JsonProperty("links")
+    @JsonProperty(LINKS_JSON_PROP)
     @JsonElementType(OPDSLink)
     public Links!: OPDSLink[];
 
@@ -37,13 +38,27 @@ export class OPDSFacet implements IWithAdditionalJSON {
     public SupportedKeys!: string[]; // unused
 
     public parseAdditionalJSON(json: JsonMap) {
+        // parseAdditionalJSON(this, json);
+
         if (this.Metadata) {
             this.Metadata.parseAdditionalJSON(json[METADATA_JSON_PROP] as JsonMap);
         }
+        if (this.Links) {
+            this.Links.forEach((link, i) => {
+                link.parseAdditionalJSON((json[LINKS_JSON_PROP] as JsonArray)[i] as JsonMap);
+            });
+        }
     }
     public generateAdditionalJSON(json: JsonMap) {
+        // generateAdditionalJSON(this, json);
+
         if (this.Metadata) {
             this.Metadata.generateAdditionalJSON(json[METADATA_JSON_PROP] as JsonMap);
+        }
+        if (this.Links) {
+            this.Links.forEach((link, i) => {
+                link.generateAdditionalJSON((json[LINKS_JSON_PROP] as JsonArray)[i] as JsonMap);
+            });
         }
     }
     // END IWithAdditionalJSON

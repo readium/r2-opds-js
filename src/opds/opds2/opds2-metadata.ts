@@ -37,9 +37,9 @@ export class OPDSMetadata extends Metadata {
     @JsonProperty("currentPage")
     public CurrentPage!: number;
 
+    // BEGIN IWithAdditionalJSON
     public get SupportedKeys() {
         return OPDS2MetadataSupportedKeys;
     }
     // END IWithAdditionalJSON
-
 }

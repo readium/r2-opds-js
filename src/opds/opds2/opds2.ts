@@ -25,6 +25,10 @@ import { OPDSPublication } from "./opds2-publication";
 const METADATA_JSON_PROP = "metadata";
 const FACETS_JSON_PROP = "facets";
 const GROUPS_JSON_PROP = "groups";
+const CATALOGS_JSON_PROP = "catalogs";
+const PUBLICATIONS_JSON_PROP = "publications";
+const LINKS_JSON_PROP = "links";
+const NAVIGATION_JSON_PROP = "navigation";
 
 @JsonObject()
 export class OPDSFeed implements IWithAdditionalJSON {
@@ -44,19 +48,19 @@ export class OPDSFeed implements IWithAdditionalJSON {
 
     // tslint:disable-next-line:max-line-length
     // https://github.com/opds-community/drafts/blob/2d027051a725ae62defdc7829b597564e5b8e9e5/schema/feed.schema.json#L11
-    @JsonProperty("links")
+    @JsonProperty(LINKS_JSON_PROP)
     @JsonElementType(OPDSLink)
     public Links!: OPDSLink[];
 
     // tslint:disable-next-line:max-line-length
     // https://github.com/opds-community/drafts/blob/2d027051a725ae62defdc7829b597564e5b8e9e5/schema/feed.schema.json#L40
-    @JsonProperty("publications")
+    @JsonProperty(PUBLICATIONS_JSON_PROP)
     @JsonElementType(OPDSPublication)
     public Publications!: OPDSPublication[];
 
     // tslint:disable-next-line:max-line-length
     // https://github.com/opds-community/drafts/blob/2d027051a725ae62defdc7829b597564e5b8e9e5/schema/feed.schema.json#L48
-    @JsonProperty("navigation")
+    @JsonProperty(NAVIGATION_JSON_PROP)
     @JsonElementType(OPDSLink)
     public Navigation!: OPDSLink[];
 
@@ -73,7 +77,7 @@ export class OPDSFeed implements IWithAdditionalJSON {
     public Groups!: OPDSGroup[];
 
     // https://libraryregistry.librarysimplified.org/libraries
-    @JsonProperty("catalogs")
+    @JsonProperty(CATALOGS_JSON_PROP)
     @JsonElementType(OPDSPublication)
     public Catalogs!: OPDSPublication[];
 
@@ -82,6 +86,8 @@ export class OPDSFeed implements IWithAdditionalJSON {
     public SupportedKeys!: string[]; // unused
 
     public parseAdditionalJSON(json: JsonMap) {
+        // parseAdditionalJSON(this, json);
+
         if (this.Metadata) {
             this.Metadata.parseAdditionalJSON(json[METADATA_JSON_PROP] as JsonMap);
         }
@@ -95,8 +101,30 @@ export class OPDSFeed implements IWithAdditionalJSON {
                 group.parseAdditionalJSON((json[GROUPS_JSON_PROP] as JsonArray)[i] as JsonMap);
             });
         }
+        if (this.Publications) {
+            this.Publications.forEach((pub, i) => {
+                pub.parseAdditionalJSON((json[PUBLICATIONS_JSON_PROP] as JsonArray)[i] as JsonMap);
+            });
+        }
+        if (this.Catalogs) {
+            this.Catalogs.forEach((pub, i) => {
+                pub.parseAdditionalJSON((json[CATALOGS_JSON_PROP] as JsonArray)[i] as JsonMap);
+            });
+        }
+        if (this.Links) {
+            this.Links.forEach((link, i) => {
+                link.parseAdditionalJSON((json[LINKS_JSON_PROP] as JsonArray)[i] as JsonMap);
+            });
+        }
+        if (this.Navigation) {
+            this.Navigation.forEach((link, i) => {
+                link.parseAdditionalJSON((json[NAVIGATION_JSON_PROP] as JsonArray)[i] as JsonMap);
+            });
+        }
     }
     public generateAdditionalJSON(json: JsonMap) {
+        // generateAdditionalJSON(this, json);
+
         if (this.Metadata) {
             this.Metadata.generateAdditionalJSON(json[METADATA_JSON_PROP] as JsonMap);
         }
@@ -108,6 +136,26 @@ export class OPDSFeed implements IWithAdditionalJSON {
         if (this.Groups) {
             this.Groups.forEach((group, i) => {
                 group.generateAdditionalJSON((json[GROUPS_JSON_PROP] as JsonArray)[i] as JsonMap);
+            });
+        }
+        if (this.Publications) {
+            this.Publications.forEach((pub, i) => {
+                pub.generateAdditionalJSON((json[PUBLICATIONS_JSON_PROP] as JsonArray)[i] as JsonMap);
+            });
+        }
+        if (this.Catalogs) {
+            this.Catalogs.forEach((pub, i) => {
+                pub.generateAdditionalJSON((json[CATALOGS_JSON_PROP] as JsonArray)[i] as JsonMap);
+            });
+        }
+        if (this.Links) {
+            this.Links.forEach((link, i) => {
+                link.generateAdditionalJSON((json[LINKS_JSON_PROP] as JsonArray)[i] as JsonMap);
+            });
+        }
+        if (this.Navigation) {
+            this.Navigation.forEach((link, i) => {
+                link.generateAdditionalJSON((json[NAVIGATION_JSON_PROP] as JsonArray)[i] as JsonMap);
             });
         }
     }

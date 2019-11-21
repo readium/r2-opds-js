@@ -8,7 +8,7 @@
 // https://github.com/edcarroll/ta-json
 import { JsonElementType, JsonObject, JsonProperty, OnDeserialized } from "ta-json-x";
 
-import { JsonMap } from "@r2-shared-js/json";
+import { JsonArray, JsonMap } from "@r2-shared-js/json";
 import { Metadata } from "@r2-shared-js/models/metadata";
 import { BelongsTo } from "@r2-shared-js/models/metadata-belongsto";
 import { Contributor } from "@r2-shared-js/models/metadata-contributor";
@@ -20,6 +20,8 @@ import { OPDSLink } from "./opds2-link";
 // import { Publication } from "@r2-shared-js/models/publication";
 
 const METADATA_JSON_PROP = "metadata";
+const LINKS_JSON_PROP = "links";
+const IMAGES_JSON_PROP = "images";
 
 // tslint:disable-next-line:max-line-length
 // https://github.com/opds-community/drafts/blob/4d82fb9a64f35a174a5f205c23ba623ec010d5ec/schema/publication.schema.json
@@ -35,13 +37,13 @@ export class OPDSPublication implements IWithAdditionalJSON { // extends Publica
 
     // tslint:disable-next-line:max-line-length
     // https://github.com/opds-community/drafts/blob/4d82fb9a64f35a174a5f205c23ba623ec010d5ec/schema/publication.schema.json#L10
-    @JsonProperty("links")
+    @JsonProperty(LINKS_JSON_PROP)
     @JsonElementType(OPDSLink)
     public Links!: OPDSLink[];
 
     // tslint:disable-next-line:max-line-length
     // https://github.com/opds-community/drafts/blob/4d82fb9a64f35a174a5f205c23ba623ec010d5ec/schema/publication.schema.json#L52
-    @JsonProperty("images")
+    @JsonProperty(IMAGES_JSON_PROP)
     @JsonElementType(Link)
     public Images!: Link[];
 
@@ -50,13 +52,37 @@ export class OPDSPublication implements IWithAdditionalJSON { // extends Publica
     public SupportedKeys!: string[]; // unused
 
     public parseAdditionalJSON(json: JsonMap) {
+        // parseAdditionalJSON(this, json);
+
         if (this.Metadata) {
             this.Metadata.parseAdditionalJSON(json[METADATA_JSON_PROP] as JsonMap);
         }
+        if (this.Links) {
+            this.Links.forEach((link, i) => {
+                link.parseAdditionalJSON((json[LINKS_JSON_PROP] as JsonArray)[i] as JsonMap);
+            });
+        }
+        if (this.Images) {
+            this.Images.forEach((link, i) => {
+                link.parseAdditionalJSON((json[IMAGES_JSON_PROP] as JsonArray)[i] as JsonMap);
+            });
+        }
     }
     public generateAdditionalJSON(json: JsonMap) {
+        // generateAdditionalJSON(this, json);
+
         if (this.Metadata) {
             this.Metadata.generateAdditionalJSON(json[METADATA_JSON_PROP] as JsonMap);
+        }
+        if (this.Links) {
+            this.Links.forEach((link, i) => {
+                link.generateAdditionalJSON((json[LINKS_JSON_PROP] as JsonArray)[i] as JsonMap);
+            });
+        }
+        if (this.Images) {
+            this.Images.forEach((link, i) => {
+                link.generateAdditionalJSON((json[IMAGES_JSON_PROP] as JsonArray)[i] as JsonMap);
+            });
         }
     }
     // END IWithAdditionalJSON

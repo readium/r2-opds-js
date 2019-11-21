@@ -8,6 +8,7 @@
 // https://github.com/edcarroll/ta-json
 import { JsonObject, JsonProperty } from "ta-json-x";
 
+import { JsonMap } from "@r2-shared-js/json";
 import { Link } from "@r2-shared-js/models/publication-link";
 
 import { OPDSProperties } from "./opds2-properties";
@@ -27,6 +28,8 @@ export enum OPDSLinkRelEnum {
     SubscribeURI = "http://opds-spec.org/acquisition/subscribe",
 }
 
+const PROPERTIES_JSON_PROP = "properties";
+
 // tslint:disable-next-line:max-line-length
 // https://github.com/readium/webpub-manifest/blob/917c83e798e3eda42b3e9d0dc92f0fef31b16211/schema/link.schema.json
 @JsonObject()
@@ -38,6 +41,26 @@ export class OPDSLink extends Link {
     // https://github.com/readium/webpub-manifest/blob/917c83e798e3eda42b3e9d0dc92f0fef31b16211/schema/properties.schema.json
     // tslint:disable-next-line:max-line-length
     // https://github.com/opds-community/drafts/blob/aa414dc7150588dbb422be2c643a7a74fec6e64d/schema/properties.schema.json
-    @JsonProperty("properties")
+    @JsonProperty(PROPERTIES_JSON_PROP)
     public Properties!: OPDSProperties;
+
+    // BEGIN IWithAdditionalJSON
+    public AdditionalJSON!: JsonMap; // unused
+    public SupportedKeys!: string[]; // unused
+
+    public parseAdditionalJSON(json: JsonMap) {
+        // parseAdditionalJSON(this, json);
+
+        if (this.Properties) {
+            this.Properties.parseAdditionalJSON(json[PROPERTIES_JSON_PROP] as JsonMap);
+        }
+    }
+    public generateAdditionalJSON(json: JsonMap) {
+        // generateAdditionalJSON(this, json);
+
+        if (this.Properties) {
+            this.Properties.generateAdditionalJSON(json[PROPERTIES_JSON_PROP] as JsonMap);
+        }
+    }
+    // END IWithAdditionalJSON
 }
