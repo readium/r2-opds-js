@@ -1,6 +1,6 @@
 {
   "name": "r2-opds-js",
-  "version": "1.0.19",
+  "version": "1.0.20",
   "description": "Readium 2 'opds' for NodeJS (TypeScript)",
   "keywords": [
     "readium",
@@ -47,7 +47,8 @@
   "homepage": "https://github.com/readium/r2-opds-js",
   "dependencies": {
     "debug": "^4.1.1",
-    "r2-shared-js": "^1.0.23",
+    "r2-lcp-js": "^1.0.19",
+    "r2-shared-js": "^1.0.24",
     "r2-utils-js": "^1.0.17",
     "ta-json-x": "^2.5.2",
     "tslib": "^1.10.0",

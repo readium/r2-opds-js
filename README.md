@@ -150,7 +150,7 @@ The JSON serialization of an OPDS2 "feed" (or "publication") can be loaded/parse
 https://github.com/readium/r2-opds-js/tree/develop/src/opds/opds2
 
 ```typescript
-import { TaJsonDeserialize, TaJsonSerialize } from "@r2-shared-js/models/serializable";
+import { TaJsonDeserialize, TaJsonSerialize } from "@r2-lcp-js/serializable";
 
 // npm install r2-opds-js
 // "@opds" is a dist path alias, for example EcmaScript6/ES2015 'node_modules/r2-opds-js/dist/es6-es2015/src/opds/'

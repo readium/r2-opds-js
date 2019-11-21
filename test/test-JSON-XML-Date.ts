@@ -1,8 +1,8 @@
 import test from "ava";
 import * as xmldom from "xmldom";
 
+import { TaJsonDeserialize, TaJsonSerialize } from "@r2-lcp-js/serializable";
 import { Metadata } from "@r2-shared-js/models/metadata";
-import { TaJsonDeserialize, TaJsonSerialize } from "@r2-shared-js/models/serializable";
 import { XML } from "@r2-utils-js/_utils/xml-js-mapper";
 
 import { initGlobalConverters_GENERIC, initGlobalConverters_OPDS } from "../src/opds/init-globals";

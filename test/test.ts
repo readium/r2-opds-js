@@ -6,8 +6,8 @@ import * as jsonDiff from "json-diff";
 import { URL } from "url";
 import * as xmldom from "xmldom";
 
+import { TaJsonDeserialize, TaJsonSerialize } from "@r2-lcp-js/serializable";
 import { Publication } from "@r2-shared-js/models/publication";
-import { TaJsonDeserialize, TaJsonSerialize } from "@r2-shared-js/models/serializable";
 import { sortObject, traverseJsonObjects } from "@r2-utils-js/_utils/JsonUtils";
 import { XML } from "@r2-utils-js/_utils/xml-js-mapper";
 

@@ -8,8 +8,7 @@
 // https://github.com/edcarroll/ta-json
 import { JsonElementType, JsonObject, JsonProperty, OnDeserialized } from "ta-json-x";
 
-import { JsonMap } from "@r2-shared-js/json";
-import { IWithAdditionalJSON } from "@r2-shared-js/models/serializable";
+import { IWithAdditionalJSON, JsonMap } from "@r2-lcp-js/serializable";
 
 import { OPDSAuthentication } from "./opds2-authentication";
 import { OPDSLink } from "./opds2-link";
