@@ -8,7 +8,7 @@
 // https://github.com/edcarroll/ta-json
 import { JsonElementType, JsonObject, JsonProperty } from "ta-json-x";
 
-import { Properties, PropertiesSupportedKeys } from "@r2-shared-js/models/metadata-properties";
+import { Properties } from "@r2-shared-js/models/metadata-properties";
 
 import { OPDSAvailability } from "./opds2-availability";
 import { OPDSCopy } from "./opds2-copy";
@@ -21,7 +21,7 @@ import { OPDSPrice } from "./opds2-price";
 // regexp replace all:
 // $1,
 // tslint:disable-next-line:max-line-length
-export const OPDSPropertiesSupportedKeys = PropertiesSupportedKeys.concat(["numberOfItems", "price", "indirectAcquisition", "holds", "copies", "availability"]);
+// export const OPDSPropertiesSupportedKeys = PropertiesSupportedKeys.concat(["numberOfItems", "price", "indirectAcquisition", "holds", "copies", "availability"]);
 
 // tslint:disable-next-line:max-line-length
 // https://github.com/opds-community/drafts/blob/2d027051a725ae62defdc7829b597564e5b8e9e5/schema/properties.schema.json
@@ -60,8 +60,8 @@ export class OPDSProperties extends Properties {
     public Availability!: OPDSAvailability;
 
     // BEGIN IWithAdditionalJSON
-    public get SupportedKeys() {
-        return OPDSPropertiesSupportedKeys;
-    }
+    // public get SupportedKeys() {
+    //     return OPDSPropertiesSupportedKeys;
+    // }
     // END IWithAdditionalJSON
 }

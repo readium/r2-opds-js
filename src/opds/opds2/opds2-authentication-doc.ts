@@ -8,10 +8,8 @@
 // https://github.com/edcarroll/ta-json
 import { JsonElementType, JsonObject, JsonProperty, OnDeserialized } from "ta-json-x";
 
-import { JsonArray, JsonMap } from "@r2-shared-js/json";
-import {
-    IWithAdditionalJSON, generateAdditionalJSON, parseAdditionalJSON,
-} from "@r2-shared-js/models/serializable";
+import { JsonMap } from "@r2-shared-js/json";
+import { IWithAdditionalJSON } from "@r2-shared-js/models/serializable";
 
 import { OPDSAuthentication } from "./opds2-authentication";
 import { OPDSLink } from "./opds2-link";
@@ -22,7 +20,7 @@ import { OPDSLink } from "./opds2-link";
 // regexp replace all:
 // $1,
 // tslint:disable-next-line:max-line-length
-export const OPDSAuthenticationDocSupportedKeys = ["title", "id", "description", "links", "authentication"];
+// export const OPDSAuthenticationDocSupportedKeys = ["title", "id", "description", "links", "authentication"];
 
 const AUTHENTICATION_JSON_PROP = "authentication";
 const LINKS_JSON_PROP = "links";
@@ -61,38 +59,38 @@ export class OPDSAuthenticationDoc implements IWithAdditionalJSON {
 
     // BEGIN IWithAdditionalJSON
     public AdditionalJSON!: JsonMap;
-    public get SupportedKeys() {
-        return OPDSAuthenticationDocSupportedKeys;
-    }
+    // public get SupportedKeys() {
+    //     return OPDSAuthenticationDocSupportedKeys;
+    // }
 
-    public parseAdditionalJSON(json: JsonMap) {
-        parseAdditionalJSON(this, json);
+    // public parseAdditionalJSON(json: JsonMap) {
+    //     parseAdditionalJSON(this, json);
 
-        if (this.Authentication) {
-            this.Authentication.forEach((auth, i) => {
-                auth.parseAdditionalJSON((json[AUTHENTICATION_JSON_PROP] as JsonArray)[i] as JsonMap);
-            });
-        }
-        if (this.Links) {
-            this.Links.forEach((link, i) => {
-                link.parseAdditionalJSON((json[LINKS_JSON_PROP] as JsonArray)[i] as JsonMap);
-            });
-        }
-    }
-    public generateAdditionalJSON(json: JsonMap) {
-        generateAdditionalJSON(this, json);
+    //     if (this.Authentication) {
+    //         this.Authentication.forEach((auth, i) => {
+    //             auth.parseAdditionalJSON((json[AUTHENTICATION_JSON_PROP] as JsonArray)[i] as JsonMap);
+    //         });
+    //     }
+    //     if (this.Links) {
+    //         this.Links.forEach((link, i) => {
+    //             link.parseAdditionalJSON((json[LINKS_JSON_PROP] as JsonArray)[i] as JsonMap);
+    //         });
+    //     }
+    // }
+    // public generateAdditionalJSON(json: JsonMap) {
+    //     generateAdditionalJSON(this, json);
 
-        if (this.Authentication) {
-            this.Authentication.forEach((auth, i) => {
-                auth.generateAdditionalJSON((json[AUTHENTICATION_JSON_PROP] as JsonArray)[i] as JsonMap);
-            });
-        }
-        if (this.Links) {
-            this.Links.forEach((link, i) => {
-                link.generateAdditionalJSON((json[LINKS_JSON_PROP] as JsonArray)[i] as JsonMap);
-            });
-        }
-    }
+    //     if (this.Authentication) {
+    //         this.Authentication.forEach((auth, i) => {
+    //             auth.generateAdditionalJSON((json[AUTHENTICATION_JSON_PROP] as JsonArray)[i] as JsonMap);
+    //         });
+    //     }
+    //     if (this.Links) {
+    //         this.Links.forEach((link, i) => {
+    //             link.generateAdditionalJSON((json[LINKS_JSON_PROP] as JsonArray)[i] as JsonMap);
+    //         });
+    //     }
+    // }
     // END IWithAdditionalJSON
 
     @OnDeserialized()

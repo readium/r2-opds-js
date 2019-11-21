@@ -150,9 +150,6 @@ The JSON serialization of an OPDS2 "feed" (or "publication") can be loaded/parse
 https://github.com/readium/r2-opds-js/tree/develop/src/opds/opds2
 
 ```typescript
-// npm install ta-json-x
-// import { JSON as TAJSON } from "ta-json-x";
-// ... for serializable types that implement IWithAdditionalJSON, this is recommended:
 import { TaJsonDeserialize, TaJsonSerialize } from "@r2-shared-js/models/serializable";
 
 // npm install r2-opds-js

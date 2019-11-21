@@ -10,8 +10,6 @@ import {
     JsonConverter, JsonElementType, JsonObject, JsonProperty, OnDeserialized,
 } from "ta-json-x";
 
-import { JsonArray, JsonMap } from "@r2-shared-js/json";
-import { IWithAdditionalJSON } from "@r2-shared-js/models/serializable";
 import { JsonStringConverter } from "@r2-utils-js/_utils/ta-json-string-converter";
 
 import { OPDSFacet } from "./opds2-facet";
@@ -31,7 +29,7 @@ const LINKS_JSON_PROP = "links";
 const NAVIGATION_JSON_PROP = "navigation";
 
 @JsonObject()
-export class OPDSFeed implements IWithAdditionalJSON {
+export class OPDSFeed {
 
     // TODO: not in JSON Schema?? https://github.com/opds-community/drafts/issues/23
     // tslint:disable-next-line:max-line-length
@@ -80,86 +78,6 @@ export class OPDSFeed implements IWithAdditionalJSON {
     @JsonProperty(CATALOGS_JSON_PROP)
     @JsonElementType(OPDSPublication)
     public Catalogs!: OPDSPublication[];
-
-    // BEGIN IWithAdditionalJSON
-    public AdditionalJSON!: JsonMap; // unused
-    public SupportedKeys!: string[]; // unused
-
-    public parseAdditionalJSON(json: JsonMap) {
-        // parseAdditionalJSON(this, json);
-
-        if (this.Metadata) {
-            this.Metadata.parseAdditionalJSON(json[METADATA_JSON_PROP] as JsonMap);
-        }
-        if (this.Facets) {
-            this.Facets.forEach((facet, i) => {
-                facet.parseAdditionalJSON((json[FACETS_JSON_PROP] as JsonArray)[i] as JsonMap);
-            });
-        }
-        if (this.Groups) {
-            this.Groups.forEach((group, i) => {
-                group.parseAdditionalJSON((json[GROUPS_JSON_PROP] as JsonArray)[i] as JsonMap);
-            });
-        }
-        if (this.Publications) {
-            this.Publications.forEach((pub, i) => {
-                pub.parseAdditionalJSON((json[PUBLICATIONS_JSON_PROP] as JsonArray)[i] as JsonMap);
-            });
-        }
-        if (this.Catalogs) {
-            this.Catalogs.forEach((pub, i) => {
-                pub.parseAdditionalJSON((json[CATALOGS_JSON_PROP] as JsonArray)[i] as JsonMap);
-            });
-        }
-        if (this.Links) {
-            this.Links.forEach((link, i) => {
-                link.parseAdditionalJSON((json[LINKS_JSON_PROP] as JsonArray)[i] as JsonMap);
-            });
-        }
-        if (this.Navigation) {
-            this.Navigation.forEach((link, i) => {
-                link.parseAdditionalJSON((json[NAVIGATION_JSON_PROP] as JsonArray)[i] as JsonMap);
-            });
-        }
-    }
-    public generateAdditionalJSON(json: JsonMap) {
-        // generateAdditionalJSON(this, json);
-
-        if (this.Metadata) {
-            this.Metadata.generateAdditionalJSON(json[METADATA_JSON_PROP] as JsonMap);
-        }
-        if (this.Facets) {
-            this.Facets.forEach((facet, i) => {
-                facet.generateAdditionalJSON((json[FACETS_JSON_PROP] as JsonArray)[i] as JsonMap);
-            });
-        }
-        if (this.Groups) {
-            this.Groups.forEach((group, i) => {
-                group.generateAdditionalJSON((json[GROUPS_JSON_PROP] as JsonArray)[i] as JsonMap);
-            });
-        }
-        if (this.Publications) {
-            this.Publications.forEach((pub, i) => {
-                pub.generateAdditionalJSON((json[PUBLICATIONS_JSON_PROP] as JsonArray)[i] as JsonMap);
-            });
-        }
-        if (this.Catalogs) {
-            this.Catalogs.forEach((pub, i) => {
-                pub.generateAdditionalJSON((json[CATALOGS_JSON_PROP] as JsonArray)[i] as JsonMap);
-            });
-        }
-        if (this.Links) {
-            this.Links.forEach((link, i) => {
-                link.generateAdditionalJSON((json[LINKS_JSON_PROP] as JsonArray)[i] as JsonMap);
-            });
-        }
-        if (this.Navigation) {
-            this.Navigation.forEach((link, i) => {
-                link.generateAdditionalJSON((json[NAVIGATION_JSON_PROP] as JsonArray)[i] as JsonMap);
-            });
-        }
-    }
-    // END IWithAdditionalJSON
 
     public findFirstLinkByRel(rel: string): OPDSLink | undefined {
 

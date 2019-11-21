@@ -8,8 +8,8 @@
 // https://github.com/edcarroll/ta-json
 import { JsonElementType, JsonObject, JsonProperty, OnDeserialized } from "ta-json-x";
 
-import { JsonArray, JsonMap } from "@r2-shared-js/json";
-import { IWithAdditionalJSON, generateAdditionalJSON, parseAdditionalJSON } from "@r2-shared-js/models/serializable";
+import { JsonMap } from "@r2-shared-js/json";
+import { IWithAdditionalJSON } from "@r2-shared-js/models/serializable";
 
 import { OPDSAuthenticationLabels } from "./opds2-authentication-labels";
 import { OPDSLink } from "./opds2-link";
@@ -18,7 +18,7 @@ import { OPDSLink } from "./opds2-link";
 // regexp replace all:
 // $1,
 // tslint:disable-next-line:max-line-length
-export const OPDSAuthenticationSupportedKeys = ["type", "links", "labels"];
+// export const OPDSAuthenticationSupportedKeys = ["type", "links", "labels"];
 
 const LINKS_JSON_PROP = "links";
 
@@ -45,28 +45,28 @@ export class OPDSAuthentication implements IWithAdditionalJSON {
 
     // BEGIN IWithAdditionalJSON
     public AdditionalJSON!: JsonMap;
-    public get SupportedKeys() {
-        return OPDSAuthenticationSupportedKeys;
-    }
+    // public get SupportedKeys() {
+    //     return OPDSAuthenticationSupportedKeys;
+    // }
 
-    public parseAdditionalJSON(json: JsonMap) {
-        parseAdditionalJSON(this, json);
+    // public parseAdditionalJSON(json: JsonMap) {
+    //     parseAdditionalJSON(this, json);
 
-        if (this.Links) {
-            this.Links.forEach((link, i) => {
-                link.parseAdditionalJSON((json[LINKS_JSON_PROP] as JsonArray)[i] as JsonMap);
-            });
-        }
-    }
-    public generateAdditionalJSON(json: JsonMap) {
-        generateAdditionalJSON(this, json);
+    //     if (this.Links) {
+    //         this.Links.forEach((link, i) => {
+    //             link.parseAdditionalJSON((json[LINKS_JSON_PROP] as JsonArray)[i] as JsonMap);
+    //         });
+    //     }
+    // }
+    // public generateAdditionalJSON(json: JsonMap) {
+    //     generateAdditionalJSON(this, json);
 
-        if (this.Links) {
-            this.Links.forEach((link, i) => {
-                link.generateAdditionalJSON((json[LINKS_JSON_PROP] as JsonArray)[i] as JsonMap);
-            });
-        }
-    }
+    //     if (this.Links) {
+    //         this.Links.forEach((link, i) => {
+    //             link.generateAdditionalJSON((json[LINKS_JSON_PROP] as JsonArray)[i] as JsonMap);
+    //         });
+    //     }
+    // }
     // END IWithAdditionalJSON
 
     @OnDeserialized()

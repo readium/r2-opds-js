@@ -8,7 +8,6 @@
 // https://github.com/edcarroll/ta-json
 import { JsonObject, JsonProperty } from "ta-json-x";
 
-import { JsonMap } from "@r2-shared-js/json";
 import { Link } from "@r2-shared-js/models/publication-link";
 
 import { OPDSProperties } from "./opds2-properties";
@@ -43,24 +42,4 @@ export class OPDSLink extends Link {
     // https://github.com/opds-community/drafts/blob/aa414dc7150588dbb422be2c643a7a74fec6e64d/schema/properties.schema.json
     @JsonProperty(PROPERTIES_JSON_PROP)
     public Properties!: OPDSProperties;
-
-    // BEGIN IWithAdditionalJSON
-    public AdditionalJSON!: JsonMap; // unused
-    public SupportedKeys!: string[]; // unused
-
-    public parseAdditionalJSON(json: JsonMap) {
-        // parseAdditionalJSON(this, json);
-
-        if (this.Properties) {
-            this.Properties.parseAdditionalJSON(json[PROPERTIES_JSON_PROP] as JsonMap);
-        }
-    }
-    public generateAdditionalJSON(json: JsonMap) {
-        // generateAdditionalJSON(this, json);
-
-        if (this.Properties) {
-            this.Properties.generateAdditionalJSON(json[PROPERTIES_JSON_PROP] as JsonMap);
-        }
-    }
-    // END IWithAdditionalJSON
 }

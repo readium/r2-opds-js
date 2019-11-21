@@ -1,5 +1,7 @@
 import test from "ava";
-import { JSON as TAJSON } from "ta-json-x";
+
+import { JsonArray, JsonMap } from "@r2-shared-js/json";
+import { TaJsonDeserialize, TaJsonSerialize } from "@r2-shared-js/models/serializable";
 
 import { initGlobalConverters_GENERIC, initGlobalConverters_OPDS } from "../src/opds/init-globals";
 import { OPDSLink } from "../src/opds/opds2/opds2-link";
@@ -22,17 +24,18 @@ test("JSON SERIALIZE: OPDSLink.Rel => string[]", (t) => {
     link.AddRel(relStr2);
     inspect(link);
 
-    const json = TAJSON.serialize(link);
+    const json = TaJsonSerialize(link);
     logJSON(json);
 
     checkType_Array(t, json.rel);
-    t.is(json.rel.length, 2);
+    const arr = json.rel as JsonArray;
+    t.is(arr.length, 2);
 
-    checkType_String(t, json.rel[0]);
-    t.is(json.rel[0], relStr1);
+    checkType_String(t, arr[0]);
+    t.is(arr[0], relStr1);
 
-    checkType_String(t, json.rel[1]);
-    t.is(json.rel[1], relStr2);
+    checkType_String(t, arr[1]);
+    t.is(arr[1], relStr2);
 });
 
 test("JSON SERIALIZE: OPDSLink.Rel => string[] (recursive links)", (t) => {
@@ -47,29 +50,33 @@ test("JSON SERIALIZE: OPDSLink.Rel => string[] (recursive links)", (t) => {
     link.Children.push(child);
     inspect(link);
 
-    const json = TAJSON.serialize(link);
+    const json = TaJsonSerialize(link);
     logJSON(json);
 
     checkType_Array(t, json.rel);
-    t.is(json.rel.length, 2);
+    const arr = json.rel as JsonArray;
+    t.is(arr.length, 2);
 
-    checkType_String(t, json.rel[0]);
-    t.is(json.rel[0], relStr1);
+    checkType_String(t, arr[0]);
+    t.is(arr[0], relStr1);
 
-    checkType_String(t, json.rel[1]);
-    t.is(json.rel[1], relStr2);
+    checkType_String(t, arr[1]);
+    t.is(arr[1], relStr2);
 
     checkType_Array(t, json.children);
-    t.is(json.children.length, 1);
+    const children = json.children as JsonArray;
+    t.is(children.length, 1);
 
-    checkType_Array(t, json.children[0].rel);
-    t.is(json.children[0].rel.length, 2);
+    const child1 = children[0] as JsonMap;
+    checkType_Array(t, child1.rel);
+    const rels = child1.rel as JsonArray;
+    t.is(rels.length, 2);
 
-    checkType_String(t, json.children[0].rel[0]);
-    t.is(json.children[0].rel[0], relStr2);
+    checkType_String(t, rels[0]);
+    t.is(rels[0], relStr2);
 
-    checkType_String(t, json.children[0].rel[1]);
-    t.is(json.children[0].rel[1], relStr1);
+    checkType_String(t, rels[1]);
+    t.is(rels[1], relStr1);
 });
 
 test("JSON SERIALIZE: OPDSLink.Rel => string", (t) => {
@@ -78,7 +85,7 @@ test("JSON SERIALIZE: OPDSLink.Rel => string", (t) => {
     link.AddRel(relStr1);
     inspect(link);
 
-    const json = TAJSON.serialize(link);
+    const json = TaJsonSerialize(link);
     logJSON(json);
 
     checkType_String(t, json.rel);
@@ -95,17 +102,19 @@ test("JSON SERIALIZE: OPDSLink.Rel => string (recursive links)", (t) => {
     link.Children.push(child);
     inspect(link);
 
-    const json = TAJSON.serialize(link);
+    const json = TaJsonSerialize(link);
     logJSON(json);
 
     checkType_String(t, json.rel);
     t.is(json.rel, relStr1);
 
     checkType_Array(t, json.children);
-    t.is(json.children.length, 1);
+    const children = json.children as JsonArray;
+    t.is(children.length, 1);
 
-    checkType_String(t, json.children[0].rel);
-    t.is(json.children[0].rel, relStr2);
+    const child1 = children[0] as JsonMap;
+    checkType_String(t, child1.rel);
+    t.is(child1.rel, relStr2);
 });
 
 test("JSON DESERIALIZE: OPDSLink.Rel => string[]", (t) => {
@@ -114,7 +123,7 @@ test("JSON DESERIALIZE: OPDSLink.Rel => string[]", (t) => {
     json.rel = [relStr1, relStr2];
     logJSON(json);
 
-    const link: OPDSLink = TAJSON.deserialize<OPDSLink>(json, OPDSLink);
+    const link: OPDSLink = TaJsonDeserialize<OPDSLink>(json, OPDSLink);
     inspect(link);
 
     checkType_Array(t, link.Rel);
@@ -135,7 +144,7 @@ test("JSON DESERIALIZE: OPDSLink.Rel => string[] (recursive children)", (t) => {
     json.children.push({ rel: [relStr2, relStr1] });
     logJSON(json);
 
-    const link: OPDSLink = TAJSON.deserialize<OPDSLink>(json, OPDSLink);
+    const link: OPDSLink = TaJsonDeserialize<OPDSLink>(json, OPDSLink);
     inspect(link);
 
     checkType_Array(t, link.Rel);
@@ -166,7 +175,7 @@ test("JSON DESERIALIZE: OPDSLink.Rel => string[1]", (t) => {
     json.rel = [relStr1];
     logJSON(json);
 
-    const link: OPDSLink = TAJSON.deserialize<OPDSLink>(json, OPDSLink);
+    const link: OPDSLink = TaJsonDeserialize<OPDSLink>(json, OPDSLink);
     inspect(link);
 
     checkType_Array(t, link.Rel);
@@ -182,7 +191,7 @@ test("JSON DESERIALIZE: OPDSLink.Rel => string", (t) => {
     json.rel = relStr1;
     logJSON(json);
 
-    const link: OPDSLink = TAJSON.deserialize<OPDSLink>(json, OPDSLink);
+    const link: OPDSLink = TaJsonDeserialize<OPDSLink>(json, OPDSLink);
     inspect(link);
 
     checkType_Array(t, link.Rel);
@@ -200,7 +209,7 @@ test("JSON DESERIALIZE: OPDSLink.Rel => string (recursive children)", (t) => {
     json.children.push({ rel: relStr2 });
     logJSON(json);
 
-    const link: OPDSLink = TAJSON.deserialize<OPDSLink>(json, OPDSLink);
+    const link: OPDSLink = TaJsonDeserialize<OPDSLink>(json, OPDSLink);
     inspect(link);
 
     checkType_Array(t, link.Rel);
