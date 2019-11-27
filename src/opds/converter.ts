@@ -313,7 +313,7 @@ export function convertOpds1ToOpds2(feed: OPDS): OPDSFeed {
         feed.Entries.forEach((entry) => {
             let isAnNavigation = true;
             let thereIsAtomLink = false;
-            let thereIsImageLink = false;
+            // let thereIsImageLink = false;
 
             const collLink = new OPDSLink();
 
@@ -356,16 +356,17 @@ export function convertOpds1ToOpds2(feed: OPDS): OPDSFeed {
                         thereIsAtomLink = true;
                     }
 
-                    if (l.Type && l.Type.indexOf("image/") >= 0) {
-                        thereIsImageLink = true;
-                    }
+                    // if (l.Type && l.Type.indexOf("image/") >= 0) {
+                    //     thereIsImageLink = true;
+                    // }
                 });
             }
 
             const thereIsAuthor = entry.Authors && entry.Authors.length;
 
             // no acquisition link ... let's duck-type further to infer the "publications" nature:
-            if (isAnNavigation && (thereIsImageLink || thereIsAuthor)) {
+            // thereIsImageLink cannot be used here, because some OPDS navigation feeds provide an image thumbnail
+            if (isAnNavigation && thereIsAuthor) {
                 isAnNavigation = false;
             }
             if (isAnNavigation && !thereIsAtomLink) {
