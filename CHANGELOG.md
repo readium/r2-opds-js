@@ -1,10 +1,27 @@
 # Next
 
 Git diff:
-* https://github.com/readium/r2-opds-js/compare/v1.0.20...develop
+* https://github.com/readium/r2-opds-js/compare/v1.0.21...develop
 
 Changes:
 * TODO
+
+# 1.0.21
+
+> Build environment: NodeJS `12.13.0`, NPM `6.13.0`
+
+Changes:
+* Fixed OPDS1-2 converter to duck-type publication vs. navigation feed (image thumbnails and authors)
+
+Git revision info:
+* https://unpkg.com/r2-opds-js@1.0.21/dist/gitrev.json
+* https://github.com/edrlab/r2-opds-js-dist/blob/v1.0.21/dist/gitrev.json
+
+Git commit history:
+* https://github.com/readium/r2-opds-js/commits/v1.0.21
+
+Git diff:
+* https://github.com/readium/r2-opds-js/compare/v1.0.20...v1.0.21
 
 # 1.0.20
 
