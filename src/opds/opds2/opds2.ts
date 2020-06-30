@@ -116,8 +116,8 @@ export class OPDSFeed {
 
     public AddPagination(
         numberItems: number, itemsPerPage: number, currentPage: number,
-        nextLink: string, prevLink: string,
-        firstLink: string, lastLink: string) {
+        nextLink?: string, prevLink?: string,
+        firstLink?: string, lastLink?: string) {
 
         if (!this.Metadata) {
             this.Metadata = new OPDSMetadata();
