@@ -40,7 +40,6 @@ export class Link {
     @XmlXPathSelector("@type")
     public Type!: string;
 
-    // and .='hqdefault'
     // @XmlXPathSelector("@*[local-name()='count' and namespace-uri()='http://purl.org/syndication/thread/1.0']")
     @XmlXPathSelector("@thr:count")
     public ThrCount!: number;
