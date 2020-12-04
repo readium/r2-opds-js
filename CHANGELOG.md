@@ -1,10 +1,27 @@
 # Next
 
 Git diff:
-* https://github.com/readium/r2-opds-js/compare/v1.0.28...develop
+* https://github.com/readium/r2-opds-js/compare/v1.0.29...develop
 
 Changes:
 * TODO
+
+# 1.0.29
+
+> Build environment: NodeJS `14.15.2`, NPM `6.14.9`
+
+Changes:
+* Added missing TypeScript files (see previous version 1.0.28)
+
+Git revision info:
+* https://unpkg.com/r2-opds-js@1.0.29/dist/gitrev.json
+* https://github.com/edrlab/r2-opds-js-dist/blob/v1.0.29/dist/gitrev.json
+
+Git commit history:
+* https://github.com/readium/r2-opds-js/commits/v1.0.29
+
+Git diff:
+* https://github.com/readium/r2-opds-js/compare/v1.0.28...v1.0.29
 
 # 1.0.28
 
