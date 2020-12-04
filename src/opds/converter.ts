@@ -13,7 +13,11 @@ import { Link } from "@r2-shared-js/models/publication-link";
 
 import { OPDS } from "./opds1/opds";
 import { Entry } from "./opds1/opds-entry";
+import { Link as Opds1Link } from "./opds1/opds-link";
 import { OPDSFeed } from "./opds2/opds2";
+import { OPDSAvailability } from "./opds2/opds2-availability";
+import { OPDSCopy } from "./opds2/opds2-copy";
+import { OPDSHold } from "./opds2/opds2-hold";
 import { OPDSIndirectAcquisition } from "./opds2/opds2-indirectAcquisition";
 import { OPDSLink } from "./opds2/opds2-link";
 import { OPDSMetadata } from "./opds2/opds2-metadata";
@@ -136,17 +140,7 @@ export function convertOpds1ToOpds2_EntryToPublication(entry: Entry): OPDSPublic
     if (entry.Links) {
         entry.Links.forEach((link) => {
             const l = new OPDSLink();
-            l.Href = link.Href;
-            l.TypeLink = link.Type;
-            l.AddRel(link.Rel);
-            l.Title = link.Title;
-
-            if (link.ThrCount) {
-                if (!l.Properties) {
-                    l.Properties = new OPDSProperties();
-                }
-                l.Properties.NumberOfItems = link.ThrCount;
-            }
+            portLinkInfo(link, l);
 
             if (link.OpdsIndirectAcquisitions && link.OpdsIndirectAcquisitions.length) {
                 if (!l.Properties) {
@@ -267,17 +261,7 @@ export function convertOpds1ToOpds2_EntryToLink(entry: Entry): OPDSLink {
         });
         const link = atomLink ? atomLink : (entry.Links[0] ? entry.Links[0] : undefined);
         if (link) {
-
-            if (link.ThrCount) {
-                if (!linkNav.Properties) {
-                    linkNav.Properties = new OPDSProperties();
-                }
-                linkNav.Properties.NumberOfItems = link.ThrCount;
-            }
-
-            linkNav.AddRel(link.Rel);
-            linkNav.TypeLink = link.Type;
-            linkNav.Href = link.Href;
+            portLinkInfo(link, linkNav);
         }
     }
 
@@ -320,13 +304,6 @@ export function convertOpds1ToOpds2(feed: OPDS): OPDSFeed {
             if (entry.Links) {
                 entry.Links.forEach((l) => {
 
-                    if (l.ThrCount) {
-                        if (!collLink.Properties) {
-                            collLink.Properties = new OPDSProperties();
-                        }
-                        collLink.Properties.NumberOfItems = l.ThrCount;
-                    }
-
                     // the JSON Schema uri-reference validator trips on space characters, but not unicode chars
                     if (l.Href) {
                         l.Href = l.Href.replace(/ /g, "%20");
@@ -351,6 +328,8 @@ export function convertOpds1ToOpds2(feed: OPDS): OPDSFeed {
                         collLink.Href = l.Href;
                         collLink.Title = l.Title;
                     }
+
+                    portLinkInfo(l, collLink);
 
                     if (l.Type && l.Type.indexOf("application/atom+xml") >= 0) {
                         thereIsAtomLink = true;
@@ -406,17 +385,7 @@ export function convertOpds1ToOpds2(feed: OPDS): OPDSFeed {
             }
 
             const linkFeed = new OPDSLink();
-            linkFeed.Href = l.Href;
-            linkFeed.AddRel(l.Rel);
-            linkFeed.TypeLink = l.Type;
-            linkFeed.Title = l.Title;
-
-            if (l.ThrCount) {
-                if (!linkFeed.Properties) {
-                    linkFeed.Properties = new OPDSProperties();
-                }
-                linkFeed.Properties.NumberOfItems = l.ThrCount;
-            }
+            portLinkInfo(l, linkFeed);
 
             if (l.HasRel("http://opds-spec.org/facet")) {
                 opds2feed.AddFacet(linkFeed, l.FacetGroup);
@@ -431,3 +400,68 @@ export function convertOpds1ToOpds2(feed: OPDS): OPDSFeed {
 
     return opds2feed;
 }
+
+const portLinkInfo = (linkSource: Opds1Link, linkDest: OPDSLink) => {
+
+    if (!linkDest.Href && linkSource.Href) {
+        linkDest.Href = linkSource.Href;
+    }
+    if (!linkDest.TypeLink && linkSource.Type) {
+        linkDest.TypeLink = linkSource.Type;
+    }
+    if (!linkDest.Title && linkSource.Title) {
+        linkDest.Title = linkSource.Title;
+    }
+    if ((!linkDest.Rel || !linkDest.Rel.length) && linkSource.Rel) {
+        linkDest.AddRel(linkSource.Rel);
+    }
+
+    if (linkSource.OpdsAvailability) {
+        if (!linkDest.Properties) {
+            linkDest.Properties = new OPDSProperties();
+        }
+        linkDest.Properties.Availability = new OPDSAvailability();
+        if (linkSource.OpdsAvailability.Since) {
+            linkDest.Properties.Availability.Since = linkSource.OpdsAvailability.Since;
+        }
+        if (linkSource.OpdsAvailability.Until) {
+            linkDest.Properties.Availability.Until = linkSource.OpdsAvailability.Until;
+        }
+        if (linkSource.OpdsAvailability.State) {
+            linkDest.Properties.Availability.State = linkSource.OpdsAvailability.State;
+        }
+    }
+
+    if (linkSource.OpdsCopies) {
+        if (!linkDest.Properties) {
+            linkDest.Properties = new OPDSProperties();
+        }
+        linkDest.Properties.Copies = new OPDSCopy();
+        if (typeof linkSource.OpdsCopies.Available === "number") {
+            linkDest.Properties.Copies.Available = linkSource.OpdsCopies.Available;
+        }
+        if (typeof linkSource.OpdsCopies.Total === "number") {
+            linkDest.Properties.Copies.Total = linkSource.OpdsCopies.Total;
+        }
+    }
+
+    if (linkSource.OpdsHolds) {
+        if (!linkDest.Properties) {
+            linkDest.Properties = new OPDSProperties();
+        }
+        linkDest.Properties.Holds = new OPDSHold();
+        if (typeof linkSource.OpdsHolds.Position === "number") {
+            linkDest.Properties.Holds.Position = linkSource.OpdsHolds.Position;
+        }
+        if (typeof linkSource.OpdsHolds.Total === "number") {
+            linkDest.Properties.Holds.Total = linkSource.OpdsHolds.Total;
+        }
+    }
+
+    if (linkSource.ThrCount) {
+        if (!linkDest.Properties) {
+            linkDest.Properties = new OPDSProperties();
+        }
+        linkDest.Properties.NumberOfItems = linkSource.ThrCount;
+    }
+};

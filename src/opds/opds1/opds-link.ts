@@ -7,6 +7,9 @@
 
 import { XmlItemType, XmlObject, XmlXPathSelector } from "@r2-utils-js/_utils/xml-js-mapper";
 
+import { Availability } from "./opds-availability";
+import { Copies } from "./opds-copies";
+import { Holds } from "./opds-holds";
 import { IndirectAcquisition } from "./opds-indirectAcquisition";
 
 @XmlObject({
@@ -36,6 +39,21 @@ export class Link {
     @XmlXPathSelector("opds:indirectAcquisition")
     @XmlItemType(IndirectAcquisition)
     public OpdsIndirectAcquisitions!: IndirectAcquisition[];
+
+    // https://wiki.lyrasis.org/display/SIM/OPDS+For+Libraries#OPDSForLibraries-availability
+    // @XmlItemType(Availability)
+    @XmlXPathSelector("opds:availability")
+    public OpdsAvailability!: Availability;
+
+    // https://wiki.lyrasis.org/display/SIM/OPDS+For+Libraries#OPDSForLibraries-copies
+    // @XmlItemType(Copies)
+    @XmlXPathSelector("opds:copies")
+    public OpdsCopies!: Copies;
+
+    // https://wiki.lyrasis.org/display/SIM/OPDS+For+Libraries#OPDSForLibraries-holds
+    // @XmlItemType(Holds)
+    @XmlXPathSelector("opds:holds")
+    public OpdsHolds!: Holds;
 
     @XmlXPathSelector("@type")
     public Type!: string;
