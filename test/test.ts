@@ -228,7 +228,18 @@ async function parseCompareJSONs(url: string, json1: any, json2: any): Promise<O
                         harmonizeArrays(obj);
                     }
                 });
-
+            traverseJsonObjects(json2,
+                (obj) => {
+                    if (obj !== null) {
+                        harmonizeBitrateAndTrack(obj);
+                    }
+                });
+            traverseJsonObjects(json2,
+                (obj) => {
+                    if (obj !== null) {
+                        harmonizeNulls(obj);
+                    }
+                });
             json1 = sortObject(json1);
             json2 = sortObject(json2);
 
