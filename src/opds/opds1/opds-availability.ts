@@ -25,12 +25,19 @@ export class Availability {
     // XPATH ROOT: /atom:feed/atom:link/opds:availability
     // XPATH ROOT: /atom:feed/atom:entry/atom:link/opds:availability
 
+    // https://wiki.lyrasis.org/display/SIM/OPDS+For+Libraries#OPDSForLibraries-state
+    // https://wiki.lyrasis.org/display/SIM/OPDS+For+Libraries#OPDSForLibraries-Fullfilment
     @XmlXPathSelector("@state")
     public State!: string; // see AvailabilityEnum: available, unavailable, reserved, ready
 
+    @XmlXPathSelector("@status")
+    public Status!: string; // same as State (for "legacy" / incorrect feeds)
+
+    // https://wiki.lyrasis.org/display/SIM/OPDS+For+Libraries#OPDSForLibraries-sinceanduntil
     @XmlXPathSelector("@since")
     public Since!: Date;
 
+    // https://wiki.lyrasis.org/display/SIM/OPDS+For+Libraries#OPDSForLibraries-sinceanduntil
     @XmlXPathSelector("@until")
     public Until!: Date;
 }

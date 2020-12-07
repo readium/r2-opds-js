@@ -429,6 +429,8 @@ const portLinkInfo = (linkSource: Opds1Link, linkDest: OPDSLink) => {
         }
         if (linkSource.OpdsAvailability.State) {
             linkDest.Properties.Availability.State = linkSource.OpdsAvailability.State;
+        } else if (linkSource.OpdsAvailability.Status) {
+            linkDest.Properties.Availability.State = linkSource.OpdsAvailability.Status;
         }
     }
 
