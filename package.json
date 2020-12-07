@@ -1,6 +1,6 @@
 {
   "name": "r2-opds-js",
-  "version": "1.0.29",
+  "version": "1.0.30",
   "description": "Readium 2 'opds' for NodeJS (TypeScript)",
   "keywords": [
     "readium",
