@@ -34,6 +34,12 @@ export function checkDate(t: ExecutionContext, d1: Date, d2: Date) {
     t.true(d1 >= d2 && d1 <= d2);
 }
 
+export function checkNumber(t: ExecutionContext, d1: number, d2: number) {
+    t.is(d1, d2);
+    t.true(d1 === d2);
+    // t.true(d1.toString() === d2.toString());
+}
+
 // import { FunctionType } from "@r2-utils-js/_utils/xml-js-mapper";
 // tslint:disable-next-line:ban-types
 export function checkType(t: ExecutionContext, obj: any, clazz: Function) {
