@@ -42,6 +42,7 @@ test("JSON DESERIALIZE: Metadata.ItemsPerPage => Number", (t) => {
 
     const md: OPDSMetadata = TaJsonDeserialize<OPDSMetadata>(json, OPDSMetadata);
     inspect(md);
+    t.true(typeof md.AdditionalJSON === "undefined");
 
     checkType_Number(t, md.ItemsPerPage);
     checkNumber(t, md.ItemsPerPage, num);

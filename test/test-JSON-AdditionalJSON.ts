@@ -25,7 +25,9 @@ test("JSON SERIALIZE: Metadata.AdditionalJSON", (t) => {
 
     const md = new OPDSMetadata();
     md.Title = titleStr1;
-    md.NumberOfItems = n;
+    md.NumberOfItems = n; // OPDSMetadata
+    md.ItemsPerPage = n; // OPDSMetadata
+    md.NumberOfPages = n; // regular Metadata (root class)
     md.AdditionalJSON = {
         title2: titleStr2,
         tizz: {
@@ -47,6 +49,12 @@ test("JSON SERIALIZE: Metadata.AdditionalJSON", (t) => {
 
     checkType_Number(t, json.numberOfItems);
     t.is(json.numberOfItems, n);
+
+    checkType_Number(t, json.itemsPerPage);
+    t.is(json.itemsPerPage, n);
+
+    checkType_Number(t, json.numberOfPages);
+    t.is(json.numberOfPages, n);
 
     checkType_String(t, json.title);
     t.is(json.title, titleStr1);
@@ -88,7 +96,9 @@ test("JSON SERIALIZE: Metadata.AdditionalJSON", (t) => {
 test("JSON DESERIALIZE: Metadata.AdditionalJSON", (t) => {
 
     const json: JsonMap = {
+        itemsPerPage: n,
         numberOfItems: n,
+        numberOfPages: n,
         title: titleStr1,
         title2: titleStr2,
         tizz: {
@@ -110,8 +120,14 @@ test("JSON DESERIALIZE: Metadata.AdditionalJSON", (t) => {
     // const md: OPDSMetadata = TaJsonDeserialize<OPDSMetadata>(json, OPDSMetadata);
     inspect(md);
 
-    checkType_Number(t, md.NumberOfItems);
+    checkType_Number(t, md.NumberOfItems); // OPDSMetadata
     t.is(md.NumberOfItems, n);
+
+    checkType_Number(t, md.ItemsPerPage); // OPDSMetadata
+    t.is(md.ItemsPerPage, n);
+
+    checkType_Number(t, md.NumberOfPages); // regular Metadata (root class)
+    t.is(md.NumberOfPages, n);
 
     checkType_String(t, md.Title);
     t.is(md.Title, titleStr1);
@@ -120,6 +136,11 @@ test("JSON DESERIALIZE: Metadata.AdditionalJSON", (t) => {
         t.fail();
         return;
     }
+
+    t.true(typeof md.AdditionalJSON.numberOfItems === "undefined");
+    t.true(typeof md.AdditionalJSON.itemsPerPage === "undefined");
+    t.true(typeof md.AdditionalJSON.numberOfPages === "undefined");
+
     checkType_String(t, md.AdditionalJSON.title2);
     t.is(md.AdditionalJSON.title2, titleStr2);
 
