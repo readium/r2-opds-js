@@ -142,6 +142,21 @@ export function convertOpds1ToOpds2_EntryToPublication(entry: Entry): OPDSPublic
             const l = new OPDSLink();
             portLinkInfo(link, l);
 
+            // tslint:disable-next-line: max-line-length
+            // https://readium.org/lcp-specs/notes/lcp-key-retrieval.html#sample-of-readium-web-publication-manifest-supporting-a-link-to-an-lcp-license-and-an-lcp_hashed_passphrase-property
+            // tslint:disable-next-line: max-line-length
+            // https://github.com/readium/lcp-specs/blob/master/notes/lcp-key-retrieval.md#sample-of-readium-web-publication-manifest-supporting-a-link-to-an-lcp-license-and-an-lcp_hashed_passphrase-property
+            if (link.LcpHashedPassphrase) {
+                if (!l.Properties) {
+                    l.Properties = new OPDSProperties();
+                }
+
+                if (!l.Properties.AdditionalJSON) {
+                    l.Properties.AdditionalJSON = {};
+                }
+                l.Properties.AdditionalJSON.lcp_hashed_passphrase = link.LcpHashedPassphrase;
+            }
+
             if (link.OpdsIndirectAcquisitions && link.OpdsIndirectAcquisitions.length) {
                 if (!l.Properties) {
                     l.Properties = new OPDSProperties();

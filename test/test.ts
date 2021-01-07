@@ -11,9 +11,10 @@ import { Publication } from "@r2-shared-js/models/publication";
 import { sortObject, traverseJsonObjects } from "@r2-utils-js/_utils/JsonUtils";
 import { XML } from "@r2-utils-js/_utils/xml-js-mapper";
 
-import { convertOpds1ToOpds2 } from "../src/opds/converter";
+import { convertOpds1ToOpds2, convertOpds1ToOpds2_EntryToPublication } from "../src/opds/converter";
 import { initGlobalConverters_GENERIC, initGlobalConverters_OPDS } from "../src/opds/init-globals";
 import { OPDS } from "../src/opds/opds1/opds";
+import { Entry } from "../src/opds/opds1/opds-entry";
 import { OPDSFeed } from "../src/opds/opds2/opds2";
 import { OPDSAuthenticationDoc } from "../src/opds/opds2/opds2-authentication-doc";
 import { OPDSPublication } from "../src/opds/opds2/opds2-publication";
@@ -22,6 +23,9 @@ initGlobalConverters_OPDS();
 initGlobalConverters_GENERIC();
 
 const debug = debug_("r2:opds#test");
+
+// Note to run single test on the command line interface:
+// npm run test -- --match="XXX"
 
 // ==========================
 
@@ -807,3 +811,29 @@ test("OPDS1-2 HTTP convert (de)serialize roundtrip (recursive)", async (t) => {
 //     debug(done.size);
 //     t.true(await delay(true));
 // });
+
+test("OPDS1-2 LCP passphrase convert (de)serialize roundtrip", async (t) => {
+    const xmlSrc = `
+<entry
+    xmlns="http://www.w3.org/2005/Atom"
+    xmlns:lcp="http://readium.org/lcp-specs/ns">
+
+    <link
+        rel="http://opds-spec.org/acquisition/"
+        href="FAKE_URL"
+        type="application/vnd.readium.lcp.license.v1.0+json">
+
+        <lcp:hashed_passphrase>FAKE_BASE64</lcp:hashed_passphrase>
+    </link>
+</entry>
+    `;
+    const xmlDom = new xmldom.DOMParser().parseFromString(xmlSrc);
+    const isEntry = xmlDom.documentElement.localName === "entry";
+    t.true(isEntry);
+    const opds1Entry = XML.deserialize<Entry>(xmlDom, Entry);
+    t.is(opds1Entry.Links[0].LcpHashedPassphrase, "FAKE_BASE64");
+    const opds2Pub = convertOpds1ToOpds2_EntryToPublication(opds1Entry);
+    t.is(opds2Pub.Links[0].Properties.AdditionalJSON.lcp_hashed_passphrase, "FAKE_BASE64");
+    const opds2PubJson = TaJsonSerialize(opds2Pub);
+    t.is((((opds2PubJson.links as [{}])[0] as any).properties as any).lcp_hashed_passphrase as string, "FAKE_BASE64");
+});

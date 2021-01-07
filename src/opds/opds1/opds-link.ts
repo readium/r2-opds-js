@@ -17,6 +17,7 @@ import { IndirectAcquisition } from "./opds-indirectAcquisition";
     atom: "http://www.w3.org/2005/Atom",
     bibframe: "http://bibframe.org/vocab/",
     dcterms: "http://purl.org/dc/terms/",
+    lcp: "http://readium.org/lcp-specs/ns",
     odl: "http://opds-spec.org/odl",
     opds: "http://opds-spec.org/2010/catalog",
     opensearch: "http://a9.com/-/spec/opensearch/1.1/",
@@ -54,6 +55,13 @@ export class Link {
     // @XmlItemType(Holds)
     @XmlXPathSelector("opds:holds")
     public OpdsHolds!: Holds;
+
+    // tslint:disable-next-line: max-line-length
+    // https://readium.org/lcp-specs/notes/lcp-key-retrieval.html#including-a-hashed-passphrase-in-an-opds-1-catalog
+    // tslint:disable-next-line: max-line-length
+    // https://github.com/readium/lcp-specs/blob/master/notes/lcp-key-retrieval.md#including-a-hashed-passphrase-in-an-opds-1-catalog
+    @XmlXPathSelector("lcp:hashed_passphrase/text()")
+    public LcpHashedPassphrase!: string;
 
     @XmlXPathSelector("@type")
     public Type!: string;
