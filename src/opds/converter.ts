@@ -324,12 +324,9 @@ export function convertOpds1ToOpds2(feed: OPDS): OPDSFeed {
                         isAnNavigation = false;
                     }
                     if (l.HasRel("collection") || l.HasRel("http://opds-spec.org/group")) {
-                        collLink.AddRel("collection");
-                        collLink.Href = l.Href;
-                        collLink.Title = l.Title;
+                        collLink.AddRel("collection"); // note that existing l.Rel will not be ported to collink!
+                        portLinkInfo(l, collLink);
                     }
-
-                    portLinkInfo(l, collLink);
 
                     if (l.Type && l.Type.indexOf("application/atom+xml") >= 0) {
                         thereIsAtomLink = true;

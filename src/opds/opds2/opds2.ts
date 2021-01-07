@@ -12,10 +12,14 @@ import {
 
 import { JsonStringConverter } from "@r2-utils-js/_utils/ta-json-string-converter";
 
+import { OPDSAvailability } from "./opds2-availability";
+import { OPDSCopy } from "./opds2-copy";
 import { OPDSFacet } from "./opds2-facet";
 import { OPDSGroup } from "./opds2-group";
+import { OPDSHold } from "./opds2-hold";
 import { OPDSLink } from "./opds2-link";
 import { OPDSMetadata } from "./opds2-metadata";
+import { OPDSProperties } from "./opds2-properties";
 import { OPDSPublication } from "./opds2-publication";
 
 // application/opds+json
@@ -27,6 +31,76 @@ const CATALOGS_JSON_PROP = "catalogs";
 const PUBLICATIONS_JSON_PROP = "publications";
 const LINKS_JSON_PROP = "links";
 const NAVIGATION_JSON_PROP = "navigation";
+
+const cloneLinkInfo = (linkSource: OPDSLink, linkDest: OPDSLink) => {
+
+    if (!linkDest.Href && linkSource.Href) {
+        linkDest.Href = linkSource.Href;
+    }
+    if (!linkDest.TypeLink && linkSource.TypeLink) {
+        linkDest.TypeLink = linkSource.TypeLink;
+    }
+    if (!linkDest.Title && linkSource.Title) {
+        linkDest.Title = linkSource.Title;
+    }
+    if ((!linkDest.Rel || !linkDest.Rel.length) && linkSource.Rel) {
+        for (const r of linkSource.Rel) {
+            linkDest.AddRel(r);
+        }
+    }
+
+    if (linkSource.Properties) {
+
+        if (linkSource.Properties.Availability) {
+            if (!linkDest.Properties) {
+                linkDest.Properties = new OPDSProperties();
+            }
+            linkDest.Properties.Availability = new OPDSAvailability();
+            if (linkSource.Properties.Availability.Since) {
+                linkDest.Properties.Availability.Since = linkSource.Properties.Availability.Since;
+            }
+            if (linkSource.Properties.Availability.Until) {
+                linkDest.Properties.Availability.Until = linkSource.Properties.Availability.Until;
+            }
+            if (linkSource.Properties.Availability.State) {
+                linkDest.Properties.Availability.State = linkSource.Properties.Availability.State;
+            }
+        }
+
+        if (linkSource.Properties.Copies) {
+            if (!linkDest.Properties) {
+                linkDest.Properties = new OPDSProperties();
+            }
+            linkDest.Properties.Copies = new OPDSCopy();
+            if (typeof linkSource.Properties.Copies.Available === "number") {
+                linkDest.Properties.Copies.Available = linkSource.Properties.Copies.Available;
+            }
+            if (typeof linkSource.Properties.Copies.Total === "number") {
+                linkDest.Properties.Copies.Total = linkSource.Properties.Copies.Total;
+            }
+        }
+
+        if (linkSource.Properties.Holds) {
+            if (!linkDest.Properties) {
+                linkDest.Properties = new OPDSProperties();
+            }
+            linkDest.Properties.Holds = new OPDSHold();
+            if (typeof linkSource.Properties.Holds.Position === "number") {
+                linkDest.Properties.Holds.Position = linkSource.Properties.Holds.Position;
+            }
+            if (typeof linkSource.Properties.Holds.Total === "number") {
+                linkDest.Properties.Holds.Total = linkSource.Properties.Holds.Total;
+            }
+        }
+
+        if (typeof linkSource.Properties.NumberOfItems === "number") {
+            if (!linkDest.Properties) {
+                linkDest.Properties = new OPDSProperties();
+            }
+            linkDest.Properties.NumberOfItems = linkSource.Properties.NumberOfItems;
+        }
+    }
+};
 
 @JsonObject()
 export class OPDSFeed {
@@ -208,9 +282,8 @@ export class OPDSFeed {
         group.Publications.push(publication);
 
         const linkSelf = new OPDSLink();
-        linkSelf.AddRel("self");
-        linkSelf.Title = collLink.Title;
-        linkSelf.Href = collLink.Href;
+        linkSelf.AddRel("self"); // note that existing collLink.Rel will not be ported to linkSelf!
+        cloneLinkInfo(collLink, linkSelf);
 
         group.Links = [];
         group.Links.push(linkSelf);
@@ -257,12 +330,11 @@ export class OPDSFeed {
         group.Navigation.push(link);
 
         const linkSelf = new OPDSLink();
-        linkSelf.AddRel("self");
-        linkSelf.Title = collLink.Title;
-        linkSelf.Href = collLink.Href;
+        linkSelf.AddRel("self"); // note that existing collLink.Rel will not be ported to linkSelf!
+        cloneLinkInfo(collLink, linkSelf);
 
         group.Links = [];
-        group.Links.push(link);
+        group.Links.push(linkSelf);
 
         if (!this.Groups) {
             this.Groups = [];
