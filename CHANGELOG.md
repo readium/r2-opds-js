@@ -1,10 +1,30 @@
 # Next
 
 Git diff:
-* https://github.com/readium/r2-opds-js/compare/v1.0.31...develop
+* https://github.com/readium/r2-opds-js/compare/v1.0.32...develop
 
 Changes:
 * TODO
+
+# 1.0.32
+
+> Build environment: NodeJS `14.15.1`, NPM `6.14.10`
+
+Changes:
+* Fixed regression bug from 1.0.28 (OPDS link holds/copies/etc.)
+* NPM package updates
+* Added missing support for OPDS 1 XML LCP Hashed Passphrase conversion to OPDS 2 JSON (custom Link Properties)
+* Added unit tests for the above
+
+Git revision info:
+* https://unpkg.com/r2-opds-js@1.0.32/dist/gitrev.json
+* https://github.com/edrlab/r2-opds-js-dist/blob/v1.0.32/dist/gitrev.json
+
+Git commit history:
+* https://github.com/readium/r2-opds-js/commits/v1.0.32
+
+Git diff:
+* https://github.com/readium/r2-opds-js/compare/v1.0.31...v1.0.32
 
 # 1.0.31
 
