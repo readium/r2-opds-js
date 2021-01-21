@@ -20,6 +20,7 @@ import { OPDSLink } from "./opds2-link";
 const METADATA_JSON_PROP = "metadata";
 const LINKS_JSON_PROP = "links";
 const IMAGES_JSON_PROP = "images";
+const IMAGE_JSON_PROP = "image";
 
 // tslint:disable-next-line:max-line-length
 // https://github.com/opds-community/drafts/blob/4d82fb9a64f35a174a5f205c23ba623ec010d5ec/schema/publication.schema.json
@@ -44,6 +45,11 @@ export class OPDSPublication { // extends Publication
     @JsonProperty(IMAGES_JSON_PROP)
     @JsonElementType(Link)
     public Images!: Link[];
+
+    // tslint:disable-next-line:max-line-length
+    // https://github.com/readium/r2-streamer-js/blob/751553db8c97d7a6d3ba9bc04f2153fbd7a8b4bc/misc/json-schema/opds/catalog-entry.schema.json#L40-L61
+    @JsonProperty(IMAGE_JSON_PROP)
+    public Image!: Link;
 
     public findFirstLinkByRel(rel: string): OPDSLink | undefined {
 
@@ -193,8 +199,8 @@ export class OPDSPublication { // extends Publication
         }
         // tslint:disable-next-line:max-line-length
         // https://github.com/opds-community/drafts/blob/4d82fb9a64f35a174a5f205c23ba623ec010d5ec/schema/publication.schema.json#L80
-        if (!this.Images) {
-            console.log("OPDSPublication.Images is not set!");
+        if (!this.Images && !this.Image) {
+            console.log("OPDSPublication.Image[s] is not set!");
         }
     }
 }
