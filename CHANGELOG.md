@@ -1,10 +1,28 @@
 # Next
 
 Git diff:
-* https://github.com/readium/r2-opds-js/compare/v1.0.32...develop
+* https://github.com/readium/r2-opds-js/compare/v1.0.33...develop
 
 Changes:
 * TODO
+
+# 1.0.33
+
+> Build environment: NodeJS `14.15.4`, NPM `6.14.11`
+
+Changes:
+* NPM package updates
+* Added support for the `image` property of "catalog entry" (in addition to the `images` array of links), reusing the `OPDSPublication` object type
+
+Git revision info:
+* https://unpkg.com/r2-opds-js@1.0.33/dist/gitrev.json
+* https://github.com/edrlab/r2-opds-js-dist/blob/v1.0.33/dist/gitrev.json
+
+Git commit history:
+* https://github.com/readium/r2-opds-js/commits/v1.0.33
+
+Git diff:
+* https://github.com/readium/r2-opds-js/compare/v1.0.32...v1.0.33
 
 # 1.0.32
 
