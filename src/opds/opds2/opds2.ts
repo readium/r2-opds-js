@@ -149,6 +149,7 @@ export class OPDSFeed {
     public Groups!: OPDSGroup[];
 
     // https://libraryregistry.librarysimplified.org/libraries
+    // http://libraries.aldiko.com/home.json => https://libraries.aldiko.com/countries/france.json etc.
     @JsonProperty(CATALOGS_JSON_PROP)
     @JsonElementType(OPDSPublication)
     public Catalogs!: OPDSPublication[];
