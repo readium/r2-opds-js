@@ -11,7 +11,7 @@ import { Publication } from "@r2-shared-js/models/publication";
 import { sortObject, traverseJsonObjects } from "@r2-utils-js/_utils/JsonUtils";
 import { XML } from "@r2-utils-js/_utils/xml-js-mapper";
 
-import { convertOpds1ToOpds2, convertOpds1ToOpds2_EntryToPublication } from "../src/opds/converter";
+import { convertOpds1ToOpds2, convertOpds1ToOpds2_EntryToPublication, unescapeHtmlEntities } from "../src/opds/converter";
 import { initGlobalConverters_GENERIC, initGlobalConverters_OPDS } from "../src/opds/init-globals";
 import { OPDS } from "../src/opds/opds1/opds";
 import { Entry } from "../src/opds/opds1/opds-entry";
@@ -28,6 +28,221 @@ const debug = debug_("r2:opds#test");
 // npm run test -- --match="XXX"
 
 // ==========================
+const plainTextWithEscapedHtmlChars = `
+
+This &amp; is &#039;a&quot;        test
+\tof &lt; summary text &gt;
+
+`;
+
+const xhtmlWithSomeEscapedHtmlCharsPrefixedNamespace = `
+<xhtm:div>
+    Hello &amp;\t<xhtm:b>  world &lt; &quot;_&#039; &gt;  </xhtm:b>!
+</xhtm:div>
+`;
+
+const xhtmlWithSomeEscapedHtmlCharsNoPrefixedNamespace = `
+<div xmlns="http://www.w3.org/1999/xhtml">
+    Hi &amp;\t<b>  world &lt; &quot;_&#039; &gt;  </b>!
+</div>
+`;
+
+const xmlWithSomeEscapedHtmlCharsAtomDefaultNamespace = `
+<div>
+    Oops &amp;\t<b>  world &lt; &quot;_&#039; &gt;  </b>!
+</div>
+`;
+
+const escapedHtmlWithSomeDoubleEscapedHtmlChars = `
+&lt;div&gt;
+    Hello &amp;amp;\t&lt;b&gt;  world &amp;lt; &amp;quot;_&amp;#039; &amp;gt;  &lt;/b&gt;!
+&lt;/div&gt;
+`;
+
+test("OPDS1-2 description: summary + content(XHTML NAMESPACE PREFIX)", async (t) => {
+    const xmlSrc = `
+<entry
+    xmlns="http://www.w3.org/2005/Atom"
+    xmlns:xhtm="http://www.w3.org/1999/xhtml">
+<summary>${plainTextWithEscapedHtmlChars}</summary>
+<content type="xhtml">${xhtmlWithSomeEscapedHtmlCharsPrefixedNamespace}</content>
+</entry>
+    `;
+    const xmlDom = new xmldom.DOMParser().parseFromString(xmlSrc); // , "application/xml"
+    const isEntry = xmlDom.documentElement.localName === "entry";
+    t.true(isEntry);
+    const opds1Entry = XML.deserialize<Entry>(xmlDom, Entry);
+    t.is(
+        // ALREADY UNESCAPED BY THE XPATH text() selector
+        // e.g. @XmlXPathSelector("atom:content/text()")
+        opds1Entry.Summary,
+        unescapeHtmlEntities(plainTextWithEscapedHtmlChars),
+    );
+
+    // CHILD(REN) XML NODES ALREADY SERIALIZED (INC. NAMESPACES) BY THE XPATH text() selector
+    // e.g. @XmlXPathSelector("atom:content/text()")
+    // ... BUT ONLY "ESSENTIAL" ESCAPED (&amp; and &lt;)
+    const toMatch = xhtmlWithSomeEscapedHtmlCharsPrefixedNamespace
+        // .replace(/&lt;/g, "<") // &#60;
+        .replace(/&gt;/g, ">") // &#62;
+        .replace(/&quot;/g, "\"") // &#34;
+        .replace(/&#039;/g, "'") // &apos;
+        // .replace(/&apos;/g, "'") // xhtml, not html
+        // .replace(/&amp;/g, "&") // &#38;
+        ;
+    t.is(
+        opds1Entry.Content.replace(/ xmlns:xhtm="http:\/\/www\.w3\.org\/1999\/xhtml"/, ""),
+        toMatch,
+    );
+    const opds2Pub = convertOpds1ToOpds2_EntryToPublication(opds1Entry);
+    t.is(
+        opds2Pub.Metadata.Description.replace(/ xmlns:xhtm="http:\/\/www\.w3\.org\/1999\/xhtml"/, ""),
+        toMatch,
+    );
+});
+
+test("OPDS1-2 description: summary + content(XHTML NAMESPACE NO PREFIX)", async (t) => {
+    const xmlSrc = `
+<entry
+    xmlns="http://www.w3.org/2005/Atom"
+    xmlns:xhtm="http://www.w3.org/1999/xhtml">
+<summary>${plainTextWithEscapedHtmlChars}</summary>
+<content type="xhtml">${xhtmlWithSomeEscapedHtmlCharsNoPrefixedNamespace}</content>
+</entry>
+    `;
+    const xmlDom = new xmldom.DOMParser().parseFromString(xmlSrc); // , "application/xml"
+    const isEntry = xmlDom.documentElement.localName === "entry";
+    t.true(isEntry);
+    const opds1Entry = XML.deserialize<Entry>(xmlDom, Entry);
+    t.is(
+        // ALREADY UNESCAPED BY THE XPATH text() selector
+        // e.g. @XmlXPathSelector("atom:content/text()")
+        opds1Entry.Summary,
+        unescapeHtmlEntities(plainTextWithEscapedHtmlChars),
+    );
+
+    // CHILD(REN) XML NODES ALREADY SERIALIZED (INC. NAMESPACES) BY THE XPATH text() selector
+    // e.g. @XmlXPathSelector("atom:content/text()")
+    // ... BUT ONLY "ESSENTIAL" ESCAPED (&amp; and &lt;)
+    const toMatch = xhtmlWithSomeEscapedHtmlCharsNoPrefixedNamespace
+        // .replace(/&lt;/g, "<") // &#60;
+        .replace(/&gt;/g, ">") // &#62;
+        .replace(/&quot;/g, "\"") // &#34;
+        .replace(/&#039;/g, "'") // &apos;
+        // .replace(/&apos;/g, "'") // xhtml, not html
+        // .replace(/&amp;/g, "&") // &#38;
+        ;
+    t.is(
+        opds1Entry.Content,
+        toMatch,
+    );
+    const opds2Pub = convertOpds1ToOpds2_EntryToPublication(opds1Entry);
+    t.is(
+        opds2Pub.Metadata.Description,
+        toMatch,
+    );
+});
+
+test("OPDS1-2 description: summary + content(XML DEFAULT ATOM NAMESPACE)", async (t) => {
+    const xmlSrc = `
+<entry
+    xmlns="http://www.w3.org/2005/Atom"
+    xmlns:xhtm="http://www.w3.org/1999/xhtml">
+<summary>${plainTextWithEscapedHtmlChars}</summary>
+<content type="xhtml">${xmlWithSomeEscapedHtmlCharsAtomDefaultNamespace}</content>
+</entry>
+    `;
+    const xmlDom = new xmldom.DOMParser().parseFromString(xmlSrc); // , "application/xml"
+    const isEntry = xmlDom.documentElement.localName === "entry";
+    t.true(isEntry);
+    const opds1Entry = XML.deserialize<Entry>(xmlDom, Entry);
+    t.is(
+        // ALREADY UNESCAPED BY THE XPATH text() selector
+        // e.g. @XmlXPathSelector("atom:content/text()")
+        opds1Entry.Summary,
+        unescapeHtmlEntities(plainTextWithEscapedHtmlChars),
+    );
+
+    // CHILD(REN) XML NODES ALREADY SERIALIZED (INC. NAMESPACES) BY THE XPATH text() selector
+    // e.g. @XmlXPathSelector("atom:content/text()")
+    // ... BUT ONLY "ESSENTIAL" ESCAPED (&amp; and &lt;)
+    const toMatch = xmlWithSomeEscapedHtmlCharsAtomDefaultNamespace
+        // .replace(/&lt;/g, "<") // &#60;
+        .replace(/&gt;/g, ">") // &#62;
+        .replace(/&quot;/g, "\"") // &#34;
+        .replace(/&#039;/g, "'") // &apos;
+        // .replace(/&apos;/g, "'") // xhtml, not html
+        // .replace(/&amp;/g, "&") // &#38;
+        ;
+    t.is(
+        opds1Entry.Content.replace(/ xmlns="http:\/\/www\.w3\.org\/2005\/Atom"/, ""),
+        toMatch,
+    );
+    const opds2Pub = convertOpds1ToOpds2_EntryToPublication(opds1Entry);
+    t.is(
+        opds2Pub.Metadata.Description.replace(/ xmlns="http:\/\/www\.w3\.org\/1999\/xhtml"/, ""),
+        toMatch,
+    );
+});
+
+test("OPDS1-2 description: summary", async (t) => {
+    const xmlSrc = `
+<entry
+    xmlns="http://www.w3.org/2005/Atom"
+    xmlns:xhtm="http://www.w3.org/1999/xhtml">
+<summary>${plainTextWithEscapedHtmlChars}</summary>
+</entry>
+    `;
+    const xmlDom = new xmldom.DOMParser().parseFromString(xmlSrc); // , "application/xml"
+    const isEntry = xmlDom.documentElement.localName === "entry";
+    t.true(isEntry);
+    const opds1Entry = XML.deserialize<Entry>(xmlDom, Entry);
+    const toMatch = unescapeHtmlEntities(plainTextWithEscapedHtmlChars);
+    t.is(
+        // ALREADY UNESCAPED BY THE XPATH text() selector
+        // e.g. @XmlXPathSelector("atom:content/text()")
+        opds1Entry.Summary,
+        toMatch,
+    );
+    const opds2Pub = convertOpds1ToOpds2_EntryToPublication(opds1Entry);
+    t.is(
+        opds2Pub.Metadata.Description,
+        toMatch,
+    );
+});
+test("OPDS1-2 description: summary + content(HTML)", async (t) => {
+    const xmlSrc = `
+<entry
+    xmlns="http://www.w3.org/2005/Atom"
+    xmlns:xhtm="http://www.w3.org/1999/xhtml">
+<summary>${plainTextWithEscapedHtmlChars}</summary>
+<content type="html">${escapedHtmlWithSomeDoubleEscapedHtmlChars}</content>
+</entry>
+    `;
+    const xmlDom = new xmldom.DOMParser().parseFromString(xmlSrc); // , "application/xml"
+    const isEntry = xmlDom.documentElement.localName === "entry";
+    t.true(isEntry);
+    const opds1Entry = XML.deserialize<Entry>(xmlDom, Entry);
+    t.is(
+        // ALREADY UNESCAPED BY THE XPATH text() selector
+        // e.g. @XmlXPathSelector("atom:content/text()")
+        opds1Entry.Summary,
+        unescapeHtmlEntities(plainTextWithEscapedHtmlChars),
+    );
+
+    // ALREADY UNESCAPED BY THE XPATH text() selector
+    // e.g. @XmlXPathSelector("atom:content/text()")
+    const toMatch = unescapeHtmlEntities(escapedHtmlWithSomeDoubleEscapedHtmlChars);
+    t.is(
+        opds1Entry.Content,
+        toMatch,
+    );
+    const opds2Pub = convertOpds1ToOpds2_EntryToPublication(opds1Entry);
+    t.is(
+        opds2Pub.Metadata.Description,
+        toMatch,
+    );
+});
 
 async function fn() {
     return Promise.resolve("foo");
@@ -803,14 +1018,14 @@ test("OPDS1-2 HTTP convert (de)serialize roundtrip (recursive)", async (t) => {
     await runUrlTestAlt(t, url);
 });
 
-// test("test", async (t) => {
-//     const url = "https://api.archivelab.org/books/bookconcord_preface_1202/opds_audio_manifest";
-//     const done = new Set<string>([]);
-//     await webpubTest(url, done);
-//     debug(done);
-//     debug(done.size);
-//     t.true(await delay(true));
-// });
+test("test", async (t) => {
+    const url = "https://api.archivelab.org/books/bookconcord_preface_1202/opds_audio_manifest";
+    const done = new Set<string>([]);
+    await webpubTest(url, done);
+    debug(done);
+    debug(done.size);
+    t.true(await delay(true));
+});
 
 test("OPDS1-2 LCP passphrase convert (de)serialize roundtrip", async (t) => {
     const xmlSrc = `

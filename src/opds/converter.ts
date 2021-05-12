@@ -29,25 +29,76 @@ import { OPDSPublication } from "./opds2/opds2-publication";
 // import { OPDSContributor } from "./opds2/opds2-contributor";
 // import { OPDSPublicationMetadata } from "./opds2/opds2-publicationMetadata";
 
+export const unescapeHtmlEntities = (str: string, onlyEssential: boolean | undefined = undefined): string => {
+    if (onlyEssential) {
+        return str
+            .replace(/&lt;/g, "<") // &#60;
+            .replace(/&amp;/g, "&") // &#38;
+            ;
+    }
+    return str
+        .replace(/&lt;/g, "<") // &#60;
+        .replace(/&gt;/g, ">") // &#62;
+        .replace(/&quot;/g, "\"") // &#34;
+        .replace(/&#039;/g, "'") // &apos;
+        .replace(/&apos;/g, "'") // xhtml, not html
+        .replace(/&amp;/g, "&") // &#38;
+        ;
+};
+export const escapeHtmlEntities = (str: string, onlyEssential: boolean | undefined = undefined): string => {
+    if (onlyEssential) {
+        return str
+            .replace(/</g, "&lt;") // &#60;
+            .replace(/&/g, "&amp;") // &#38;
+            ;
+    }
+    return str
+        .replace(/</g, "&lt;") // &#60;
+        .replace(/>/g, "&gt;") // &#62;
+        .replace(/"/g, "&quot;") // &#34;
+        .replace(/'/g, "&#039;") // &apos;
+        // .replace(/'/g, "&apos;") // xhtml, not html
+        .replace(/&/g, "&amp;") // &#38;
+        ;
+};
+const processTypedString = (str: string, type: string | undefined) => {
+    if (type === "text/html" || type === "html") {
+        // ALREADY UNESCAPED BY THE XPATH text() selector
+        // e.g. @XmlXPathSelector("atom:content/text()")
+        return str;
+        // return unescapeHtmlEntities(str);
+    } else if (type === "xhtml" || type && type.indexOf("xhtml") >= 0) {
+        // CHILD(REN) XML NODES ALREADY SERIALIZED (INC. NAMESPACES) BY THE XPATH text() selector
+        // e.g. @XmlXPathSelector("atom:content/text()")
+        // ... BUT ONLY "ESSENTIAL" ESCAPED (&amp; and &lt;)
+        // PS: we patch the erroneous Atom namespace for badly-authored OPDS feeds
+        return str.replace(/http:\/\/www\.w3\.org\/2005\/Atom/g, "http://www.w3.org/1999/xhtml");
+    }
+    return str;
+};
+// https://datatracker.ietf.org/doc/html/rfc4287#page-16
+const convertContentSummary = (entry: Entry): string | undefined => {
+
+    if (entry.Content) {
+        return processTypedString(entry.Content, entry.ContentType);
+    } else if (entry.Summary) {
+        return processTypedString(entry.Summary, entry.SummaryType);
+    }
+
+    return undefined;
+};
+
 export function convertOpds1ToOpds2_EntryToPublication(entry: Entry): OPDSPublication {
 
     const p = new OPDSPublication();
     p.Metadata = new Metadata();
 
     if (entry.Title) {
-        // tslint:disable-next-line: max-line-length
-        p.Metadata.Title = ((entry.TitleType === "text/html" || entry.TitleType === "html" || entry.TitleType === "xhtml") ?
-            // entry.Title.replace(/xmlns=["'][^"']+["']/g, " ") :
-            entry.Title.replace(/xmlns=["']http:\/\/www\.w3\.org\/2005\/Atom["']/g, " ") :
-            entry.Title);
+        p.Metadata.Title = processTypedString(entry.Title, entry.TitleType);
     }
 
     if (entry.SubTitle) {
-        // tslint:disable-next-line: max-line-length
-        p.Metadata.SubTitle = ((entry.SubTitleType === "text/html" || entry.SubTitleType === "html" || entry.SubTitleType === "xhtml") ?
-            // entry.SubTitle.replace(/xmlns=["'][^"']+["']/g, " ") :
-            entry.SubTitle.replace(/xmlns=["']http:\/\/www\.w3\.org\/2005\/Atom["']/g, " ") :
-            entry.SubTitle);
+        p.Metadata.SubTitle = processTypedString(entry.SubTitle, entry.SubTitleType);
     }
 
     if (entry.DcIdentifier) {
@@ -114,27 +165,9 @@ export function convertOpds1ToOpds2_EntryToPublication(entry: Entry): OPDSPublic
         });
     }
 
-    if (entry.Summary) {
-        // tslint:disable-next-line: max-line-length
-        p.Metadata.Description = ((entry.SummaryType === "text/html" || entry.SummaryType === "html" || entry.SummaryType === "xhtml") ?
-            // entry.Summary.replace(/xmlns=["'][^"']+["']/g, " ") :
-            entry.Summary.replace(/xmlns=["']http:\/\/www\.w3\.org\/2005\/Atom["']/g, " ") :
-            entry.Summary);
-    }
-
-    if (entry.Content) {
-        // tslint:disable-next-line: max-line-length
-        const txt = ((entry.ContentType === "text/html" || entry.ContentType === "html" || entry.ContentType === "xhtml") ?
-            // entry.Content.replace(/xmlns=["'][^"']+["']/g, " ") :
-            entry.Content.replace(/xmlns=["']http:\/\/www\.w3\.org\/2005\/Atom["']/g, " ") :
-            entry.Content);
-
-        if (p.Metadata.Description) {
-            p.Metadata.Description += "\n\n";
-            p.Metadata.Description += txt;
-        } else {
-            p.Metadata.Description = txt;
-        }
+    const t = convertContentSummary(entry);
+    if (t) {
+        p.Metadata.Description = t;
     }
 
     if (entry.Links) {
@@ -233,41 +266,12 @@ export function convertOpds1ToOpds2_EntryToLink(entry: Entry): OPDSLink {
     const linkNav = new OPDSLink();
 
     if (entry.Title) {
-        // tslint:disable-next-line: max-line-length
-        linkNav.Title = ((entry.TitleType === "text/html" || entry.TitleType === "html" || entry.TitleType === "xhtml") ?
-            // entry.Title.replace(/xmlns=["'][^"']+["']/g, " ") :
-            entry.Title.replace(/xmlns=["']http:\/\/www\.w3\.org\/2005\/Atom["']/g, " ") :
-            entry.Title);
+        linkNav.Title = processTypedString(entry.Title, entry.TitleType);
     }
 
-    if (entry.Summary) {
-        // tslint:disable-next-line: max-line-length
-        const txt = ((entry.SummaryType === "text/html" || entry.SummaryType === "html" || entry.SummaryType === "xhtml") ?
-            // entry.Summary.replace(/xmlns=["'][^"']+["']/g, " ") :
-            entry.Summary.replace(/xmlns=["']http:\/\/www\.w3\.org\/2005\/Atom["']/g, " ") :
-            entry.Summary);
-
-        if (linkNav.Title) {
-            linkNav.Title += "\n\n";
-            linkNav.Title += txt;
-        } else {
-            linkNav.Title = txt;
-        }
-    }
-
-    if (entry.Content) {
-        // tslint:disable-next-line: max-line-length
-        const txt = ((entry.ContentType === "text/html" || entry.ContentType === "html" || entry.ContentType === "xhtml") ?
-            // entry.Content.replace(/xmlns=["'][^"']+["']/g, " ") :
-            entry.Content.replace(/xmlns=["']http:\/\/www\.w3\.org\/2005\/Atom["']/g, " ") :
-            entry.Content);
-
-        if (linkNav.Title) {
-            linkNav.Title += "\n\n";
-            linkNav.Title += txt;
-        } else {
-            linkNav.Title = txt;
-        }
+    const t = convertContentSummary(entry);
+    if (t) {
+        linkNav.Title = t;
     }
 
     if (entry.Links) {
