@@ -266,12 +266,23 @@ export function convertOpds1ToOpds2_EntryToLink(entry: Entry): OPDSLink {
     const linkNav = new OPDSLink();
 
     if (entry.Title) {
-        linkNav.Title = processTypedString(entry.Title, entry.TitleType);
+        const t = processTypedString(entry.Title, entry.TitleType);
+        if (t) {
+            linkNav.Title = t;
+        }
     }
+    if (entry.Summary) {
+        const s = processTypedString(entry.Summary, entry.SummaryType);
+        if (s) {
+            if (!linkNav.Properties) {
+                linkNav.Properties = new OPDSProperties();
+            }
 
-    const t = convertContentSummary(entry);
-    if (t) {
-        linkNav.Title = t;
+            if (!linkNav.Properties.AdditionalJSON) {
+                linkNav.Properties.AdditionalJSON = {};
+            }
+            linkNav.Properties.AdditionalJSON.title_summary = s;
+        }
     }
 
     if (entry.Links) {
