@@ -14,13 +14,12 @@ initGlobalConverters_GENERIC();
 
 // ==========================
 
-const num = 12345.67890;
+const num = 12345.6789;
 const numSTR = "12345.6789";
 
 // ==========================
 
 test("JSON SERIALIZE: Metadata.ItemsPerPage => Number", (t) => {
-
     const md = new OPDSMetadata();
     md.ItemsPerPage = num;
     inspect(md);
@@ -35,7 +34,7 @@ test("JSON SERIALIZE: Metadata.ItemsPerPage => Number", (t) => {
 // ==========================
 
 test("JSON DESERIALIZE: Metadata.ItemsPerPage => Number", (t) => {
-
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const json: any = {};
     json.itemsPerPage = num;
     logJSON(json);
@@ -68,9 +67,7 @@ test("JSON DESERIALIZE: Metadata.ItemsPerPage => Number", (t) => {
 // ==========================
 
 test("XML DESERIALIZE: OPDS opensearch:itemsPerPage => Number", (t) => {
-
-    const xmlStr =
-        `<opds xmlns="http://opds-spec.org/2010/catalog" xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/">
+    const xmlStr = `<opds xmlns="http://opds-spec.org/2010/catalog" xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/">
             <opensearch:itemsPerPage>${numSTR}</opensearch:itemsPerPage>
         </opds>`;
     console.log(xmlStr);

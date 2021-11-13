@@ -5,9 +5,7 @@ import { JsonArray, JsonMap, TaJsonDeserialize, TaJsonSerialize } from "@r2-lcp-
 import { initGlobalConverters_GENERIC, initGlobalConverters_OPDS } from "../src/opds/init-globals";
 import { OPDSFeed } from "../src/opds/opds2/opds2";
 import { OPDSMetadata } from "../src/opds/opds2/opds2-metadata";
-import {
-    checkType_Array, checkType_Number, checkType_Object, checkType_String, inspect, logJSON,
-} from "./helpers";
+import { checkType_Array, checkType_Number, checkType_Object, checkType_String, inspect, logJSON } from "./helpers";
 
 initGlobalConverters_OPDS();
 initGlobalConverters_GENERIC();
@@ -22,7 +20,6 @@ const n = 999;
 // ==========================
 
 test("JSON SERIALIZE: Metadata.AdditionalJSON", (t) => {
-
     const md = new OPDSMetadata();
     md.Title = titleStr1;
     md.NumberOfItems = n; // OPDSMetadata
@@ -94,7 +91,6 @@ test("JSON SERIALIZE: Metadata.AdditionalJSON", (t) => {
 });
 
 test("JSON DESERIALIZE: Metadata.AdditionalJSON", (t) => {
-
     const json: JsonMap = {
         itemsPerPage: n,
         numberOfItems: n,
@@ -152,8 +148,7 @@ test("JSON DESERIALIZE: Metadata.AdditionalJSON", (t) => {
 
     t.is((md.AdditionalJSON.tizz as JsonMap).sub1, true);
 
-    if ((md.AdditionalJSON.tizz as JsonMap).sub2 ||
-        (md.AdditionalJSON.tizz as JsonMap).sub2 !== null) {
+    if ((md.AdditionalJSON.tizz as JsonMap).sub2 || (md.AdditionalJSON.tizz as JsonMap).sub2 !== null) {
         t.fail();
         return;
     }

@@ -25,7 +25,6 @@ const dateSTR = "2000-12-31T23:59:59.999Z";
 // ==========================
 
 test("JSON SERIALIZE: Metadata.Modified => Date", (t) => {
-
     const md = new Metadata();
     md.Modified = date;
     inspect(md);
@@ -40,7 +39,7 @@ test("JSON SERIALIZE: Metadata.Modified => Date", (t) => {
 // ==========================
 
 test("JSON DESERIALIZE: Metadata.Modified => Date", (t) => {
-
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const json: any = {};
     json.modified = dateSTR;
     logJSON(json);
@@ -72,9 +71,7 @@ test("JSON DESERIALIZE: Metadata.Modified => Date", (t) => {
 // ==========================
 
 test("XML DESERIALIZE: OPDS Entry.Updated => Date", (t) => {
-
-    const xmlStr =
-        `<entry xmlns="http://opds-spec.org/2010/catalog" xmlns:atom="http://www.w3.org/2005/Atom">
+    const xmlStr = `<entry xmlns="http://opds-spec.org/2010/catalog" xmlns:atom="http://www.w3.org/2005/Atom">
             <atom:updated>${dateSTR}</atom:updated>
         </entry>`;
     console.log(xmlStr);

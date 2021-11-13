@@ -26,7 +26,6 @@ titleLangStr2[titleLang2] = titleStr1;
 // ==========================
 
 test("JSON SERIALIZE: Metadata.Title => string", (t) => {
-
     const md = new Metadata();
     md.Title = titleStr1;
     inspect(md);
@@ -39,7 +38,6 @@ test("JSON SERIALIZE: Metadata.Title => string", (t) => {
 });
 
 test("JSON SERIALIZE: Metadata.Title => string-lang", (t) => {
-
     const md = new Metadata();
     md.Title = titleLangStr1;
     inspect(md);
@@ -58,7 +56,7 @@ test("JSON SERIALIZE: Metadata.Title => string-lang", (t) => {
 });
 
 test("JSON DESERIALIZE: Metadata.Title => string", (t) => {
-
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const json: any = {};
     json.title = titleStr1;
     logJSON(json);
@@ -71,7 +69,7 @@ test("JSON DESERIALIZE: Metadata.Title => string", (t) => {
 });
 
 test("JSON DESERIALIZE: Metadata.Title => string-lang", (t) => {
-
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const json: any = {};
     json.title = titleLangStr1;
     logJSON(json);

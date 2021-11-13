@@ -17,7 +17,6 @@ const relStr2 = "rel2";
 // ==========================
 
 test("JSON SERIALIZE: OPDSLink.Rel => string[]", (t) => {
-
     const link = new OPDSLink();
     link.AddRel(relStr1);
     link.AddRel(relStr2);
@@ -38,7 +37,6 @@ test("JSON SERIALIZE: OPDSLink.Rel => string[]", (t) => {
 });
 
 test("JSON SERIALIZE: OPDSLink.Rel => string[] (recursive links)", (t) => {
-
     const link = new OPDSLink();
     link.AddRel(relStr1);
     link.AddRel(relStr2);
@@ -79,7 +77,6 @@ test("JSON SERIALIZE: OPDSLink.Rel => string[] (recursive links)", (t) => {
 });
 
 test("JSON SERIALIZE: OPDSLink.Rel => string", (t) => {
-
     const link = new OPDSLink();
     link.AddRel(relStr1);
     inspect(link);
@@ -92,7 +89,6 @@ test("JSON SERIALIZE: OPDSLink.Rel => string", (t) => {
 });
 
 test("JSON SERIALIZE: OPDSLink.Rel => string (recursive links)", (t) => {
-
     const link = new OPDSLink();
     link.AddRel(relStr1);
     const child = new OPDSLink();
@@ -117,7 +113,7 @@ test("JSON SERIALIZE: OPDSLink.Rel => string (recursive links)", (t) => {
 });
 
 test("JSON DESERIALIZE: OPDSLink.Rel => string[]", (t) => {
-
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const json: any = {};
     json.rel = [relStr1, relStr2];
     logJSON(json);
@@ -136,7 +132,7 @@ test("JSON DESERIALIZE: OPDSLink.Rel => string[]", (t) => {
 });
 
 test("JSON DESERIALIZE: OPDSLink.Rel => string[] (recursive children)", (t) => {
-
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const json: any = {};
     json.rel = [relStr1, relStr2];
     json.children = [];
@@ -169,7 +165,7 @@ test("JSON DESERIALIZE: OPDSLink.Rel => string[] (recursive children)", (t) => {
 });
 
 test("JSON DESERIALIZE: OPDSLink.Rel => string[1]", (t) => {
-
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const json: any = {};
     json.rel = [relStr1];
     logJSON(json);
@@ -185,7 +181,7 @@ test("JSON DESERIALIZE: OPDSLink.Rel => string[1]", (t) => {
 });
 
 test("JSON DESERIALIZE: OPDSLink.Rel => string", (t) => {
-
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const json: any = {};
     json.rel = relStr1;
     logJSON(json);
@@ -201,7 +197,7 @@ test("JSON DESERIALIZE: OPDSLink.Rel => string", (t) => {
 });
 
 test("JSON DESERIALIZE: OPDSLink.Rel => string (recursive children)", (t) => {
-
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const json: any = {};
     json.rel = relStr1;
     json.children = [];

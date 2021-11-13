@@ -11,7 +11,11 @@ import { Publication } from "@r2-shared-js/models/publication";
 import { sortObject, traverseJsonObjects } from "@r2-utils-js/_utils/JsonUtils";
 import { XML } from "@r2-utils-js/_utils/xml-js-mapper";
 
-import { convertOpds1ToOpds2, convertOpds1ToOpds2_EntryToPublication, unescapeHtmlEntities } from "../src/opds/converter";
+import {
+    convertOpds1ToOpds2,
+    convertOpds1ToOpds2_EntryToPublication,
+    unescapeHtmlEntities,
+} from "../src/opds/converter";
 import { initGlobalConverters_GENERIC, initGlobalConverters_OPDS } from "../src/opds/init-globals";
 import { OPDS } from "../src/opds/opds1/opds";
 import { Entry } from "../src/opds/opds1/opds-entry";
@@ -85,20 +89,14 @@ test("OPDS1-2 description: summary + content(XHTML NAMESPACE PREFIX)", async (t)
     const toMatch = xhtmlWithSomeEscapedHtmlCharsPrefixedNamespace
         // .replace(/&lt;/g, "<") // &#60;
         .replace(/&gt;/g, ">") // &#62;
+        // eslint-disable-next-line prettier/prettier
         .replace(/&quot;/g, "\"") // &#34;
-        .replace(/&#039;/g, "'") // &apos;
-        // .replace(/&apos;/g, "'") // xhtml, not html
-        // .replace(/&amp;/g, "&") // &#38;
-        ;
-    t.is(
-        opds1Entry.Content.replace(/ xmlns:xhtm="http:\/\/www\.w3\.org\/1999\/xhtml"/, ""),
-        toMatch,
-    );
+        .replace(/&#039;/g, "'"); // &apos;
+    // .replace(/&apos;/g, "'") // xhtml, not html
+    // .replace(/&amp;/g, "&") // &#38;
+    t.is(opds1Entry.Content.replace(/ xmlns:xhtm="http:\/\/www\.w3\.org\/1999\/xhtml"/, ""), toMatch);
     const opds2Pub = convertOpds1ToOpds2_EntryToPublication(opds1Entry);
-    t.is(
-        opds2Pub.Metadata.Description.replace(/ xmlns:xhtm="http:\/\/www\.w3\.org\/1999\/xhtml"/, ""),
-        toMatch,
-    );
+    t.is(opds2Pub.Metadata.Description.replace(/ xmlns:xhtm="http:\/\/www\.w3\.org\/1999\/xhtml"/, ""), toMatch);
 });
 
 test("OPDS1-2 description: summary + content(XHTML NAMESPACE NO PREFIX)", async (t) => {
@@ -127,20 +125,14 @@ test("OPDS1-2 description: summary + content(XHTML NAMESPACE NO PREFIX)", async 
     const toMatch = xhtmlWithSomeEscapedHtmlCharsNoPrefixedNamespace
         // .replace(/&lt;/g, "<") // &#60;
         .replace(/&gt;/g, ">") // &#62;
+        // eslint-disable-next-line prettier/prettier
         .replace(/&quot;/g, "\"") // &#34;
-        .replace(/&#039;/g, "'") // &apos;
-        // .replace(/&apos;/g, "'") // xhtml, not html
-        // .replace(/&amp;/g, "&") // &#38;
-        ;
-    t.is(
-        opds1Entry.Content,
-        toMatch,
-    );
+        .replace(/&#039;/g, "'"); // &apos;
+    // .replace(/&apos;/g, "'") // xhtml, not html
+    // .replace(/&amp;/g, "&") // &#38;
+    t.is(opds1Entry.Content, toMatch);
     const opds2Pub = convertOpds1ToOpds2_EntryToPublication(opds1Entry);
-    t.is(
-        opds2Pub.Metadata.Description,
-        toMatch,
-    );
+    t.is(opds2Pub.Metadata.Description, toMatch);
 });
 
 test("OPDS1-2 description: summary + content(XML DEFAULT ATOM NAMESPACE)", async (t) => {
@@ -169,20 +161,14 @@ test("OPDS1-2 description: summary + content(XML DEFAULT ATOM NAMESPACE)", async
     const toMatch = xmlWithSomeEscapedHtmlCharsAtomDefaultNamespace
         // .replace(/&lt;/g, "<") // &#60;
         .replace(/&gt;/g, ">") // &#62;
+        // eslint-disable-next-line prettier/prettier
         .replace(/&quot;/g, "\"") // &#34;
-        .replace(/&#039;/g, "'") // &apos;
-        // .replace(/&apos;/g, "'") // xhtml, not html
-        // .replace(/&amp;/g, "&") // &#38;
-        ;
-    t.is(
-        opds1Entry.Content.replace(/ xmlns="http:\/\/www\.w3\.org\/2005\/Atom"/, ""),
-        toMatch,
-    );
+        .replace(/&#039;/g, "'"); // &apos;
+    // .replace(/&apos;/g, "'") // xhtml, not html
+    // .replace(/&amp;/g, "&") // &#38;
+    t.is(opds1Entry.Content.replace(/ xmlns="http:\/\/www\.w3\.org\/2005\/Atom"/, ""), toMatch);
     const opds2Pub = convertOpds1ToOpds2_EntryToPublication(opds1Entry);
-    t.is(
-        opds2Pub.Metadata.Description.replace(/ xmlns="http:\/\/www\.w3\.org\/1999\/xhtml"/, ""),
-        toMatch,
-    );
+    t.is(opds2Pub.Metadata.Description.replace(/ xmlns="http:\/\/www\.w3\.org\/1999\/xhtml"/, ""), toMatch);
 });
 
 test("OPDS1-2 description: summary", async (t) => {
@@ -205,10 +191,7 @@ test("OPDS1-2 description: summary", async (t) => {
         toMatch,
     );
     const opds2Pub = convertOpds1ToOpds2_EntryToPublication(opds1Entry);
-    t.is(
-        opds2Pub.Metadata.Description,
-        toMatch,
-    );
+    t.is(opds2Pub.Metadata.Description, toMatch);
 });
 test("OPDS1-2 description: summary + content(HTML)", async (t) => {
     const xmlSrc = `
@@ -233,15 +216,9 @@ test("OPDS1-2 description: summary + content(HTML)", async (t) => {
     // ALREADY UNESCAPED BY THE XPATH text() selector
     // e.g. @XmlXPathSelector("atom:content/text()")
     const toMatch = unescapeHtmlEntities(escapedHtmlWithSomeDoubleEscapedHtmlChars);
-    t.is(
-        opds1Entry.Content,
-        toMatch,
-    );
+    t.is(opds1Entry.Content, toMatch);
     const opds2Pub = convertOpds1ToOpds2_EntryToPublication(opds1Entry);
-    t.is(
-        opds2Pub.Metadata.Description,
-        toMatch,
-    );
+    t.is(opds2Pub.Metadata.Description, toMatch);
 });
 
 async function fn() {
@@ -272,11 +249,11 @@ async function delay(okay: boolean): Promise<boolean> {
     });
 }
 
-async function parseCompareJSONs(url: string, json1: any, json2: any): Promise<OPDSFeedAndPubUrls>  {
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+async function parseCompareJSONs(url: string, json1: any, json2: any): Promise<OPDSFeedAndPubUrls> {
     return new Promise<OPDSFeedAndPubUrls>((resolve, reject) => {
-
         if (json1 !== json2) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const harmonizeNulls = (obj: any) => {
                 if (obj !== null && typeof obj !== "undefined") {
                     if (obj instanceof Array) {
@@ -294,6 +271,7 @@ async function parseCompareJSONs(url: string, json1: any, json2: any): Promise<O
                     }
                 }
             };
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const harmonizeBitrateAndTrack = (obj: any) => {
                 if (typeof obj.bitrate === "string") {
                     obj.bitrate = parseFloat(obj.bitrate);
@@ -302,6 +280,7 @@ async function parseCompareJSONs(url: string, json1: any, json2: any): Promise<O
                     delete obj.tracks;
                 }
             };
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const harmonizeDate = (obj: any) => {
                 ["updated", "published", "since", "until", "modified"].forEach((term) => {
                     if (obj[term]) {
@@ -321,9 +300,27 @@ async function parseCompareJSONs(url: string, json1: any, json2: any): Promise<O
                     }
                 });
             };
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const harmonizeName = (obj: any) => {
                 // tslint:disable-next-line:max-line-length
-                ["subject", "collection", "series", "author", "translator", "editor", "artist", "illustrator", "letterer", "penciler", "colorist", "inker", "narrator", "contributor", "publisher", "imprint"].forEach((term) => {
+                [
+                    "subject",
+                    "collection",
+                    "series",
+                    "author",
+                    "translator",
+                    "editor",
+                    "artist",
+                    "illustrator",
+                    "letterer",
+                    "penciler",
+                    "colorist",
+                    "inker",
+                    "narrator",
+                    "contributor",
+                    "publisher",
+                    "imprint",
+                ].forEach((term) => {
                     if (obj[term]) {
                         const isArray = obj[term] instanceof Array;
                         const arr = isArray ? obj[term] : [obj[term]];
@@ -347,7 +344,8 @@ async function parseCompareJSONs(url: string, json1: any, json2: any): Promise<O
                                         //     obj[term].name = { _: obj[term].name };
                                         // }
                                         // do nothing
-                                    } else if (typeof arr[i].name === "object") { // IStringMap
+                                    } else if (typeof arr[i].name === "object") {
+                                        // IStringMap
                                         // do nothing
                                     }
                                 }
@@ -359,6 +357,7 @@ async function parseCompareJSONs(url: string, json1: any, json2: any): Promise<O
                     }
                 });
             };
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const harmonizeArrays = (obj: any) => {
                 // tslint:disable-next-line:max-line-length
                 ["role", "@context", "rel", "language"].forEach((term) => {
@@ -370,6 +369,7 @@ async function parseCompareJSONs(url: string, json1: any, json2: any): Promise<O
                     }
                 });
             };
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             // const harmonizeFieldnames = (obj: any) => {
             //     if (obj.belongs_to) {
             //         obj.belongsTo = obj.belongs_to;
@@ -398,67 +398,57 @@ async function parseCompareJSONs(url: string, json1: any, json2: any): Promise<O
             // debug("------------------------");
 
             // console.log("=== HARMONIZING JSON1 ...");
-            traverseJsonObjects(json1,
-                (obj) => {
-                    if (obj !== null) {
-                        harmonizeDate(obj);
-                    }
-                });
-            traverseJsonObjects(json1,
-                (obj) => {
-                    if (obj !== null) {
-                        harmonizeName(obj);
-                    }
-                });
-            traverseJsonObjects(json1,
-                (obj) => {
-                    if (obj !== null) {
-                        harmonizeArrays(obj);
-                    }
-                });
-            traverseJsonObjects(json1,
-                (obj) => {
-                    if (obj !== null) {
-                        harmonizeBitrateAndTrack(obj);
-                    }
-                });
-            traverseJsonObjects(json1,
-                (obj) => {
-                    if (obj !== null) {
-                        harmonizeNulls(obj);
-                    }
-                });
+            traverseJsonObjects(json1, (obj) => {
+                if (obj !== null) {
+                    harmonizeDate(obj);
+                }
+            });
+            traverseJsonObjects(json1, (obj) => {
+                if (obj !== null) {
+                    harmonizeName(obj);
+                }
+            });
+            traverseJsonObjects(json1, (obj) => {
+                if (obj !== null) {
+                    harmonizeArrays(obj);
+                }
+            });
+            traverseJsonObjects(json1, (obj) => {
+                if (obj !== null) {
+                    harmonizeBitrateAndTrack(obj);
+                }
+            });
+            traverseJsonObjects(json1, (obj) => {
+                if (obj !== null) {
+                    harmonizeNulls(obj);
+                }
+            });
             // console.log("=== HARMONIZING JSON2 ...");
-            traverseJsonObjects(json2,
-                (obj) => {
-                    if (obj !== null) {
-                        harmonizeDate(obj);
-                    }
-                });
-            traverseJsonObjects(json2,
-                (obj) => {
-                    if (obj !== null) {
-                        harmonizeName(obj);
-                    }
-                });
-            traverseJsonObjects(json2,
-                (obj) => {
-                    if (obj !== null) {
-                        harmonizeArrays(obj);
-                    }
-                });
-            traverseJsonObjects(json2,
-                (obj) => {
-                    if (obj !== null) {
-                        harmonizeBitrateAndTrack(obj);
-                    }
-                });
-            traverseJsonObjects(json2,
-                (obj) => {
-                    if (obj !== null) {
-                        harmonizeNulls(obj);
-                    }
-                });
+            traverseJsonObjects(json2, (obj) => {
+                if (obj !== null) {
+                    harmonizeDate(obj);
+                }
+            });
+            traverseJsonObjects(json2, (obj) => {
+                if (obj !== null) {
+                    harmonizeName(obj);
+                }
+            });
+            traverseJsonObjects(json2, (obj) => {
+                if (obj !== null) {
+                    harmonizeArrays(obj);
+                }
+            });
+            traverseJsonObjects(json2, (obj) => {
+                if (obj !== null) {
+                    harmonizeBitrateAndTrack(obj);
+                }
+            });
+            traverseJsonObjects(json2, (obj) => {
+                if (obj !== null) {
+                    harmonizeNulls(obj);
+                }
+            });
             json1 = sortObject(json1);
             json2 = sortObject(json2);
 
@@ -490,49 +480,47 @@ async function parseCompareJSONs(url: string, json1: any, json2: any): Promise<O
         const audiowebpubUrls = new Set<string>();
         const authenticationUrls = new Set<string>();
 
-        traverseJsonObjects(json1,
-            (obj) => {
-                if (obj === null) {
-                    return; // skip
-                }
-                const isFeed = obj.type === "application/opds+json";
-                const isPub = obj.type === "application/opds-publication+json";
-                const isWebPubManifestAudio = obj.type === "application/audiobook+json";
-                const isAuth = obj.type === "application/vnd.opds.authentication.v1.0+json";
+        traverseJsonObjects(json1, (obj) => {
+            if (obj === null) {
+                return; // skip
+            }
+            const isFeed = obj.type === "application/opds+json";
+            const isPub = obj.type === "application/opds-publication+json";
+            const isWebPubManifestAudio = obj.type === "application/audiobook+json";
+            const isAuth = obj.type === "application/vnd.opds.authentication.v1.0+json";
 
-                // to skip erroneous feed (dirty detection, but will do for these tests)
-                const isWebPubManifest = obj.type === "application/webpub+json" &&
-                    obj.href && obj.href.indexOf(".epub") < 0;
+            // to skip erroneous feed (dirty detection, but will do for these tests)
+            const isWebPubManifest =
+                obj.type === "application/webpub+json" && obj.href && obj.href.indexOf(".epub") < 0;
 
-                if (obj.href && (isFeed || isPub || isWebPubManifest || isWebPubManifestAudio || isAuth)) {
-
-                    const u = new URL(obj.href, thisUrl);
-                    const uStr = u.toString();
-                    if (uStr !== thisUrlStr) {
-                        if (isFeed) {
-                            feedUrls.add(uStr);
-                        } else if (isPub) {
-                            pubUrls.add(uStr);
-                        } else if (isWebPubManifest) {
-                            webpubUrls.add(uStr);
-                        } else if (isWebPubManifestAudio) {
-                            audiowebpubUrls.add(uStr);
-                        } else if (isAuth) {
-                            authenticationUrls.add(uStr);
-                        }
-
-                        // console.log("URL: " + obj.href + " => " + uStr);
-                    } else {
-                        // console.log("URL: " + obj.href + " (skipped)");
+            if (obj.href && (isFeed || isPub || isWebPubManifest || isWebPubManifestAudio || isAuth)) {
+                const u = new URL(obj.href, thisUrl);
+                const uStr = u.toString();
+                if (uStr !== thisUrlStr) {
+                    if (isFeed) {
+                        feedUrls.add(uStr);
+                    } else if (isPub) {
+                        pubUrls.add(uStr);
+                    } else if (isWebPubManifest) {
+                        webpubUrls.add(uStr);
+                    } else if (isWebPubManifestAudio) {
+                        audiowebpubUrls.add(uStr);
+                    } else if (isAuth) {
+                        authenticationUrls.add(uStr);
                     }
+
+                    // console.log("URL: " + obj.href + " => " + uStr);
+                } else {
+                    // console.log("URL: " + obj.href + " (skipped)");
                 }
-            });
+            }
+        });
 
         const set: OPDSFeedAndPubUrls = {
             audiowebpubs: audiowebpubUrls,
             authentications: authenticationUrls,
             feeds: feedUrls,
-            pubs:  pubUrls,
+            pubs: pubUrls,
             webpubs: webpubUrls,
         };
         resolve(set);
@@ -540,202 +528,200 @@ async function parseCompareJSONs(url: string, json1: any, json2: any): Promise<O
 }
 
 async function opds2Test(url: string): Promise<OPDSFeedAndPubUrls> {
-
     return new Promise<OPDSFeedAndPubUrls>((resolve, reject) => {
-
         // debug("------------------------");
         debug(url);
         // debug("------------------------");
 
         const proto = /^https:\/\//.test(url) ? https : http;
-        proto.get(url, (response) => {
-            let str: string | undefined;
-            let buffs: Buffer[] | undefined;
+        proto
+            .get(url, (response) => {
+                let str: string | undefined;
+                let buffs: Buffer[] | undefined;
 
-            if (response.statusCode && (response.statusCode < 200 || response.statusCode >= 300)) {
-                debug(`${url} ==> ${response.statusCode} (skipped)`);
-                const empty: OPDSFeedAndPubUrls = {
-                    audiowebpubs: new Set<string>([]),
-                    authentications: new Set<string>([]),
-                    feeds: new Set<string>([]),
-                    pubs: new Set<string>([]),
-                    webpubs: new Set<string>([]),
-                };
-                resolve(empty);
-                return;
-            }
-
-            response.on("data", (chunk) => {
-                if (typeof chunk === "string") {
-                    if (!str) {
-                        str = "";
-                    }
-                    str += chunk;
-                } else {
-                    if (!buffs) {
-                        buffs = [];
-                    }
-                    buffs.push(chunk);
-                }
-            });
-
-            response.on("end", async () => {
-                let src: string | undefined;
-                if (str) {
-                    src = str;
-                } else if (buffs) {
-                    src = Buffer.concat(buffs).toString("utf8");
-                }
-                if (!src) {
-                    reject(`Problem loading: ${url}`);
+                if (response.statusCode && (response.statusCode < 200 || response.statusCode >= 300)) {
+                    debug(`${url} ==> ${response.statusCode} (skipped)`);
+                    const empty: OPDSFeedAndPubUrls = {
+                        audiowebpubs: new Set<string>([]),
+                        authentications: new Set<string>([]),
+                        feeds: new Set<string>([]),
+                        pubs: new Set<string>([]),
+                        webpubs: new Set<string>([]),
+                    };
+                    resolve(empty);
                     return;
                 }
 
-                const json1 = JSON.parse(src);
-                // traverseJsonObjects(json1,
-                //     (obj) => {
-                //         harmonizeFieldnames(obj);
-                //     });
-                // debug(json1);
-                // debug("------------------------");
-                // debug("------------------------");
-                const isPublication = !json1.publications &&
-                    !json1.navigation &&
-                    !json1.groups &&
-                    !json1.catalogs &&
-                    json1.metadata;
-                const isAuth = !isPublication && json1.authentication;
+                response.on("data", (chunk) => {
+                    if (typeof chunk === "string") {
+                        if (!str) {
+                            str = "";
+                        }
+                        str += chunk;
+                    } else {
+                        if (!buffs) {
+                            buffs = [];
+                        }
+                        buffs.push(chunk);
+                    }
+                });
 
-                const opds2Feed: OPDSPublication | OPDSFeed | OPDSAuthenticationDoc =
-                    // tslint:disable-next-line: max-line-length
-                    isPublication ? TaJsonDeserialize<OPDSPublication>(json1, OPDSPublication) : // "application/opds-publication+json"
-                    // tslint:disable-next-line: max-line-length
-                    (isAuth ? TaJsonDeserialize<OPDSAuthenticationDoc>(json1, OPDSAuthenticationDoc) : // "application/vnd.opds.authentication.v1.0+json"
-                    TaJsonDeserialize<OPDSFeed>(json1, OPDSFeed)); // "application/opds+json"
-                // debug(opds2Feed);
-                // debug("------------------------");
-                // debug("------------------------");
+                response.on("end", async () => {
+                    let src: string | undefined;
+                    if (str) {
+                        src = str;
+                    } else if (buffs) {
+                        src = Buffer.concat(buffs).toString("utf8");
+                    }
+                    if (!src) {
+                        reject(`Problem loading: ${url}`);
+                        return;
+                    }
 
-                // if (isPublication) { // OPDSPublication is not IWithAdditionalJSON
-                //     const pub = opds2Feed as OPDSPublication;
-                // } else if (isAuth) { // OPDSAuthenticationDoc
-                //     const authDoc = opds2Feed as IWithAdditionalJSON;
-                //     if (authDoc.AdditionalJSON) {
-                //         Object.keys(authDoc.AdditionalJSON).forEach((key) => {
-                //             if (authDoc.AdditionalJSON.hasOwnProperty(key)) {
-                //                 (authDoc as any)[key] = authDoc.AdditionalJSON[key];
-                //                 delete authDoc.AdditionalJSON[key];
-                //             }
-                //         });
-                //         debug(authDoc);
-                //         debug(authDoc.AdditionalJSON);
-                //     }
-                // } else { // OPDSFeed is not IWithAdditionalJSON
-                //     const feed = opds2Feed as OPDSFeed;
-                // }
+                    const json1 = JSON.parse(src);
+                    // traverseJsonObjects(json1,
+                    //     (obj) => {
+                    //         harmonizeFieldnames(obj);
+                    //     });
+                    // debug(json1);
+                    // debug("------------------------");
+                    // debug("------------------------");
+                    const isPublication =
+                        !json1.publications && !json1.navigation && !json1.groups && !json1.catalogs && json1.metadata;
+                    const isAuth = !isPublication && json1.authentication;
 
-                const json2 = TaJsonSerialize(opds2Feed);
+                    const opds2Feed: OPDSPublication | OPDSFeed | OPDSAuthenticationDoc =
+                        // tslint:disable-next-line: max-line-length
+                        isPublication
+                            ? TaJsonDeserialize<OPDSPublication>(json1, OPDSPublication) // "application/opds-publication+json"
+                            : // tslint:disable-next-line: max-line-length
+                            isAuth
+                            ? TaJsonDeserialize<OPDSAuthenticationDoc>(json1, OPDSAuthenticationDoc) // "application/vnd.opds.authentication.v1.0+json"
+                            : TaJsonDeserialize<OPDSFeed>(json1, OPDSFeed); // "application/opds+json"
+                    // debug(opds2Feed);
+                    // debug("------------------------");
+                    // debug("------------------------");
 
-                let res: OPDSFeedAndPubUrls | undefined;
-                try {
-                    res = await parseCompareJSONs(url, json1, json2);
-                } catch (err) {
-                    debug(err);
-                    reject(err);
-                    return;
-                }
-                resolve(res);
+                    // if (isPublication) { // OPDSPublication is not IWithAdditionalJSON
+                    //     const pub = opds2Feed as OPDSPublication;
+                    // } else if (isAuth) { // OPDSAuthenticationDoc
+                    //     const authDoc = opds2Feed as IWithAdditionalJSON;
+                    //     if (authDoc.AdditionalJSON) {
+                    //         Object.keys(authDoc.AdditionalJSON).forEach((key) => {
+                    //             if (authDoc.AdditionalJSON.hasOwnProperty(key)) {
+                    //                 (authDoc as any)[key] = authDoc.AdditionalJSON[key];
+                    //                 delete authDoc.AdditionalJSON[key];
+                    //             }
+                    //         });
+                    //         debug(authDoc);
+                    //         debug(authDoc.AdditionalJSON);
+                    //     }
+                    // } else { // OPDSFeed is not IWithAdditionalJSON
+                    //     const feed = opds2Feed as OPDSFeed;
+                    // }
+
+                    const json2 = TaJsonSerialize(opds2Feed);
+
+                    let res: OPDSFeedAndPubUrls | undefined;
+                    try {
+                        res = await parseCompareJSONs(url, json1, json2);
+                    } catch (err) {
+                        debug(err);
+                        reject(err);
+                        return;
+                    }
+                    resolve(res);
+                });
+            })
+            .on("error", (err) => {
+                reject(err);
             });
-        }).on("error", (err) => {
-            reject(err);
-        });
     });
 }
 
 async function webpubTest(url: string, alreadyDone: Set<string>): Promise<boolean> {
-
     alreadyDone.add(url);
 
     return new Promise((resolve, reject) => {
-
         // debug("------------------------");
         debug(url);
         // debug("------------------------");
 
         const proto = /^https:\/\//.test(url) ? https : http;
-        proto.get(url, (response) => {
-            let str: string | undefined;
-            let buffs: Buffer[] | undefined;
+        proto
+            .get(url, (response) => {
+                let str: string | undefined;
+                let buffs: Buffer[] | undefined;
 
-            if (response.statusCode && (response.statusCode < 200 || response.statusCode >= 300)) {
-                debug(`${url} ==> ${response.statusCode} (skipped)`);
-                resolve(true);
-                return;
-            }
+                if (response.statusCode && (response.statusCode < 200 || response.statusCode >= 300)) {
+                    debug(`${url} ==> ${response.statusCode} (skipped)`);
+                    resolve(true);
+                    return;
+                }
 
-            response.on("data", (chunk) => {
-                if (typeof chunk === "string") {
-                    if (!str) {
-                        str = "";
+                response.on("data", (chunk) => {
+                    if (typeof chunk === "string") {
+                        if (!str) {
+                            str = "";
+                        }
+                        str += chunk;
+                    } else {
+                        if (!buffs) {
+                            buffs = [];
+                        }
+                        buffs.push(chunk);
                     }
-                    str += chunk;
-                } else {
-                    if (!buffs) {
-                        buffs = [];
+                });
+
+                response.on("end", async () => {
+                    let src: string | undefined;
+                    if (str) {
+                        src = str;
+                    } else if (buffs) {
+                        src = Buffer.concat(buffs).toString("utf8");
                     }
-                    buffs.push(chunk);
-                }
+                    if (!src) {
+                        reject(`Problem loading: ${url}`);
+                        return;
+                    }
+                    // debug(src);
+
+                    const json1 = JSON.parse(src);
+                    // debug(json1);
+
+                    let pub: Publication | undefined;
+                    try {
+                        pub = TaJsonDeserialize<Publication>(json1, Publication);
+                    } catch (err) {
+                        debug(err);
+                        reject(err);
+                        return;
+                    }
+
+                    // debug(pub);
+                    const json2 = TaJsonSerialize(pub);
+
+                    // let res: OPDSFeedAndPubUrls | undefined;
+                    try {
+                        // res =
+                        await parseCompareJSONs(url, json1, json2);
+                    } catch (err) {
+                        debug(err);
+                        reject(err);
+                        return;
+                    }
+
+                    // debug(res); // we could recurse again on pub links ...
+                    resolve(true);
+                });
+            })
+            .on("error", (err) => {
+                reject(err);
             });
-
-            response.on("end", async () => {
-                let src: string | undefined;
-                if (str) {
-                    src = str;
-                } else if (buffs) {
-                    src = Buffer.concat(buffs).toString("utf8");
-                }
-                if (!src) {
-                    reject(`Problem loading: ${url}`);
-                    return;
-                }
-                // debug(src);
-
-                const json1 = JSON.parse(src);
-                // debug(json1);
-
-                let pub: Publication | undefined;
-                try {
-                    pub = TaJsonDeserialize<Publication>(json1, Publication);
-                } catch (err) {
-                    debug(err);
-                    reject(err);
-                    return;
-                }
-
-                // debug(pub);
-                const json2 = TaJsonSerialize(pub);
-
-                // let res: OPDSFeedAndPubUrls | undefined;
-                try {
-                    // res =
-                    await parseCompareJSONs(url, json1, json2);
-                } catch (err) {
-                    debug(err);
-                    reject(err);
-                    return;
-                }
-
-                // debug(res); // we could recurse again on pub links ...
-                resolve(true);
-            });
-        }).on("error", (err) => {
-            reject(err);
-        });
     });
 }
 
-async function recursePubs(t: ExecutionContext, urls: OPDSFeedAndPubUrls, alreadyDone: Set<string>): Promise<boolean>  {
-
+async function recursePubs(t: ExecutionContext, urls: OPDSFeedAndPubUrls, alreadyDone: Set<string>): Promise<boolean> {
     const urlsTodoWebPubs: string[] = [];
     urls.webpubs.forEach((u) => {
         if (!alreadyDone.has(u)) {
@@ -808,8 +794,7 @@ async function recursePubs(t: ExecutionContext, urls: OPDSFeedAndPubUrls, alread
 }
 
 // tslint:disable-next-line:max-line-length
-async function recurseFeeds(t: ExecutionContext, urls: OPDSFeedAndPubUrls, alreadyDone: Set<string>): Promise<boolean>  {
-
+async function recurseFeeds(t: ExecutionContext, urls: OPDSFeedAndPubUrls, alreadyDone: Set<string>): Promise<boolean> {
     const urlsTodoFeeds: string[] = [];
     urls.feeds.forEach((u) => {
         if (!alreadyDone.has(u)) {
@@ -827,8 +812,7 @@ async function recurseFeeds(t: ExecutionContext, urls: OPDSFeedAndPubUrls, alrea
     return true;
 }
 
-async function recurse(t: ExecutionContext, urls: OPDSFeedAndPubUrls, alreadyDone: Set<string>): Promise<boolean>  {
-
+async function recurse(t: ExecutionContext, urls: OPDSFeedAndPubUrls, alreadyDone: Set<string>): Promise<boolean> {
     if (FEEDS_FIRST) {
         const b1 = await recurseFeeds(t, urls, alreadyDone);
         if (!b1) {
@@ -878,82 +862,84 @@ async function testUrlAlt(t: ExecutionContext, url: string, alreadyDone: Set<str
 
     const promise = new Promise<boolean>((resolve, reject) => {
         const proto = /^https:\/\//.test(url) ? https : http;
-        proto.get(url, async (response) => {
-            let str: string | undefined;
-            let buffs: Buffer[] | undefined;
+        proto
+            .get(url, async (response) => {
+                let str: string | undefined;
+                let buffs: Buffer[] | undefined;
 
-            if (response.statusCode && (response.statusCode < 200 || response.statusCode >= 300)) {
-                debug(`${url} ==> ${response.statusCode} (skipped)`);
-                resolve(true);
-                return;
-            }
-
-            response.on("data", (chunk) => {
-                if (typeof chunk === "string") {
-                    if (!str) {
-                        str = "";
-                    }
-                    str += chunk;
-                } else {
-                    if (!buffs) {
-                        buffs = [];
-                    }
-                    buffs.push(chunk);
-                }
-            });
-
-            response.on("end", async () => {
-                let src: string | undefined;
-                if (str) {
-                    src = str;
-                } else if (buffs) {
-                    src = Buffer.concat(buffs).toString("utf8");
-                }
-                if (!src) {
-                    debug(`Problem loading: ${url} (skip)`);
-                    resolve(true);
-                    return;
-                }
-                // debug(src);
-
-                const xmlDom = new xmldom.DOMParser().parseFromString(src);
-                if (!xmlDom || !xmlDom.documentElement) {
-                    reject("Problem parsing OPDS1 XML. Fail.");
-                    return;
-                }
-                const isEntry = xmlDom.documentElement.localName === "entry";
-                if (isEntry) {
-                    debug("Expecting OPDS1 Feed, not Entry. Skip.");
+                if (response.statusCode && (response.statusCode < 200 || response.statusCode >= 300)) {
+                    debug(`${url} ==> ${response.statusCode} (skipped)`);
                     resolve(true);
                     return;
                 }
 
-                const opds1Feed = XML.deserialize<OPDS>(xmlDom, OPDS);
-                const opds2Feed: OPDSFeed = convertOpds1ToOpds2(opds1Feed);
-                const opds2FeedJson = TaJsonSerialize(opds2Feed);
-                // debug(opds2FeedJson);
+                response.on("data", (chunk) => {
+                    if (typeof chunk === "string") {
+                        if (!str) {
+                            str = "";
+                        }
+                        str += chunk;
+                    } else {
+                        if (!buffs) {
+                            buffs = [];
+                        }
+                        buffs.push(chunk);
+                    }
+                });
 
-                let urls: OPDSFeedAndPubUrls | undefined;
-                try {
-                    urls = await parseCompareJSONs(url, opds2FeedJson, opds2FeedJson);
-                } catch (err) {
-                    reject(err);
+                response.on("end", async () => {
+                    let src: string | undefined;
+                    if (str) {
+                        src = str;
+                    } else if (buffs) {
+                        src = Buffer.concat(buffs).toString("utf8");
+                    }
+                    if (!src) {
+                        debug(`Problem loading: ${url} (skip)`);
+                        resolve(true);
+                        return;
+                    }
+                    // debug(src);
+
+                    const xmlDom = new xmldom.DOMParser().parseFromString(src);
+                    if (!xmlDom || !xmlDom.documentElement) {
+                        reject("Problem parsing OPDS1 XML. Fail.");
+                        return;
+                    }
+                    const isEntry = xmlDom.documentElement.localName === "entry";
+                    if (isEntry) {
+                        debug("Expecting OPDS1 Feed, not Entry. Skip.");
+                        resolve(true);
+                        return;
+                    }
+
+                    const opds1Feed = XML.deserialize<OPDS>(xmlDom, OPDS);
+                    const opds2Feed: OPDSFeed = convertOpds1ToOpds2(opds1Feed);
+                    const opds2FeedJson = TaJsonSerialize(opds2Feed);
+                    // debug(opds2FeedJson);
+
+                    let urls: OPDSFeedAndPubUrls | undefined;
+                    try {
+                        urls = await parseCompareJSONs(url, opds2FeedJson, opds2FeedJson);
+                    } catch (err) {
+                        reject(err);
+                        return;
+                    }
+
+                    if (urls) {
+                        const b = await recurse(t, urls, alreadyDone);
+                        resolve(b);
+                        return;
+                    }
+
+                    resolve(true);
                     return;
-                }
-
-                if (urls) {
-                    const b = await recurse(t, urls, alreadyDone);
-                    resolve(b);
-                    return;
-                }
-
-                resolve(true);
+                });
+            })
+            .on("error", async (err) => {
+                reject(err);
                 return;
             });
-        }).on("error", async (err) => {
-            reject(err);
-            return;
-        });
     });
     return await promise;
 }
@@ -1050,5 +1036,6 @@ test("OPDS1-2 LCP passphrase convert (de)serialize roundtrip", async (t) => {
     const opds2Pub = convertOpds1ToOpds2_EntryToPublication(opds1Entry);
     t.is(opds2Pub.Links[0].Properties.AdditionalJSON.lcp_hashed_passphrase, "FAKE_BASE64");
     const opds2PubJson = TaJsonSerialize(opds2Pub);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/ban-types
     t.is((((opds2PubJson.links as [{}])[0] as any).properties as any).lcp_hashed_passphrase as string, "FAKE_BASE64");
 });

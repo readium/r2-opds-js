@@ -344,7 +344,7 @@ export class OPDSFeed {
     }
 
     @OnDeserialized()
-    // tslint:disable-next-line:no-unused-variable
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore: TS6133 (is declared but its value is never read.)
     protected _OnDeserialized() {
         // tslint:disable-next-line:max-line-length

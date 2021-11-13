@@ -17,7 +17,6 @@ const contextStr2 = "http://context2";
 // ==========================
 
 test("JSON SERIALIZE: OPDSFeed.Context => string[]", (t) => {
-
     const feed = new OPDSFeed();
     feed.Context = [];
     feed.Context.push(contextStr1);
@@ -63,7 +62,6 @@ test("JSON SERIALIZE: OPDSFeed.Context => string[]", (t) => {
 // });
 
 test("JSON SERIALIZE: OPDSFeed.Context => string[1] collapse-array", (t) => {
-
     const feed = new OPDSFeed();
     feed.Context = [contextStr1];
     inspect(feed);
@@ -83,7 +81,7 @@ test("JSON SERIALIZE: OPDSFeed.Context => string[1] collapse-array", (t) => {
 });
 
 test("JSON DESERIALIZE: OPDSFeed.Context => string[]", (t) => {
-
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const json: any = {};
     json["@context"] = [contextStr1, contextStr2];
     logJSON(json);
@@ -102,7 +100,7 @@ test("JSON DESERIALIZE: OPDSFeed.Context => string[]", (t) => {
 });
 
 test("JSON DESERIALIZE: OPDSFeed.Context => string[1]", (t) => {
-
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const json: any = {};
     json["@context"] = [contextStr1];
     logJSON(json);
@@ -118,7 +116,7 @@ test("JSON DESERIALIZE: OPDSFeed.Context => string[1]", (t) => {
 });
 
 test("JSON DESERIALIZE: OPDSFeed.Context => string", (t) => {
-
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const json: any = {};
     json["@context"] = contextStr1;
     logJSON(json);
