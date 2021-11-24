@@ -281,6 +281,7 @@ export function convertOpds1ToOpds2_EntryToLink(entry: Entry): OPDSLink {
             if (!linkNav.Properties.AdditionalJSON) {
                 linkNav.Properties.AdditionalJSON = {};
             }
+            linkNav.Properties.AdditionalJSON["http://www.w3.org/2005/Atom#summary"] = s;
             linkNav.Properties.AdditionalJSON.title_summary = s;
         }
     }
