@@ -1,10 +1,28 @@
 # Next
 
 Git diff:
-* https://github.com/readium/r2-opds-js/compare/v1.0.38...develop
+* https://github.com/readium/r2-opds-js/compare/v1.0.39...develop
 
 Changes:
 * TODO
+
+# 1.0.39
+
+> Build environment: NodeJS `16.13.1`, NPM `8.3.0`
+
+Changes:
+* NPM package updates
+* Added Atom "summary" namespaced property name
+
+Git revision info:
+* https://unpkg.com/r2-opds-js@1.0.39/dist/gitrev.json
+* https://github.com/edrlab/r2-opds-js-dist/blob/v1.0.39/dist/gitrev.json
+
+Git commit history:
+* https://github.com/readium/r2-opds-js/commits/v1.0.39
+
+Git diff:
+* https://github.com/readium/r2-opds-js/compare/v1.0.38...v1.0.39
 
 # 1.0.38
 
