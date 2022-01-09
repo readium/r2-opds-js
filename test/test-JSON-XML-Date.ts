@@ -1,5 +1,5 @@
 import test from "ava";
-import * as xmldom from "xmldom";
+import * as xmldom from "@xmldom/xmldom";
 
 import { TaJsonDeserialize, TaJsonSerialize } from "@r2-lcp-js/serializable";
 import { Metadata } from "@r2-shared-js/models/metadata";
