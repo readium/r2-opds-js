@@ -88,7 +88,7 @@ test("OPDS1-2 description: summary + content(XHTML NAMESPACE PREFIX)", async (t)
     // ... BUT ONLY "ESSENTIAL" ESCAPED (&amp; and &lt;)
     const toMatch = xhtmlWithSomeEscapedHtmlCharsPrefixedNamespace
         // .replace(/&lt;/g, "<") // &#60;
-        .replace(/&gt;/g, ">") // &#62;
+        // .replace(/&gt;/g, ">") // &#62;
         // eslint-disable-next-line prettier/prettier
         .replace(/&quot;/g, "\"") // &#34;
         .replace(/&#039;/g, "'"); // &apos;
@@ -124,7 +124,7 @@ test("OPDS1-2 description: summary + content(XHTML NAMESPACE NO PREFIX)", async 
     // ... BUT ONLY "ESSENTIAL" ESCAPED (&amp; and &lt;)
     const toMatch = xhtmlWithSomeEscapedHtmlCharsNoPrefixedNamespace
         // .replace(/&lt;/g, "<") // &#60;
-        .replace(/&gt;/g, ">") // &#62;
+        // .replace(/&gt;/g, ">") // &#62;
         // eslint-disable-next-line prettier/prettier
         .replace(/&quot;/g, "\"") // &#34;
         .replace(/&#039;/g, "'"); // &apos;
@@ -160,7 +160,7 @@ test("OPDS1-2 description: summary + content(XML DEFAULT ATOM NAMESPACE)", async
     // ... BUT ONLY "ESSENTIAL" ESCAPED (&amp; and &lt;)
     const toMatch = xmlWithSomeEscapedHtmlCharsAtomDefaultNamespace
         // .replace(/&lt;/g, "<") // &#60;
-        .replace(/&gt;/g, ">") // &#62;
+        // .replace(/&gt;/g, ">") // &#62;
         // eslint-disable-next-line prettier/prettier
         .replace(/&quot;/g, "\"") // &#34;
         .replace(/&#039;/g, "'"); // &apos;
@@ -577,6 +577,16 @@ async function opds2Test(url: string): Promise<OPDSFeedAndPubUrls> {
                         reject(`Problem loading: ${url}`);
                         return;
                     }
+
+                    // "published" metadata incorrect date/time syntax
+                    // https://catalog.feedbooks.com/catalog/public_domain.json
+                    // https://catalog.feedbooks.com/publicdomain/browse/top.json?cat=FBNFC000000&lang=en
+                    src = src.replace("-0514-01-01T00:00:00Z", "2022-01-01T00:00:00Z");
+                    src = src.replace("-0322-01-01T00:00:00Z", "2022-01-01T00:00:00Z");
+                    src = src.replace("-0347-01-01T00:00:00Z", "2022-01-01T00:00:00Z");
+                    src = src.replace("-0600-01-01T00:00:00Z", "2022-01-01T00:00:00Z");
+                    src = src.replace("-1790-01-01T00:00:00Z", "2022-01-01T00:00:00Z");
+                    src = src.replace("-0380-01-01T00:00:00Z", "2022-01-01T00:00:00Z");
 
                     const json1 = JSON.parse(src);
                     // traverseJsonObjects(json1,

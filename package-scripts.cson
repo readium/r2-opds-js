@@ -8,10 +8,10 @@
   '
 
   'copydist': '
-    cpy "./dist/**/*" ../r2-streamer-js/node_modules/r2-opds-js/ --cwd=./ --parents --no-dir &&
-    cpy "./dist/**/*" ../r2-navigator-js/node_modules/r2-opds-js/ --cwd=./ --parents --no-dir &&
-    cpy "./dist/**/*" ../r2-testapp-js/node_modules/r2-opds-js/ --cwd=./ --parents --no-dir &&
-    cpy "./dist/**/*" ../readium-desktop/node_modules/r2-opds-js/ --cwd=./ --parents --no-dir
+    cpy "./dist/" ../r2-streamer-js/node_modules/r2-opds-js/ --cwd=./ &&
+    cpy "./dist/" ../r2-navigator-js/node_modules/r2-opds-js/ --cwd=./ &&
+    cpy "./dist/" ../r2-testapp-js/node_modules/r2-opds-js/ --cwd=./ &&
+    cpy "./dist/" ../readium-desktop/node_modules/r2-opds-js/ --cwd=./
   '
 
   'quick-build-dist': '
@@ -29,12 +29,12 @@
     (git pull || echo "pull") &&
     (git --no-pager status || echo status) &&
     ((rimraf "*" && echo rimrafOK) || echo rimrafNOK) &&
-    cpy ../r2-opds-js/package.json . &&
-    cpy ../r2-opds-js/package-lock.json . &&
-    cpy ../r2-opds-js/LICENSE . &&
-    cpy ../r2-opds-js/README.md . &&
-    cpy "./docs/**/*" ../r2-opds-js-dist/ --cwd=../r2-opds-js/ --parents --no-dir &&
-    cpy "./dist/**/*" ../r2-opds-js-dist/ --cwd=../r2-opds-js/ --parents --no-dir &&
+    cpy --flat ../r2-opds-js/package.json . &&
+    cpy --flat ../r2-opds-js/package-lock.json . &&
+    cpy --flat ../r2-opds-js/LICENSE . &&
+    cpy --flat ../r2-opds-js/README.md . &&
+    cpy "./docs/" ../r2-opds-js-dist/ --cwd=../r2-opds-js/ &&
+    cpy "./dist/" ../r2-opds-js-dist/ --cwd=../r2-opds-js/ &&
     (git add * || echo add) &&
     (git commit -a -m "add new dist" || echo commit) &&
     (git push --set-upstream origin develop || echo push) &&
