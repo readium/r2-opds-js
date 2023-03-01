@@ -539,6 +539,9 @@ async function opds2Test(url: string): Promise<OPDSFeedAndPubUrls> {
                 let str: string | undefined;
                 let buffs: Buffer[] | undefined;
 
+                if (response.statusMessage) {
+                    debug(`${url} STATUS ==> ${response.statusMessage}`);
+                }
                 if (response.statusCode && (response.statusCode < 200 || response.statusCode >= 300)) {
                     debug(`${url} ==> ${response.statusCode} (skipped)`);
                     const empty: OPDSFeedAndPubUrls = {
@@ -644,7 +647,16 @@ async function opds2Test(url: string): Promise<OPDSFeedAndPubUrls> {
                 });
             })
             .on("error", (err) => {
-                reject(err);
+                debug(`${url} ERROR ==> ${err}`);
+                // reject(err);
+                const empty: OPDSFeedAndPubUrls = {
+                    audiowebpubs: new Set<string>([]),
+                    authentications: new Set<string>([]),
+                    feeds: new Set<string>([]),
+                    pubs: new Set<string>([]),
+                    webpubs: new Set<string>([]),
+                };
+                resolve(empty);
             });
     });
 }
@@ -663,6 +675,9 @@ async function webpubTest(url: string, alreadyDone: Set<string>): Promise<boolea
                 let str: string | undefined;
                 let buffs: Buffer[] | undefined;
 
+                if (response.statusMessage) {
+                    debug(`${url} STATUS ==> ${response.statusMessage}`);
+                }
                 if (response.statusCode && (response.statusCode < 200 || response.statusCode >= 300)) {
                     debug(`${url} ==> ${response.statusCode} (skipped)`);
                     resolve(true);
@@ -726,7 +741,9 @@ async function webpubTest(url: string, alreadyDone: Set<string>): Promise<boolea
                 });
             })
             .on("error", (err) => {
-                reject(err);
+                debug(`${url} ERROR ==> ${err}`);
+                // reject(err);
+                resolve(true);
             });
     });
 }
@@ -877,6 +894,9 @@ async function testUrlAlt(t: ExecutionContext, url: string, alreadyDone: Set<str
                 let str: string | undefined;
                 let buffs: Buffer[] | undefined;
 
+                if (response.statusMessage) {
+                    debug(`${url} STATUS ==> ${response.statusMessage}`);
+                }
                 if (response.statusCode && (response.statusCode < 200 || response.statusCode >= 300)) {
                     debug(`${url} ==> ${response.statusCode} (skipped)`);
                     resolve(true);
@@ -946,9 +966,10 @@ async function testUrlAlt(t: ExecutionContext, url: string, alreadyDone: Set<str
                     return;
                 });
             })
-            .on("error", async (err) => {
-                reject(err);
-                return;
+            .on("error", (err) => {
+                debug(`${url} ERROR ==> ${err}`);
+                // reject(err);
+                resolve(true);
             });
     });
     return await promise;
