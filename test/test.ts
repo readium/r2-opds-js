@@ -360,7 +360,7 @@ async function parseCompareJSONs(url: string, json1: any, json2: any): Promise<O
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const harmonizeArrays = (obj: any) => {
                 // tslint:disable-next-line:max-line-length
-                ["role", "@context", "rel", "language"].forEach((term) => {
+                ["role", "@context", "rel", "language", "conformsTo"].forEach((term) => {
                     if (obj[term]) {
                         const isArray = obj[term] instanceof Array;
                         if (!isArray) {
@@ -1004,6 +1004,11 @@ async function runUrlTestAlt(t: ExecutionContext, url: string) {
     }
     t.true(await delay(false));
 }
+
+test("OPDS2 HTTP (de)serialize roundtrip (accessibility feed)", async (t) => {
+    const url = "https://www.feedbooks.com/recent.json?accessibility=accessibility_fully";
+    await runUrlTest(t, url);
+});
 
 test("OPDS2 HTTP (de)serialize roundtrip (recursive) 1", async (t) => {
     const url = "https://test.opds.io/2.0/home.json";
