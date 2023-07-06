@@ -229,7 +229,7 @@ test("dummy async test", async (t) => {
     t.is(await fn(), "foo");
 });
 
-const MAX_TESTS = process.env.MAX_TESTS || 10;
+const MAX_TESTS = parseInt(process.env.MAX_TESTS || "0", 10) || 10;
 
 const FEEDS_FIRST = process.env.FEEDS_FIRST || false;
 
