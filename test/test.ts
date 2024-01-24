@@ -360,7 +360,7 @@ async function parseCompareJSONs(url: string, json1: any, json2: any): Promise<O
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const harmonizeArrays = (obj: any) => {
                 // tslint:disable-next-line:max-line-length
-                ["role", "@context", "rel", "language", "conformsTo"].forEach((term) => {
+                ["role", "@context", "rel", "language", "conformsTo", "feature"].forEach((term) => {
                     if (obj[term]) {
                         const isArray = obj[term] instanceof Array;
                         if (!isArray) {
@@ -584,12 +584,21 @@ async function opds2Test(url: string): Promise<OPDSFeedAndPubUrls> {
                     // "published" metadata incorrect date/time syntax
                     // https://catalog.feedbooks.com/catalog/public_domain.json
                     // https://catalog.feedbooks.com/publicdomain/browse/top.json?cat=FBNFC000000&lang=en
-                    src = src.replace("-0514-01-01T00:00:00Z", "2022-01-01T00:00:00Z");
-                    src = src.replace("-0322-01-01T00:00:00Z", "2022-01-01T00:00:00Z");
-                    src = src.replace("-0347-01-01T00:00:00Z", "2022-01-01T00:00:00Z");
-                    src = src.replace("-0600-01-01T00:00:00Z", "2022-01-01T00:00:00Z");
-                    src = src.replace("-1790-01-01T00:00:00Z", "2022-01-01T00:00:00Z");
-                    src = src.replace("-0380-01-01T00:00:00Z", "2022-01-01T00:00:00Z");
+                    //.    "-0514-01-01T00:00:00Z"
+                    //.    "-0322-01-01T00:00:00Z"
+                    //.    "-0347-01-01T00:00:00Z"
+                    //.    "-0600-01-01T00:00:00Z"
+                    //.    "-1790-01-01T00:00:00Z"
+                    //.    "-0380-01-01T00:00:00Z"
+                    //.    "-0514-01-01T00:00:00+00:09"
+                    //     "-0322-01-01T00:00:00+00:09"
+                    //     "-0347-01-01T00:00:00+00:09"
+                    //     "-1790-01-01T00:00:00+00:09"
+                    //     "-0600-01-01T00:00:00+00:09"
+                    //     "-0380-01-01T00:00:00+00:09"
+                    //     "-0400-01-01T00:00:00+00:09"
+                    // eslint-disable-next-line quotes
+                    src = src.replace(/"published":\s*"-[^"]+"/g, '"published": "2022-01-01T00:00:00Z"');
 
                     const json1 = JSON.parse(src);
                     // traverseJsonObjects(json1,
@@ -608,9 +617,11 @@ async function opds2Test(url: string): Promise<OPDSFeedAndPubUrls> {
                         isPublication
                             ? TaJsonDeserialize<OPDSPublication>(json1, OPDSPublication) // "application/opds-publication+json"
                             : // tslint:disable-next-line: max-line-length
-                            isAuth
-                            ? TaJsonDeserialize<OPDSAuthenticationDoc>(json1, OPDSAuthenticationDoc) // "application/vnd.opds.authentication.v1.0+json"
-                            : TaJsonDeserialize<OPDSFeed>(json1, OPDSFeed); // "application/opds+json"
+                              isAuth
+                              ? TaJsonDeserialize<OPDSAuthenticationDoc>(json1, OPDSAuthenticationDoc) // "application/vnd.opds.authentication.v1.0+json"
+                              : TaJsonDeserialize<OPDSFeed>(json1, OPDSFeed); // "application/opds+json"
+
+                    // eslint-disable-next-line prettier/prettier
                     // debug(opds2Feed);
                     // debug("------------------------");
                     // debug("------------------------");

@@ -94,7 +94,14 @@ module.exports = {
         //     },
         // ],
 
+        // indent: ["error", 4, { "offsetTernaryExpressions": false }],
         "prettier/prettier": "error",
+        // "prettier/prettier": [
+        //     "error",
+        //     {
+        //         "tabWidth": 4,
+        //     }
+        // ]
     },
     // overrides: [
     //     {
