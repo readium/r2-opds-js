@@ -72,7 +72,7 @@ test("XML DESERIALIZE: OPDS opensearch:itemsPerPage => Number", (t) => {
         </opds>`;
     console.log(xmlStr);
 
-    const xml = new xmldom.DOMParser().parseFromString(xmlStr);
+    const xml = new xmldom.DOMParser().parseFromString(xmlStr, "application/xml") as unknown as Document;
     const opds: OPDS = XML.deserialize<OPDS>(xml, OPDS);
     inspect(opds);
 

@@ -42,7 +42,8 @@ export function checkNumber(t: ExecutionContext, d1: number, d2: number) {
 }
 
 // import { FunctionType } from "@r2-utils-js/_utils/xml-js-mapper";
-// eslint-disable-next-line @typescript-eslint/ban-types, @typescript-eslint/no-explicit-any
+// @typescript-eslint/ban-types
+// eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-function-type
 export function checkType(t: ExecutionContext, obj: any, clazz: Function) {
     t.is(typeof obj, "object"); // obj.constructor.name
     t.true(obj instanceof clazz);

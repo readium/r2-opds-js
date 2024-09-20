@@ -72,7 +72,7 @@ test("OPDS1-2 description: summary + content(XHTML NAMESPACE PREFIX)", async (t)
 <content type="xhtml">${xhtmlWithSomeEscapedHtmlCharsPrefixedNamespace}</content>
 </entry>
     `;
-    const xmlDom = new xmldom.DOMParser().parseFromString(xmlSrc); // , "application/xml"
+    const xmlDom = new xmldom.DOMParser().parseFromString(xmlSrc, "application/xml") as unknown as Document;
     const isEntry = xmlDom.documentElement.localName === "entry";
     t.true(isEntry);
     const opds1Entry = XML.deserialize<Entry>(xmlDom, Entry);
@@ -108,7 +108,7 @@ test("OPDS1-2 description: summary + content(XHTML NAMESPACE NO PREFIX)", async 
 <content type="xhtml">${xhtmlWithSomeEscapedHtmlCharsNoPrefixedNamespace}</content>
 </entry>
     `;
-    const xmlDom = new xmldom.DOMParser().parseFromString(xmlSrc); // , "application/xml"
+    const xmlDom = new xmldom.DOMParser().parseFromString(xmlSrc, "application/xml") as unknown as Document;
     const isEntry = xmlDom.documentElement.localName === "entry";
     t.true(isEntry);
     const opds1Entry = XML.deserialize<Entry>(xmlDom, Entry);
@@ -144,7 +144,7 @@ test("OPDS1-2 description: summary + content(XML DEFAULT ATOM NAMESPACE)", async
 <content type="xhtml">${xmlWithSomeEscapedHtmlCharsAtomDefaultNamespace}</content>
 </entry>
     `;
-    const xmlDom = new xmldom.DOMParser().parseFromString(xmlSrc); // , "application/xml"
+    const xmlDom = new xmldom.DOMParser().parseFromString(xmlSrc, "application/xml") as unknown as Document;
     const isEntry = xmlDom.documentElement.localName === "entry";
     t.true(isEntry);
     const opds1Entry = XML.deserialize<Entry>(xmlDom, Entry);
@@ -179,7 +179,7 @@ test("OPDS1-2 description: summary", async (t) => {
 <summary>${plainTextWithEscapedHtmlChars}</summary>
 </entry>
     `;
-    const xmlDom = new xmldom.DOMParser().parseFromString(xmlSrc); // , "application/xml"
+    const xmlDom = new xmldom.DOMParser().parseFromString(xmlSrc, "application/xml") as unknown as Document;
     const isEntry = xmlDom.documentElement.localName === "entry";
     t.true(isEntry);
     const opds1Entry = XML.deserialize<Entry>(xmlDom, Entry);
@@ -202,7 +202,7 @@ test("OPDS1-2 description: summary + content(HTML)", async (t) => {
 <content type="html">${escapedHtmlWithSomeDoubleEscapedHtmlChars}</content>
 </entry>
     `;
-    const xmlDom = new xmldom.DOMParser().parseFromString(xmlSrc); // , "application/xml"
+    const xmlDom = new xmldom.DOMParser().parseFromString(xmlSrc, "application/xml") as unknown as Document;
     const isEntry = xmlDom.documentElement.localName === "entry";
     t.true(isEntry);
     const opds1Entry = XML.deserialize<Entry>(xmlDom, Entry);
@@ -467,6 +467,7 @@ async function parseCompareJSONs(url: string, json1: any, json2: any): Promise<O
                 process.stdout.write("###########################\n");
                 // console.log(jsonDiff.diff(json, opds2Json));
 
+                // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
                 reject("JSON DIFF! :(");
                 return;
             }
@@ -577,6 +578,7 @@ async function opds2Test(url: string): Promise<OPDSFeedAndPubUrls> {
                         src = Buffer.concat(buffs).toString("utf8");
                     }
                     if (!src) {
+                        // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
                         reject(`Problem loading: ${url}`);
                         return;
                     }
@@ -651,6 +653,7 @@ async function opds2Test(url: string): Promise<OPDSFeedAndPubUrls> {
                         res = await parseCompareJSONs(url, json1, json2);
                     } catch (err) {
                         debug(err);
+                        // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
                         reject(err);
                         return;
                     }
@@ -659,6 +662,7 @@ async function opds2Test(url: string): Promise<OPDSFeedAndPubUrls> {
             })
             .on("error", (err) => {
                 debug(`${url} ERROR ==> ${err}`);
+                // // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
                 // reject(err);
                 const empty: OPDSFeedAndPubUrls = {
                     audiowebpubs: new Set<string>([]),
@@ -717,6 +721,7 @@ async function webpubTest(url: string, alreadyDone: Set<string>): Promise<boolea
                         src = Buffer.concat(buffs).toString("utf8");
                     }
                     if (!src) {
+                        // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
                         reject(`Problem loading: ${url}`);
                         return;
                     }
@@ -730,6 +735,7 @@ async function webpubTest(url: string, alreadyDone: Set<string>): Promise<boolea
                         pub = TaJsonDeserialize<Publication>(json1, Publication);
                     } catch (err) {
                         debug(err);
+                        // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
                         reject(err);
                         return;
                     }
@@ -743,6 +749,7 @@ async function webpubTest(url: string, alreadyDone: Set<string>): Promise<boolea
                         await parseCompareJSONs(url, json1, json2);
                     } catch (err) {
                         debug(err);
+                        // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
                         reject(err);
                         return;
                     }
@@ -753,6 +760,7 @@ async function webpubTest(url: string, alreadyDone: Set<string>): Promise<boolea
             })
             .on("error", (err) => {
                 debug(`${url} ERROR ==> ${err}`);
+                // // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
                 // reject(err);
                 resolve(true);
             });
@@ -942,8 +950,12 @@ async function testUrlAlt(t: ExecutionContext, url: string, alreadyDone: Set<str
                     }
                     // debug(src);
 
-                    const xmlDom = new xmldom.DOMParser().parseFromString(src);
+                    const xmlDom = new xmldom.DOMParser().parseFromString(
+                        src,
+                        "application/xml",
+                    ) as unknown as Document;
                     if (!xmlDom || !xmlDom.documentElement) {
+                        // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
                         reject("Problem parsing OPDS1 XML. Fail.");
                         return;
                     }
@@ -963,6 +975,7 @@ async function testUrlAlt(t: ExecutionContext, url: string, alreadyDone: Set<str
                     try {
                         urls = await parseCompareJSONs(url, opds2FeedJson, opds2FeedJson);
                     } catch (err) {
+                        // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
                         reject(err);
                         return;
                     }
@@ -979,6 +992,7 @@ async function testUrlAlt(t: ExecutionContext, url: string, alreadyDone: Set<str
             })
             .on("error", (err) => {
                 debug(`${url} ERROR ==> ${err}`);
+                // // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
                 // reject(err);
                 resolve(true);
             });
@@ -1075,7 +1089,7 @@ test("OPDS1-2 LCP passphrase convert (de)serialize roundtrip", async (t) => {
     </link>
 </entry>
     `;
-    const xmlDom = new xmldom.DOMParser().parseFromString(xmlSrc);
+    const xmlDom = new xmldom.DOMParser().parseFromString(xmlSrc, "application/xml") as unknown as Document;
     const isEntry = xmlDom.documentElement.localName === "entry";
     t.true(isEntry);
     const opds1Entry = XML.deserialize<Entry>(xmlDom, Entry);
@@ -1083,6 +1097,7 @@ test("OPDS1-2 LCP passphrase convert (de)serialize roundtrip", async (t) => {
     const opds2Pub = convertOpds1ToOpds2_EntryToPublication(opds1Entry);
     t.is(opds2Pub.Links[0].Properties.AdditionalJSON.lcp_hashed_passphrase, "FAKE_BASE64");
     const opds2PubJson = TaJsonSerialize(opds2Pub);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/ban-types
+    // @typescript-eslint/ban-types
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/no-empty-object-type
     t.is((((opds2PubJson.links as [{}])[0] as any).properties as any).lcp_hashed_passphrase as string, "FAKE_BASE64");
 });

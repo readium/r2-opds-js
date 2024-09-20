@@ -76,7 +76,7 @@ test("XML DESERIALIZE: OPDS Entry.Updated => Date", (t) => {
         </entry>`;
     console.log(xmlStr);
 
-    const xml = new xmldom.DOMParser().parseFromString(xmlStr);
+    const xml = new xmldom.DOMParser().parseFromString(xmlStr, "application/xml") as unknown as Document;
     const md: Entry = XML.deserialize<Entry>(xml, Entry);
     inspect(md);
 
