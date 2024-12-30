@@ -10,6 +10,7 @@ import { TaJsonDeserialize, TaJsonSerialize } from "@r2-lcp-js/serializable";
 import { Publication } from "@r2-shared-js/models/publication";
 import { sortObject, traverseJsonObjects } from "@r2-utils-js/_utils/JsonUtils";
 import { XML } from "@r2-utils-js/_utils/xml-js-mapper";
+import { removeUTF8BOM } from "@r2-utils-js/_utils/bom";
 
 import {
     convertOpds1ToOpds2,
@@ -951,7 +952,7 @@ async function testUrlAlt(t: ExecutionContext, url: string, alreadyDone: Set<str
                     // debug(src);
 
                     const xmlDom = new xmldom.DOMParser().parseFromString(
-                        src,
+                        removeUTF8BOM(src),
                         "application/xml",
                     ) as unknown as Document;
                     if (!xmlDom || !xmlDom.documentElement) {
