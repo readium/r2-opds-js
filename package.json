@@ -1,6 +1,6 @@
 {
   "name": "r2-opds-js",
-  "version": "1.0.46",
+  "version": "1.0.47",
   "description": "Readium 2 'opds' for NodeJS (TypeScript)",
   "keywords": [
     "readium",
@@ -21,8 +21,8 @@
     "ECMAScript 8"
   ],
   "engines": {
-    "node": ">=20.0.0",
-    "npm": ">=10.0.0"
+    "node": ">=22.0.0",
+    "npm": ">=11.0.0"
   },
   "repository": {
     "type": "git",
@@ -45,37 +45,37 @@
   },
   "homepage": "https://github.com/readium/r2-opds-js",
   "dependencies": {
-    "@xmldom/xmldom": "^0.9.7",
-    "debug": "^4.4.0",
-    "r2-lcp-js": "^1.0.43",
-    "r2-shared-js": "^1.0.80",
-    "r2-utils-js": "^1.0.41",
+    "@xmldom/xmldom": "^0.9.8",
+    "debug": "^4.4.1",
+    "r2-lcp-js": "^1.0.44",
+    "r2-shared-js": "^1.0.83",
+    "r2-utils-js": "^1.0.43",
     "ta-json-x": "^2.5.3",
     "tslib": "^2.8.1"
   },
   "devDependencies": {
     "@types/debug": "^4.1.12",
-    "@types/node": "^20.17.16",
-    "@typescript-eslint/eslint-plugin": "^8.22.0",
-    "@typescript-eslint/parser": "^8.22.0",
+    "@types/node": "^22.15.31",
+    "@typescript-eslint/eslint-plugin": "^8.34.0",
+    "@typescript-eslint/parser": "^8.34.0",
     "ava": "^2.4.0",
     "cpy-cli": "^5.0.0",
     "cross-env": "^7.0.3",
     "cson": "^8.4.0",
     "eclint": "^2.8.1",
     "eslint": "^8.57.1",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-prettier": "^5.2.3",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-prettier": "^5.4.1",
     "filehound": "^1.17.6",
     "git-rev-sync": "^3.0.2",
     "json": "^11.0.0",
     "json-diff": "^1.0.6",
     "mkdirp": "^3.0.1",
-    "prettier": "^3.4.2",
+    "prettier": "^3.5.3",
     "rimraf": "^6.0.1",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.7.3"
+    "typescript": "^5.8.3"
   },
   "main": "dist/es6-es2015/src/opds/converter.js",
   "types": "dist/es6-es2015/src/opds/converter.d.js",
