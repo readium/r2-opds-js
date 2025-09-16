@@ -104,6 +104,7 @@ https://github.com/readium/r2-opds-js/blob/develop/src/opds/init-globals.ts
 ```typescript
 // npm install r2-opds-js
 // "@opds" is a dist path alias, for example EcmaScript6/ES2015 'node_modules/r2-opds-js/dist/es6-es2015/src/opds/'
+// Tips!: see https://www.npmjs.com/package/tsconfig-paths to execute the compiled files with node
 import { initGlobalConverters_GENERIC, initGlobalConverters_OPDS } from "@opds/init-globals";
 
 initGlobalConverters_GENERIC();
